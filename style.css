@@ -1,61 +1,121 @@
-/* Smooth transitions */
+:root {
+  /* THEME: Light Mode Variables */
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+  --nav-bg: rgba(248, 249, 250, 0.9);
+  --accent-color: #0d6efd;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --img-opacity: 0.9;
+}
+
+[data-theme="dark"] {
+  /* THEME: Dark Mode Variables */
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --nav-bg: rgba(18, 18, 18, 0.9);
+  --accent-color: #6ea8fe;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --img-opacity: 0.7;
+}
+
+/* THE SNAPPY TRANSITION 
+   Using cubic-bezier(0.25, 1, 0.5, 1) creates a "spring" effect 
+   that feels responsive, not linear.
+*/
 body {
-  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  color: #000000;
+/* Navbar */
+.navbar {
+  background-color: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  transition: background-color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Light mode (default) */
-body.light-mode {
-  background-color: #ffffff;
-  color: #000000;
+.navbar-brand, .nav-link {
+  color: var(--text-color) !important;
 }
 
-/* Dark mode */
-body.dark-mode {
-  background-color: #121212;
-  color: #e4e4e4;
+/* Hero */
+.hero-section {
+  min-height: 90vh;
 }
 
-p.dark-mode,
-h1.dark-mode,
-h2.dark-mode,
-h3.dark-mode,
-h4.dark-mode,
-h5.dark-mode,
-h6.dark-mode {
-  color: #e4e4e4;
-}
-
-p.light-mode,
-h1.light-mode,
-h2.light-mode,
-h3.light-mode,
-h4.light-mode,
-h5.light-mode,
-h6.light-mode {
-  color: #000000;
-}
-
-/* Toggle switch container */
-.theme-toggle {
+/* Theme Toggle Button */
+.theme-btn {
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
+  font-size: 1.5rem;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: transform 0.3s ease;
   user-select: none;
-  transition: background-color 0.3s;
+}
+.theme-btn:hover {
+  transform: scale(1.1) rotate(15deg);
 }
 
-/* Toggle colors */
-.theme-toggle.light {
-  background-color: #ffd966; /* yellow-ish */
+/* Project Images - Grayscale to Color Hover */
+.img-wrapper {
+  overflow: hidden;
+  border-radius: 12px;
 }
 
-.theme-toggle.dark {
-  background-color: #4c4c4c; /* dark grey */
+.img-wrapper img {
+  filter: grayscale(100%);
+  opacity: var(--img-opacity);
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: scale(1);
+  cursor: pointer;
+}
+
+/* The Hover Effect */
+.img-wrapper:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.03); /* Slight zoom */
+}
+
+/* SCROLL ANIMATIONS 
+   We hide elements initially, then JS adds '.active' to show them.
+*/
+
+/* Element starts invisible and shifted down/left/right */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal-bottom {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The Active State (Final Position) */
+.active {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Utilities */
+.section-title h2 {
+  color: var(--text-color);
+}
+.line {
+  width: 60px;
+  height: 4px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
 }
