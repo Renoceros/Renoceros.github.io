@@ -1,10 +1,8 @@
-/* 1. THEME TOGGLE LOGIC 
-*/
+/* 1. THEME TOGGLE LOGIC */
 const toggleBtn = document.getElementById('themeToggle');
 const icon = toggleBtn.querySelector('.icon');
 const html = document.documentElement;
 
-// Check local storage or system preference on load
 const savedTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -19,34 +17,91 @@ if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
 toggleBtn.addEventListener('click', () => {
   const currentTheme = html.getAttribute('data-theme');
   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  
   html.setAttribute('data-theme', newTheme);
   icon.textContent = newTheme === 'light' ? '🌞' : '🌜';
-  
   localStorage.setItem('theme', newTheme);
 });
 
-/* 2. SCROLL ANIMATION (Intersection Observer)
-  This triggers the CSS animations when elements scroll into view.
-*/
+
+/* 2. ENTRANCE ANIMATIONS (Observer) */
 const observerOptions = {
-  root: null,           // viewport
-  threshold: 0.15,      // trigger when 15% of element is visible
+  root: null,
+  threshold: 0.15,
   rootMargin: "0px"
 };
 
 const observer = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      // Add the class that resets opacity and transform
       entry.target.classList.add('active');
-      // Stop watching once animated (optional - remove if you want re-animation)
-      observer.unobserve(entry.target);
+    } else {
+      entry.target.classList.remove('active'); 
     }
   });
 }, observerOptions);
 
-// Grab all elements we want to animate
 const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-bottom');
-
 revealElements.forEach(el => observer.observe(el));
+
+
+/* 3. THE RENDER LOOP (The "Game Loop") */
+/* We switched from an event listener to a continuous loop.
+   This allows the background to move even when you aren't scrolling.
+*/
+
+const bgLayer1 = document.querySelector('.layer-1');
+const bgLayer2 = document.querySelector('.layer-2');
+const isDesktop = window.matchMedia("(min-width: 992px)");
+
+// Variables to track our constant movement
+let autoScrollX = 0;
+const speed = 0.5; // Speed of the automatic drift (0.5px per frame)
+
+function renderLoop() {
+  const scrollPos = window.scrollY;
+
+  // 1. UPDATE AUTOMATIC SCROLL
+  // We keep subtracting speed to move LEFT forever
+  autoScrollX -= speed;
+
+  // 2. ANIMATE BACKGROUND LAYERS
+  
+  // Layer 1: Vertical drift based ONLY on scroll (Parallax)
+  if(bgLayer1) {
+    bgLayer1.style.transform = `translateY(${scrollPos * -0.1}px)`;
+  }
+  
+  // Layer 2: The Complex One
+  // It uses autoScrollX (constant movement) PLUS scrollPos (user interaction)
+  // When you scroll DOWN, it moves FASTER to the left.
+  if(bgLayer2) {
+    const totalX = autoScrollX + (scrollPos * -0.5);
+    bgLayer2.style.transform = `translateX(${totalX}px)`;
+  }
+
+
+  // 3. PARALLAX PROJECT IMAGES (Desktop Only)
+  if (isDesktop.matches) {
+    const projects = document.querySelectorAll('.project-row');
+    const screenCenter = window.innerHeight / 2;
+
+    projects.forEach(row => {
+      const imgWrapper = row.querySelector('.img-wrapper');
+      if(!imgWrapper) return;
+
+      const rect = row.getBoundingClientRect();
+      const rowCenter = rect.top + (rect.height / 2);
+      const distanceFromCenter = rowCenter - screenCenter;
+
+      const parallaxY = distanceFromCenter * 0.15;
+      imgWrapper.style.transform = `translateY(${parallaxY}px)`;
+    });
+  }
+
+  // 4. LOOP
+  // Call this function again on the next frame (60fps)
+  requestAnimationFrame(renderLoop);
+}
+
+// Start the engine
+renderLoop();
