@@ -3,12 +3,18 @@
   --bg-color: #f8f9fa;
   --text-color: #212529;
   --nav-bg: rgba(248, 249, 250, 0.7);
-  --accent-color: #03330f;
+  --accent-color: #0c4b1c;
   --img-opacity: 0.9;
   
   /* NOISE SETTINGS LIGHT */
   --blob-opacity: 0.4;         /* Visible but subtle */
   --blob-blend: multiply;      /* Darkens the white bg */
+
+  /* GLASS SETTINGS (LIGHT MODE) */
+  /* Very transparent white */
+  --glass-bg: rgba(255, 255, 255, 0.25); 
+  /* Subtle white border */
+  --glass-border: rgba(255, 255, 255, 0.5);
 }
 
 [data-theme="dark"] {
@@ -16,12 +22,18 @@
   --bg-color: #121212;
   --text-color: #e0e0e0;
   --nav-bg: rgba(18, 18, 18, 0.7);
-  --accent-color: #84d397;
+  --accent-color: #2a803d;
   --img-opacity: 0.7;
 
   /* NOISE SETTINGS DARK */
   --blob-opacity: 0.15;        /* Needs to be lower in overlay mode */
   --blob-blend: overlay;       /* Lightens the dark bg */
+
+  /* GLASS SETTINGS (DARK MODE) */
+  /* Very transparent black/grey */
+  --glass-bg: rgba(30, 30, 30, 0.35); 
+  /* Subtle grey border */
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 /* Base Body Transition */
@@ -92,6 +104,26 @@ body {
 
 .hero-section { min-height: 90vh; }
 
+.logo-floater {
+  display: inline-block; /* Hugs the image size */
+  animation: floatLogo 6s ease-in-out infinite;
+}
+
+/* Image handles the mouse repulsion */
+.hero-logo {
+  width: 120px;
+  height: auto;
+  display: block;
+  /* Smooths out the mouse movement */
+  transition: transform 0.1s ease-out; 
+}
+
+@keyframes floatLogo {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
 .btn{
   background-color: var(--accent-color);
   color: #fff;
@@ -102,14 +134,43 @@ body {
   background-color: var(--accent-color);
   filter: brightness(1.5);
   color: #fff;
-  size-adjust: 2px;
+  transform: scale(1.02)
 }
 
 /* --- PROJECTS --- */
+
+#projects {
+  /* 1. The Glass Effect */
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(20px);         /* Stronger blur looks more premium */
+  -webkit-backdrop-filter: blur(20px); /* For Safari */
+  
+  /* 2. The Edges */
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;                 /* Rounded corners define the "Pane" */
+  
+  /* 3. Spacing */
+  /* We need padding inside the glass so text doesn't touch the edge */
+  padding: 3rem 2rem; 
+  /* Add margin top/bottom so it floats separately from Hero/Footer */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  
+  /* 4. Smooth Transition for Theme Switch */
+  transition: background-color 0.6s ease, border-color 0.6s ease;
+}
+
 .project-row {
   position: relative;
-  margin-bottom: 150px; 
+  /* Reduced from 150px to 100px so it fits better inside the glass box */
+  margin-bottom: 100px; 
 }
+
+/* Remove margin from the very last row so it doesn't leave empty space at bottom of glass */
+.project-row:last-child {
+  margin-bottom: 0;
+}
+
 .content-col { z-index: 2; position: relative; }
 .image-col { z-index: 1; will-change: transform; }
 
@@ -121,7 +182,7 @@ body {
 }
 
 .img-wrapper img {
-  filter: grayscale(100%);
+  filter: grayscale(0.5) blur(1px);
   opacity: var(--img-opacity);
   transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
   width: 100%;
@@ -129,7 +190,7 @@ body {
 }
 
 .img-wrapper:hover img {
-  filter: grayscale(0%);
+  filter: grayscale(0);
   opacity: 1;
   transform: scale(1.02);
 }

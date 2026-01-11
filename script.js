@@ -103,5 +103,34 @@ function renderLoop() {
   requestAnimationFrame(renderLoop);
 }
 
+/* 4. LOGO REPEL EFFECT */
+const logo = document.getElementById('repelLogo');
+
+if (logo) {
+  logo.addEventListener('mousemove', (e) => {
+    // 1. Get the dimensions of the image
+    const rect = logo.getBoundingClientRect();
+    
+    // 2. Calculate mouse position relative to the image's center
+    // (0,0) becomes the center of the image
+    const x = e.clientX - rect.left - (rect.width / 2);
+    const y = e.clientY - rect.top - (rect.height / 2);
+
+    // 3. The "Repel" Math
+    // We multiply by a negative number to move in the opposite direction.
+    // -0.05 means "Move 5% of the distance away from the mouse"
+    const moveX = x * -0.05;
+    const moveY = y * -0.05;
+
+    // 4. Apply the transform
+    logo.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  });
+
+  // 5. Reset when mouse leaves
+  logo.addEventListener('mouseleave', () => {
+    logo.style.transform = 'translate(0px, 0px)';
+  });
+}
+
 // Start the engine
 renderLoop();
