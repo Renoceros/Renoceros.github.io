@@ -55,7 +55,7 @@ const isDesktop = window.matchMedia("(min-width: 992px)");
 
 // Variables to track our constant movement
 let autoScrollX = 0;
-const speed = 0.5; // Speed of the automatic drift (0.5px per frame)
+const speed = 0.25; // Speed of the automatic drift (0.5px per frame)
 
 function renderLoop() {
   const scrollPos = window.scrollY;
