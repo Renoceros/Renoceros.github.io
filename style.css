@@ -1,0 +1,61 @@
+/* Smooth transitions */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  color: #000000;
+}
+
+/* Light mode (default) */
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #e4e4e4;
+}
+
+p.dark-mode,
+h1.dark-mode,
+h2.dark-mode,
+h3.dark-mode,
+h4.dark-mode,
+h5.dark-mode,
+h6.dark-mode {
+  color: #e4e4e4;
+}
+
+p.light-mode,
+h1.light-mode,
+h2.light-mode,
+h3.light-mode,
+h4.light-mode,
+h5.light-mode,
+h6.light-mode {
+  color: #000000;
+}
+
+/* Toggle switch container */
+.theme-toggle {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  user-select: none;
+  transition: background-color 0.3s;
+}
+
+/* Toggle colors */
+.theme-toggle.light {
+  background-color: #ffd966; /* yellow-ish */
+}
+
+.theme-toggle.dark {
+  background-color: #4c4c4c; /* dark grey */
+}

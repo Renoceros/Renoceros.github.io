@@ -1,75 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  /* Smooth transitions */
-  body {
-    transition: background-color 0.3s, color 0.3s;
-  }
-  p, h1 , h2, h3, h4, h5, h6 {
-    color: #000000;
-  }
-  /* Light mode (default) */
-  body.light-mode {
-    background-color: #ffffff;
-    color: #000000;
-  }
-
-  /* Dark mode */
-  body.dark-mode {
-    background-color: #121212;
-    color: #e4e4e4;
-  }
-  p.dark-mode,
-  h1.dark-mode,
-  h2.dark-mode,
-  h3.dark-mode,
-  h4.dark-mode,
-  h5.dark-mode,
-  h6.dark-mode {
-    color: #e4e4e4;
-  }
-
-  p.light-mode,
-  h1.light-mode,
-  h2.light-mode,
-  h3.light-mode,
-  h4.light-mode,
-  h5.light-mode,
-  h6.light-mode {
-    color: #000000;
-  }
-  /* Toggle switch container */
-  .theme-toggle {
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    user-select: none;
-    transition: background-color 0.3s;
-  }
-
-  /* Toggle colors */
-  .theme-toggle.light {
-    background-color: #ffd966; /* yellow-ish */
-  }
-
-  .theme-toggle.dark {
-    background-color: #4c4c4c; /* dark grey */
-  }
-</style>
-
 <head>
   <meta charset="UTF-8" />
   <title>Hello, world!</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="style.css">
+
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
   <meta property="og:title" content="" />
   <meta property="og:description" content="" />
   <meta property="og:image" content="" />
@@ -80,20 +25,21 @@
   <meta name="twitter:image" content="" />
 </head>
 <body>
+  
   <div id="loader-wrapper" class="bg-white position-fixed top-0 z-3 w-100 h-100 text-center">
     <div class="spinner-border mt-5" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <div class="d-flex align-items-center gap-3">
         <a class="navbar-brand" href="#">Navbar</a>
 
-        <!-- Theme toggle -->
         <div id="themeToggle" class="theme-toggle light">
           🌞
-      </div>
+        </div>
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -123,9 +69,11 @@
       </div>
     </div>
   </nav>
+
   <h1>Hello, world!</h1>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do. </p>
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpuBD1fcBLaNElGDB03mjhO4UEoyrUEBfEHQ&s" alt="">
+
   <div id="carouselExampleCaptions" class="carousel slide">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -164,67 +112,10 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    $(window).on('load', function() {
-      $("#loader-wrapper").fadeOut(700);
-    });
-  </script>
-  <script>
-    const toggle = document.getElementById("themeToggle");
-
-    function applyTheme(mode) {
-      const elems = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
-
-      if (mode === "dark") {
-        document.body.classList.remove("light-mode");
-        document.body.classList.add("dark-mode");
-        if (toggle) {
-          toggle.classList.remove("light");
-          toggle.classList.add("dark");
-          toggle.textContent = "🌜";
-        }
-
-        elems.forEach(el => {
-          el.classList.remove("light-mode");
-          el.classList.add("dark-mode");
-        });
-      } else {
-        document.body.classList.remove("dark-mode");
-        document.body.classList.add("light-mode");
-        if (toggle) {
-          toggle.classList.remove("dark");
-          toggle.classList.add("light");
-          toggle.textContent = "🌞";
-        }
-
-        elems.forEach(el => {
-          el.classList.remove("dark-mode");
-          el.classList.add("light-mode");
-        });
-      }
-    }
-
-    // If user previously chose theme, use that
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme) {
-      applyTheme(savedTheme);
-    } else {
-      // Otherwise detect system preference
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      applyTheme(prefersDark ? "dark" : "light");
-    }
-
-    if (toggle) {
-      toggle.addEventListener("click", () => {
-        const current = document.body.classList.contains("dark-mode") ? "dark" : "light";
-        const next = current === "dark" ? "light" : "dark";
-        localStorage.setItem("theme", next);
-        applyTheme(next);
-      });
-    }
-  </script>
+  
+  <script src="script.js"></script>
 </body>
 </html>
