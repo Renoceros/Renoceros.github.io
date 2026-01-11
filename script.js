@@ -55,7 +55,7 @@ const isDesktop = window.matchMedia("(min-width: 992px)");
 
 // Variables to track our constant movement
 let autoScrollX = 0;
-const speed = 0.25; // Speed of the automatic drift (0.5px per frame)
+const speed = 0.15; // Speed of the automatic drift (0.15px per frame)
 
 function renderLoop() {
   const scrollPos = window.scrollY;
@@ -81,19 +81,37 @@ function renderLoop() {
 
 
   // 3. PARALLAX PROJECT IMAGES (Desktop Only)
+  // PARALLAX PROJECT IMAGES (Desktop Only)
+  // Apply a subtle vertical parallax to project images based on their
+  // distance from the vertical center of the viewport.
   if (isDesktop.matches) {
+    // Grab all project rows to process each one
     const projects = document.querySelectorAll('.project-row');
+
+    // Vertical center of the visible screen (used as the parallax origin)
     const screenCenter = window.innerHeight / 2;
 
     projects.forEach(row => {
+      // Each row is expected to contain an .img-wrapper we want to move
       const imgWrapper = row.querySelector('.img-wrapper');
-      if(!imgWrapper) return;
+      if (!imgWrapper) return; // skip rows without an image wrapper
 
+      // Get the row's position & size relative to the viewport
       const rect = row.getBoundingClientRect();
+
+      // Compute the vertical center of the row (in viewport coordinates)
       const rowCenter = rect.top + (rect.height / 2);
+
+      // Distance from the row center to the screen center.
+      // Positive = row is below center, Negative = above center.
       const distanceFromCenter = rowCenter - screenCenter;
 
+      // Scale the distance to create a subtle parallax effect.
+      // 0.15 means the image moves 15% of the distance, keeping motion gentle.
       const parallaxY = distanceFromCenter * 0.15;
+
+      // Apply a translateY to the image wrapper.
+      // This overrides any previous transform on the element.
       imgWrapper.style.transform = `translateY(${parallaxY}px)`;
     });
   }
@@ -118,9 +136,9 @@ if (logo) {
 
     // 3. The "Repel" Math
     // We multiply by a negative number to move in the opposite direction.
-    // -0.05 means "Move 5% of the distance away from the mouse"
-    const moveX = x * -0.05;
-    const moveY = y * -0.05;
+    // -0.025 means "Move 2.5% of the distance away from the mouse"
+    const moveX = x * -0.025;
+    const moveY = y * -0.025;
 
     // 4. Apply the transform
     logo.style.transform = `translate(${moveX}px, ${moveY}px)`;
