@@ -44,80 +44,71 @@ const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .
 revealElements.forEach(el => observer.observe(el));
 
 
-/* 3. THE RENDER LOOP (The "Game Loop") */
-/* We switched from an event listener to a continuous loop.
-   This allows the background to move even when you aren't scrolling.
-*/
-
+/* 3. THE RENDER LOOP (Fixed Tiling Version) */
 const bgLayer1 = document.querySelector('.layer-1');
-const bgLayer2 = document.querySelector('.layer-2');
+const tile1 = document.getElementById('l2-tile-1');
+const tile2 = document.getElementById('l2-tile-2');
+
 const isDesktop = window.matchMedia("(min-width: 992px)");
 
-// Variables to track our constant movement
 let autoScrollX = 0;
-const speed = 0.15; // Speed of the automatic drift (0.15px per frame)
+const speed = 0.15;
 
 function renderLoop() {
   const scrollPos = window.scrollY;
-
-  // 1. UPDATE AUTOMATIC SCROLL
-  // We keep subtracting speed to move LEFT forever
-  autoScrollX -= speed;
-
-  // 2. ANIMATE BACKGROUND LAYERS
+  const windowWidth = window.innerWidth; 
   
-  // Layer 1: Vertical drift based ONLY on scroll (Parallax)
+  // 1. Calculate Global Position
+  autoScrollX -= speed;
+  const totalX = autoScrollX + (scrollPos * -0.5);
+
+  // 2. LAYER 1 (Vertical Parallax)
   if(bgLayer1) {
     bgLayer1.style.transform = `translateY(${scrollPos * -0.1}px)`;
   }
-  
-  // Layer 2: The Complex One
-  // It uses autoScrollX (constant movement) PLUS scrollPos (user interaction)
-  // When you scroll DOWN, it moves FASTER to the left.
-  if(bgLayer2) {
-    const totalX = autoScrollX + (scrollPos * -0.5);
-    bgLayer2.style.transform = `translateX(${totalX}px)`;
+
+  // 3. LAYER 2 (Fixed Seamless Tiling)
+  if(tile1 && tile2) {
+    // Normalize totalX to a 0 to windowWidth range
+    const normalizedX = ((totalX % windowWidth) + windowWidth) % windowWidth;
+    
+    // Position of Tile 1 - starts at 0 and moves left
+    let pos1 = -normalizedX;
+    
+    // Position of Tile 2 - exactly one screen width to the right
+    let pos2 = pos1 + windowWidth;
+    
+    // When tile1 goes fully off-screen to the left, wrap it to the right
+    if (pos1 <= -windowWidth) {
+      pos1 += windowWidth * 2;
+    }
+    
+    // When tile2 goes fully off-screen to the left, wrap it to the right
+    if (pos2 <= -windowWidth) {
+      pos2 += windowWidth * 2;
+    }
+
+    // Apply Transforms
+    tile1.style.transform = `translateX(${pos1}px)`;
+    tile2.style.transform = `translateX(${pos2}px)`;
   }
 
-
-  // 3. PARALLAX PROJECT IMAGES (Desktop Only)
-  // PARALLAX PROJECT IMAGES (Desktop Only)
-  // Apply a subtle vertical parallax to project images based on their
-  // distance from the vertical center of the viewport.
+  // 4. PROJECT PARALLAX
   if (isDesktop.matches) {
-    // Grab all project rows to process each one
     const projects = document.querySelectorAll('.project-row');
-
-    // Vertical center of the visible screen (used as the parallax origin)
     const screenCenter = window.innerHeight / 2;
 
     projects.forEach(row => {
-      // Each row is expected to contain an .img-wrapper we want to move
       const imgWrapper = row.querySelector('.img-wrapper');
-      if (!imgWrapper) return; // skip rows without an image wrapper
-
-      // Get the row's position & size relative to the viewport
+      if (!imgWrapper) return;
       const rect = row.getBoundingClientRect();
-
-      // Compute the vertical center of the row (in viewport coordinates)
       const rowCenter = rect.top + (rect.height / 2);
-
-      // Distance from the row center to the screen center.
-      // Positive = row is below center, Negative = above center.
       const distanceFromCenter = rowCenter - screenCenter;
-
-      // Scale the distance to create a subtle parallax effect.
-      // 0.15 means the image moves 15% of the distance, keeping motion gentle.
       const parallaxY = distanceFromCenter * 0.15;
-
-      // Apply a translateY to the image wrapper.
-      // This overrides any previous transform on the element.
       imgWrapper.style.transform = `translateY(${parallaxY}px)`;
     });
   }
 
-  // 4. LOOP
-  // Call this function again on the next frame (60fps)
   requestAnimationFrame(renderLoop);
 }
 
