@@ -47,21 +47,6 @@ body {
 }
 
 /* --- ANIMATED BLOB BACKGROUNDS --- */
-.bg-blob-tile {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 400px 400px; 
-  background-repeat: repeat;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  filter: grayscale(1);
-  will-change: transform;
-  z-index: -1;
-  opacity: var(--blob-opacity);
-  mix-blend-mode: var(--blob-blend);
-}
 
 /* Layer 1 */
 .layer-1 {
@@ -70,8 +55,8 @@ body {
   height: 400%;
   top: -50%;
   background-repeat: repeat;
-  background-size: 500px 500px; 
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 3200px 3200px; 
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 3200 3200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   transition: opacity 0.6s ease;
   filter: grayscale(1);
   opacity: var(--blob-opacity);
@@ -86,8 +71,23 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   z-index: -1;
+}
+
+/* Single Layer 2 Background */
+.layer-2-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 2800px 2800px;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 2800 2800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  filter: grayscale(1);
+  opacity: var(--blob-opacity);
+  mix-blend-mode: var(--blob-blend);
+  will-change: background-position;
 }
 
 /* --- NAVBAR --- */
@@ -155,8 +155,8 @@ body {
 #projects {
   /* 1. The Glass Effect */
   background-color: var(--glass-bg);
-  backdrop-filter: blur(20px);         /* Stronger blur looks more premium */
-  -webkit-backdrop-filter: blur(20px); /* For Safari */
+  backdrop-filter: blur(10px);         /* Stronger blur looks more premium */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
   
   /* 2. The Edges */
   border: 1px solid var(--glass-border);

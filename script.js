@@ -44,19 +44,17 @@ const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .
 revealElements.forEach(el => observer.observe(el));
 
 
-/* 3. THE RENDER LOOP (Fixed Tiling Version) */
+/* 3. THE RENDER LOOP (Background Position Animation) */
 const bgLayer1 = document.querySelector('.layer-1');
-const tile1 = document.getElementById('l2-tile-1');
-const tile2 = document.getElementById('l2-tile-2');
+const layer2 = document.querySelector('.layer-2-bg');
 
 const isDesktop = window.matchMedia("(min-width: 992px)");
 
 let autoScrollX = 0;
-const speed = 0.15;
+const speed = 0.1; // Speed of horizontal auto-scroll
 
 function renderLoop() {
   const scrollPos = window.scrollY;
-  const windowWidth = window.innerWidth; 
   
   // 1. Calculate Global Position
   autoScrollX -= speed;
@@ -67,30 +65,10 @@ function renderLoop() {
     bgLayer1.style.transform = `translateY(${scrollPos * -0.1}px)`;
   }
 
-  // 3. LAYER 2 (Fixed Seamless Tiling)
-  if(tile1 && tile2) {
-    // Normalize totalX to a 0 to windowWidth range
-    const normalizedX = ((totalX % windowWidth) + windowWidth) % windowWidth;
-    
-    // Position of Tile 1 - starts at 0 and moves left
-    let pos1 = -normalizedX;
-    
-    // Position of Tile 2 - exactly one screen width to the right
-    let pos2 = pos1 + windowWidth;
-    
-    // When tile1 goes fully off-screen to the left, wrap it to the right
-    if (pos1 <= -windowWidth) {
-      pos1 += windowWidth * 2;
-    }
-    
-    // When tile2 goes fully off-screen to the left, wrap it to the right
-    if (pos2 <= -windowWidth) {
-      pos2 += windowWidth * 2;
-    }
-
-    // Apply Transforms
-    tile1.style.transform = `translateX(${pos1}px)`;
-    tile2.style.transform = `translateX(${pos2}px)`;
+  // 3. LAYER 2 (Background Position Animation - Seamless)
+  if(layer2) {
+    // Animate background-position which naturally tiles
+    layer2.style.backgroundPosition = `${totalX}px 0px`;
   }
 
   // 4. PROJECT PARALLAX
