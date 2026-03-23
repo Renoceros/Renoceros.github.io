@@ -6,10 +6,6 @@
   --accent-color: #0c4b1c;
   --img-opacity: 0.9;
   
-  /* NOISE SETTINGS LIGHT */
-  --blob-opacity: 0.4;         /* Visible but subtle */
-  --blob-blend: multiply;      /* Darkens the white bg */
-
   /* GLASS SETTINGS (LIGHT MODE) */
   /* Very transparent white */
   --glass-bg: rgba(255, 255, 255, 0.25); 
@@ -24,10 +20,6 @@
   --nav-bg: rgba(18, 18, 18, 0.7);
   --accent-color: #2a803d;
   --img-opacity: 0.7;
-
-  /* NOISE SETTINGS DARK */
-  --blob-opacity: 0.15;        /* Needs to be lower in overlay mode */
-  --blob-blend: overlay;       /* Lightens the dark bg */
 
   /* GLASS SETTINGS (DARK MODE) */
   /* Very transparent black/grey */
@@ -46,48 +38,18 @@ body {
   overflow-x: hidden; /* Stop horizontal scrollbars from animations */
 }
 
-/* --- ANIMATED BLOB BACKGROUNDS --- */
-
-/* Layer 1 */
-.layer-1 {
+/* --- WEBGL CANVASES --- */
+.webgl-container {
   position: fixed;
-  width: 400%; 
-  height: 400%;
-  top: -50%;
-  background-repeat: repeat;
-  background-size: 3200px 3200px; 
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 3200 3200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  transition: opacity 0.6s ease;
-  filter: grayscale(1);
-  opacity: var(--blob-opacity);
-  mix-blend-mode: var(--blob-blend);
-  z-index: -2;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Place above the CSS background, but behind the text */
+  pointer-events: none;
 }
-
-/* Layer 2 Container */
-.layer-2-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* Single Layer 2 Background */
-.layer-2-bg {
+.webgl-container canvas {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 2800px 2800px;
-  background-repeat: repeat;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 2800 2800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  filter: grayscale(1);
-  opacity: var(--blob-opacity);
-  mix-blend-mode: var(--blob-blend);
-  will-change: background-position;
+  inset: 0;
 }
 
 /* --- NAVBAR --- */
@@ -153,16 +115,10 @@ body {
 /* --- PROJECTS --- */
 
 #projects {
-  /* 1. The Glass Effect */
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(10px);         /* Stronger blur looks more premium */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  /* Removed CSS glass, WebGL handles this now. */
+  background-color: transparent;
+  border: none;
   
-  /* 2. The Edges */
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;                 /* Rounded corners define the "Pane" */
-  
-  /* 3. Spacing */
   /* We need padding inside the glass so text doesn't touch the edge */
   padding: 3rem 2rem; 
   /* Add margin top/bottom so it floats separately from Hero/Footer */

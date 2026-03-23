@@ -13,10 +13,9 @@
 </head>
 <body>
 
-  <div class="bg-blob layer-1"></div>
-
-  <div class="layer-2-container">
-    <div class="layer-2-bg"></div>
+  <!-- WebGL Background & Glass Canvases -->
+  <div class="webgl-container">
+    <canvas id="glCanvas"></canvas>
   </div>
 
   <nav class="navbar navbar-expand-lg fixed-top">
@@ -40,7 +39,8 @@
     </div>
   </header>
 <!-- PROJECTS SECTION -->
-  <main id="projects" class="container py-5">
+  <!-- Added 'glass-node' class and shape data attributes for WebGL tracking -->
+  <main id="projects" class="container py-5 glass-node" data-shape="panel" data-thickness="1.2">
     
     <div class="section-title text-center mb-5 reveal-bottom">
       <h2 class="fw-bold">Selected Projects</h2>
