@@ -1,40 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="438.11621"
-   height="704.00525"
-   viewBox="0 0 438.11621 704.00525"
-   version="1.1"
-   id="svg1"
-   xml:space="preserve"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"><defs
-     id="defs1" /><metadata
-     id="metadata1"><rdf:RDF><cc:Work
-         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><rect
-     style="fill:none;fill-opacity:1;stroke:none;stroke-width:1.00113;stroke-opacity:1"
-     id="rect22-6"
-     width="438.11612"
-     height="704.00519"
-     x="-4.3912532e-06"
-     y="2.5566433e-06" /><path
-     style="fill:#22461e;fill-opacity:1;stroke:none;stroke-opacity:1"
-     d="M 5.6155622e-5,0.23737815 C 6.0000561,1.2373782 320.00006,310.23738 320.00006,310.23738 c 0,0 24.4249,22.4156 39.6277,22.5924 0,0 -41.5426,9.5459 -58.1596,28.2842 -16.617,18.7384 -80.9681,85.6234 -21.4681,153.1234 59.5,67.5 158,41 158,41 v 148.5 l -355.000003,-355 c 0,0 -14.5235,-17.3218 -40.6865,-17.3218 -0.7071,0 102.884003,11.6672 116.319103,-69.2965 13.435,-80.9637 -29.9934,-111.9369 -29.9934,-111.9369 0,0 -47.769403,-35.6138 -128.639203844378,-13.9448 z"
-     id="path12-2" /><path
-     style="fill:#22461e;fill-opacity:1;stroke:none;stroke-width:1.65958;stroke-opacity:1"
-     d="M 0.01495616,440.12168 263.88896,703.99568 H 0.01495616 Z"
-     id="path22-61" /><path
-     style="fill:#22461e;fill-opacity:1;stroke:none;stroke-width:1.58492;stroke-opacity:1"
-     d="M 438.10396,252.02148 186.10256,0.02007815 h 252.0014 z"
-     id="path22-6-8" /><path
-     style="fill:none;fill-opacity:1;stroke:#22461e;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2.5031561,129.64668 v 340.6992"
-     id="path14" /><path
-     style="fill:none;fill-opacity:1;stroke:#22461e;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
-     d="m 435.60836,239.50718 v 340.6992"
-     id="path14-2" /></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 331.427 777.693">
+  <defs>
+    <style>
+      .cls-1{fill:#22461e}
+    </style>
+  </defs>
+  <title>Asset 1</title>
+  <g id="Asset_1" data-name="Asset 1">
+    <path d="M0 45.529 L0 28.516 L10 42.28 L224.599 337.649 C221.776 339.377 219 341.23 216.277 343.208 C160.426 383.787 148.045 461.958 188.623 517.809 C219.772 560.682 273.074 577.94 321.426 565.29 L321.426 487.934 L321.426 470.921 L321.426 326.311 L84.348 0 L121.43 0 L195.594 0 L331.427 186.958 L331.427 326.476 L331.427 340.075 L331.427 484.685 L331.427 501.698 L331.427 562.218 L331.427 714.361 L331.427 731.374 L321.426 717.61 L106.828 422.241 C109.65 420.513 112.427 418.66 115.15 416.682 C170.998 376.105 183.381 297.939 142.809 242.089 L142.804 242.081 C111.655 199.208 58.353 181.95 10 194.6 L10 271.956 L10 288.969 L10 433.58 L260.013 777.693 L222.931 777.693 L148.767 777.693 L0 572.932 L0 470.854 L0 433.414 L0 419.815 L0 275.204 L0 258.191 L0 197.672 Z" class="cls-1"/>
+  </g>
+</svg>

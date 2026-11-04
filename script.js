@@ -129,10 +129,10 @@ function renderBackground() {
     noiseLayer1.style.transform = `translate3d(0, ${scrollPos * -0.06}px, 0)`;
   }
 
-  // Layer 2: Continuous subtle drift + horizontal scroll coupling
+  // Layer 2: Continuous subtle drift + horizontal scroll coupling (seamlessly wraps every 700px)
   if (noiseLayer2) {
-    autoDriftX -= driftSpeed;
-    const combinedX = autoDriftX + (scrollPos * -0.2);
+    autoDriftX = (autoDriftX - driftSpeed) % 700;
+    const combinedX = (autoDriftX + (scrollPos * -0.2)) % 700;
     noiseLayer2.style.backgroundPosition = `${combinedX}px 0px`;
   }
 

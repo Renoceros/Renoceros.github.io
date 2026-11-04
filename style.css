@@ -11,9 +11,9 @@
   --text-color: #1d1d1f;
   --text-muted: #55555c; /* WCAG 2.1 AA Compliant: High Contrast */
   --nav-bg: rgba(248, 249, 250, 0.85);
-  --accent-color: #0c4b1c;
-  --accent-light: #2a803d;
-  --accent-glow: rgba(12, 75, 28, 0.2);
+  --accent-color: #22461E; /* Tactical Rhino Green */
+  --accent-light: #22461E; /* WCAG 2.1 AAA Compliant on Light: 8.8:1 contrast */
+  --accent-glow: rgba(34, 70, 30, 0.22);
   --badge-bg: #e5e5ea;
   --badge-text: #1d1d1f;
   --card-bg: rgba(255, 255, 255, 0.75);
@@ -42,9 +42,9 @@
   --text-color: #f5f5f7;
   --text-muted: #a1a1a6; /* WCAG 2.1 AA Compliant: 6.2:1 High Contrast */
   --nav-bg: rgba(12, 13, 16, 0.85);
-  --accent-color: #2a803d;
-  --accent-light: #34c759;
-  --accent-glow: rgba(42, 128, 61, 0.3);
+  --accent-color: #22461E; /* Tactical Rhino Green */
+  --accent-light: #4ea844; /* Calibrated Harmonic Luminous Tint of #22461E for Dark Mode */
+  --accent-glow: rgba(34, 70, 30, 0.45);
   --badge-bg: #1c1e24;
   --badge-text: #e6edf3;
   --card-bg: rgba(20, 23, 30, 0.75);
@@ -107,7 +107,7 @@ body {
   overflow: hidden;
 }
 
-/* Layer 1: Wide Undulating Organic Texture (Parallax Shift) */
+/* Layer 1: Wide Undulating Organic Texture (Seamless Tiling & Parallax Shift) */
 .bg-noise-layer-1 {
   position: absolute;
   width: 200%;
@@ -116,15 +116,14 @@ body {
   left: -50%;
   background-repeat: repeat;
   background-size: 1400px 1400px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1400 1400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter1)'/%3E%3C/svg%3E");
-  filter: grayscale(1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='1400' viewBox='0 0 1400 1400'%3E%3Cfilter id='noiseFilter1' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter1)'/%3E%3C/svg%3E");
   opacity: var(--noise-opacity-1);
   mix-blend-mode: var(--noise-blend);
   transition: opacity 0.5s ease;
   will-change: transform;
 }
 
-/* Layer 2: Tactile High-Frequency Grain (Smooth Tiling Drift) */
+/* Layer 2: Tactile High-Frequency Grain (Mathematically Seamless Continuous Drift) */
 .bg-noise-layer-2 {
   position: absolute;
   top: 0;
@@ -133,8 +132,7 @@ body {
   height: 100%;
   background-repeat: repeat;
   background-size: 700px 700px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 700 700' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E");
-  filter: grayscale(1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cfilter id='noiseFilter2' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E");
   opacity: var(--noise-opacity-2);
   mix-blend-mode: var(--noise-blend);
   transition: opacity 0.5s ease;
@@ -248,18 +246,18 @@ header, main, section, footer {
 /* Strict Logo Floater Constraints */
 .logo-floater {
   display: inline-block;
-  width: 96px;
-  max-width: 96px;
+  width: 130px;
+  max-width: 130px;
   height: auto;
   margin: 0 auto;
   animation: floatLogo 6s ease-in-out infinite;
 }
 
 .hero-logo {
-  width: 96px !important;
-  max-width: 96px !important;
+  width: 130px !important;
+  max-width: 130px !important;
   height: auto !important;
-  aspect-ratio: 438 / 704;
+  aspect-ratio: 331.427 / 777.693;
   display: block !important;
   margin: 0 auto !important;
   transition: transform 0.12s ease-out;
@@ -820,6 +818,14 @@ footer {
 }
 
 @media (max-width: 575px) {
+  .logo-floater {
+    width: 104px;
+    max-width: 104px;
+  }
+  .hero-logo {
+    width: 104px !important;
+    max-width: 104px !important;
+  }
   .hero-title {
     font-size: 2.6rem;
   }
