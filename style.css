@@ -242,7 +242,7 @@ body {
 }
 
 .hero-description {
-  max-width: 680px;
+  max-width: 50%;
   margin: 0 auto 2.25rem auto;
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -809,6 +809,9 @@ footer {
     padding-top: 110px;
     padding-bottom: 50px;
   }
+  .hero-description {
+    max-width: 85%;
+  }
   .project-row {
     margin-bottom: 60px;
   }
@@ -835,6 +838,10 @@ footer {
   }
   .hero-subtitle {
     font-size: 1.35rem;
+  }
+  .hero-description {
+    max-width: 100%;
+    font-size: 1rem;
   }
   .project-title {
     font-size: 1.55rem;
