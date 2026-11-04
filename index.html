@@ -1,104 +1,632 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Renoceros | Portfolio</title>
+  <title>Moreno Kristovan | Technical Product Architect & Founder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CEO & Technical Product Architect building native macOS software on Apple Silicon. Apple Developer Academy Graduate obsessed with tactile ergonomics, micro-interactions, and <300 LOC SwiftUI contracts." />
+  <meta name="author" content="Moreno Kristovan" />
   
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://renoceros.github.io/" />
+  <meta property="og:title" content="Moreno Kristovan | Technical Product Architect & Founder" />
+  <meta property="og:description" content="I build tools. Not websites. Native macOS desktop software on Apple Silicon, Swift 6 concurrency, and Apple HIG ergonomics." />
+  <meta property="og:image" content="https://renoceros.github.io/assets/profile.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moreno Kristovan | Technical Product Architect & Founder" />
+  <meta name="twitter:description" content="CEO & Technical Product Architect building native macOS desktop applications on Apple Silicon." />
+  <meta name="twitter:image" content="https://renoceros.github.io/assets/profile.jpg" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+  
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-  
   <link rel="stylesheet" href="style.css">
 
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Moreno Kristovan",
+    "alternateName": "Renoceros",
+    "jobTitle": "CEO & Technical Product Architect",
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "Apple Developer Academy @ BINUS, Bali"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "Universitas Bunda Mulia"
+      }
+    ],
+    "knowsAbout": ["Swift 6", "macOS Development", "Apple Silicon", "CoreML", "Human Interface Guidelines", "Computer Vision"],
+    "url": "https://renoceros.github.io/",
+    "sameAs": [
+      "https://github.com/Renoceros",
+      "https://linkedin.com/in/morenokristovan"
+    ]
+  }
+  </script>
 </head>
 <body>
 
-  <!-- WebGL Background & Glass Canvases -->
-  <div class="webgl-container">
+  <!-- WebGL Background & Glass Refraction Canvases -->
+  <div class="webgl-container" aria-hidden="true">
     <canvas id="glCanvas"></canvas>
   </div>
 
+  <!-- NAVIGATION -->
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold" href="#">Renoceros.</a>
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#" aria-label="Renoceros Home">
+        <img src="icon.svg" alt="Renoceros Logo" class="brand-glyph">
+        <span>Renoceros.</span>
+      </a>
       
-      <div id="themeToggle" class="theme-btn" role="button">
-        <span class="icon">🌞</span>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navContent">
+        <ul class="navbar-nav align-items-center gap-lg-3 my-2 my-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#projects">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="#exhibitions">Exhibitions</a></li>
+          <li class="nav-item"><a class="nav-link" href="#writing">Writing</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item ms-lg-2">
+            <a href="assets/Moreno_Kristovan_CV.pdf" target="_blank" class="btn btn-secondary-custom btn-sm rounded-pill px-3 py-1 text-decoration-none">
+              View CV <span class="badge text-bg-dark ms-1 d-none d-xl-inline font-mono">C</span>
+            </a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <div id="themeToggle" class="theme-btn" role="button" aria-label="Toggle dark/light theme" title="Press 'T' to toggle theme">
+              <span class="icon">🌜</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
-<!-- HERO SECTION -->
+
+  <!-- HERO SECTION -->
   <header class="hero-section d-flex align-items-center justify-content-center text-center">
     <div class="container reveal-bottom">
       <div class="logo-floater mb-4">
-        <img src="icon.svg" alt="Logo" class="hero-logo" id="repelLogo">
+        <img src="icon.svg" alt="Renoceros Interactive Logo" class="hero-logo" id="repelLogo">
       </div>
-      <h1 class="display-1 fw-bold mb-4">I Build Tools.</h1>
-      <p class="lead mb-5">Not websites.</p>
-      <a href="#projects" class="btn btn-primary btn-lg rounded-pill px-5">View My Work</a>
+      
+      <h1 class="display-2 fw-bold mb-3 tracking-tight">I Build Tools.</h1>
+      <p class="h3 fw-normal mb-4 text-muted">Not websites.</p>
+
+      <!-- Interactive System Status Badge -->
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill status-pill mb-4" id="hudTrigger" role="button" title="Click for System HUD">
+        <span class="pulse-dot"></span>
+        <span class="small font-mono">Swift 6.0 Native</span>
+        <span class="text-muted">•</span>
+        <span class="small font-mono">Apple Silicon M-Series</span>
+        <span class="text-muted">•</span>
+        <span class="small font-mono">ADA Bali Alum</span>
+      </div>
+      
+      <p class="hero-tagline mb-5">
+        CEO & Technical Product Architect building native macOS software on Apple Silicon. 
+        Apple Developer Academy Graduate obsessed with tactile ergonomics, micro-interactions, and &lt;300 LOC SwiftUI contracts.
+      </p>
+
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="#projects" class="btn btn-primary btn-lg rounded-pill px-5">Explore Selected Work</a>
+        <a href="assets/Moreno_Kristovan_CV.pdf" target="_blank" class="btn btn-outline-primary btn-lg rounded-pill px-4">Download CV</a>
+      </div>
     </div>
   </header>
-<!-- PROJECTS SECTION -->
-  <!-- Added 'glass-node' class and shape data attributes for WebGL tracking -->
+
+  <!-- SELECTED PROJECTS SECTION -->
   <main id="projects" class="container py-5 glass-node" data-shape="panel" data-thickness="1.2">
     
     <div class="section-title text-center mb-5 reveal-bottom">
-      <h2 class="fw-bold">Selected Projects</h2>
-      <div class="line mx-auto"></div>
+      <h2>Selected Engineering</h2>
+      <p class="section-subtitle">Native Apple Silicon utilities, haptics, and system architectures.</p>
+      <div class="line"></div>
     </div>
 
-    <div class="row align-items-center project-row mb-5">
+    <!-- PROJECT 1: NATIVE MACOS DESKTOP WEDGE -->
+    <article class="row align-items-center project-row mb-5">
       <div class="col-lg-6 mb-4 mb-lg-0 content-col reveal-left">
-        <h3 class="fw-bold">Project One: The F1 Analyzer</h3>
-        <span class="badge bg-secondary mb-3">Python</span> <span class="badge bg-secondary mb-3">Data Sci</span>
-        <p>An in-depth telemetry analysis tool built for Formula 1 data. It visualizes cornering speeds, breaking points, and tire degradation models in real-time.</p>
-        <a href="https://github.com/Renoceros/F1_Analysis" class="btn btn-outline-primary mt-2">View Code</a>
-      </div>
-      <div class="col-lg-6 image-col">
-        <div class="img-wrapper rounded shadow-lg">
-          <div class="cv-tag">PANDAS | MATPLOT | SEABORN</div>
-          <img src="https://imgs.search.brave.com/77mO9tzR6QOPuqTgy4gEStCjJtxhv6-eFvIPZAIWk0E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvaGQvbWF4/LXZlcnN0YXBwZW4t/Z2VybWFuLWdyYW5k/LXByaXgtZHR4a2l2/cnVhc2Q4bHU0NC5q/cGc" class="img-fluid rounded" alt="Coding project">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-custom">macOS Desktop</span>
+          <span class="badge-custom">Apple Silicon</span>
+          <span class="badge-custom">Swift 6</span>
+          <span class="badge-custom">Metal</span>
+          <span class="badge-custom">&lt; 300 LOC</span>
+        </div>
+        <h3 class="fw-bold h2 mb-3">The Flagship macOS Studio Wedge</h3>
+        <p class="text-muted mb-3">
+          High-performance native macOS desktop application engineered specifically for Apple Silicon (M-Series).
+          Executes state engines and local intelligence natively on-device, yielding over 90% gross margins with near-zero cloud latency.
+        </p>
+
+        <!-- Technical Invariant Callout -->
+        <div class="tech-callout mb-4">
+          <div class="font-mono text-success small mb-1">// Architectural Invariant</div>
+          <div class="small text-muted">
+            Strict &lt;300 LOC modular SwiftUI view isolation. No view handles its own data loading; child components bind exclusively to immutable projection states, eliminating re-render thrashing.
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#wedgeModal">
+            Architecture Specs
+          </button>
+          <a href="#about" class="btn btn-outline-primary rounded-pill px-4">Request Private Beta</a>
         </div>
       </div>
-    </div>
+      <div class="col-lg-6 image-col">
+        <div class="img-wrapper">
+          <div class="cv-tag">APPLE SILICON // ON-DEVICE</div>
+          <img src="assets/wedge-preview.svg" alt="Native macOS Desktop Wedge Architecture" onerror="this.src='assets/wedge-preview.svg'">
+        </div>
+      </div>
+    </article>
 
-    <div class="row align-items-center project-row mb-5 flex-column-reverse flex-lg-row">
+    <!-- PROJECT 2: PENPAL -->
+    <article class="row align-items-center project-row mb-5 flex-column-reverse flex-lg-row">
       <div class="col-lg-6 mb-4 mb-lg-0 image-col">
-        <div class="img-wrapper rounded shadow-lg">
-           <div class="cv-tag">ConvNeXt6D Stereo</div>
-          <img src="https://www.e-consystems.com/images/See3cam/TaraXL/TaraXL_Stereo_Camera_with_NVIDIA_CUDA_Accelerated_SDK_zoom.jpg" class="img-fluid rounded" alt="Dashboard project">
+        <div class="img-wrapper">
+          <div class="cv-tag">240Hz TOUCH // SUB-MS</div>
+          <img src="assets/penpal-preview.svg" alt="Penpal Apple Pencil Canvas Engine" onerror="this.src='assets/penpal-preview.svg'">
         </div>
       </div>
       <div class="col-lg-6 content-col reveal-right">
-        <h3 class="fw-bold">StereoPose 6D estimation</h3>
-        <span class="badge bg-secondary mb-3">Python</span> <span class="badge bg-secondary mb-3">Comp Vis</span>
-        <p>6D pose estimation using stereo images and ConvNeXt V2 Nano backbones, comparing 3 distinct Head architectures.</p>
-        <a href="https://github.com/Renoceros/STEREO-6DOF/blob/main/32210013_hardcover_revisi2_perpus_18SEP_MERGED.pdf" class="btn btn-outline-primary mt-2">View Thesis</a>
-        <a href="https://github.com/Renoceros/STEREO-6DOF/tree/main" class="btn btn-outline-primary mt-2">View Repository</a>
-      </div>
-    </div>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-custom">iPadOS</span>
+          <span class="badge-custom">Apple Pencil Pro</span>
+          <span class="badge-custom">PKCanvasView</span>
+          <span class="badge-custom">CoreHaptics</span>
+        </div>
+        <h3 class="fw-bold h2 mb-3">Penpal: Apple Pencil Canvas Engine</h3>
+        <p class="text-muted mb-3">
+          Experimental low-latency canvas engine exploring physical rotary friction, spring tension, and barrel-roll tactile interactions.
+          Bypassed monolithic drawing controllers to isolate touch gesture loops into modular sub-300 LOC SwiftUI contracts with sub-millisecond dispatch.
+        </p>
 
-    <div class="row align-items-center project-row">
-      <div class="col-lg-6 mb-4 mb-lg-0 content-col reveal-left">
-        <h3 class="fw-bold">High-Level MTL Manga/Manhwa Translation Pipeline</h3>
-        <span class="badge bg-secondary mb-3">Python</span> <span class="badge bg-secondary mb-3">OCR</span> <span class="badge bg-secondary mb-3">LLMs</span>
-        <p>A modular pipeline for high-quality Machine Translation (MTL) of manhwa/manga chapters using LLMs.</p>
-        <a href="https://github.com/Renoceros/AUTO-Translate" class="btn btn-outline-primary mt-2">View Repository</a>
-      </div>
-      <div class="col-lg-6 image-col">
-        <div class="img-wrapper rounded shadow-lg">
-           <div class="cv-tag">EPOCH: 400 | LOSS: 0.02</div>
-          <img src="https://aianime.io/assets/image/landing/manga-translator/hero.jpg" class="img-fluid rounded" alt="App interface">
+        <!-- Technical Invariant Callout -->
+        <div class="tech-callout mb-4">
+          <div class="font-mono text-primary small mb-1">// Haptic Telemetry Loop</div>
+          <div class="small text-muted">
+            Continuous 240Hz stroke velocity polling mapped into Coulomb friction approximations. Dynamic rotary resistance modeled via CoreHaptics custom wave patterns.
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#about" class="btn btn-outline-primary rounded-pill px-4">TestFlight Invite</a>
         </div>
       </div>
-    </div>
+    </article>
+
+    <!-- PROJECT 3: REEFORA -->
+    <article class="row align-items-center project-row mb-5">
+      <div class="col-lg-6 mb-4 mb-lg-0 content-col reveal-left">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-custom">Swift 6 Concurrency</span>
+          <span class="badge-custom">3D Simulation</span>
+          <span class="badge-custom">5-Dev Squad</span>
+          <span class="badge-custom">Project Lead</span>
+        </div>
+        <h3 class="fw-bold h2 mb-3">Reefora: 3D Coral Reef Simulation</h3>
+        <p class="text-muted mb-3">
+          Interactive 3D marine conservation application built from Day 1 on native Swift 6 complete concurrency checking with zero data races.
+          Led a 5-developer international squad spanning Uzbekistan, Kenya, India, Australia, and Indonesia, translating marine biology research into interactive pedagogical mechanics.
+        </p>
+
+        <!-- Technical Invariant Callout -->
+        <div class="tech-callout mb-4">
+          <div class="font-mono text-warning small mb-1">// Swift 6 Day 1 Guarantee</div>
+          <div class="small text-muted">
+            Zero `@preconcurrency` imports. Complete isolation of state via `@MainActor` coordinators and strict `Sendable` value-type telemetry bridges across asynchronous compute threads.
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a href="https://github.com/Renoceros" target="_blank" class="btn btn-outline-primary rounded-pill px-4">View Architecture</a>
+        </div>
+      </div>
+      <div class="col-lg-6 image-col">
+        <div class="img-wrapper">
+          <div class="cv-tag">SWIFT 6 // 5-DEV SQUAD</div>
+          <img src="assets/reefora-preview.svg" alt="Reefora 3D Coral Simulation" onerror="this.src='assets/reefora-preview.svg'">
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 4: STEREOPOSE 6D -->
+    <article class="row align-items-center project-row mb-5 flex-column-reverse flex-lg-row">
+      <div class="col-lg-6 mb-4 mb-lg-0 image-col">
+        <div class="img-wrapper">
+          <div class="cv-tag">CONVNEXT V2 // 6DoF POSE</div>
+          <img src="assets/stereopose-preview.svg" alt="StereoPose 6D Estimation" onerror="this.src='assets/stereopose-preview.svg'">
+        </div>
+      </div>
+      <div class="col-lg-6 content-col reveal-right">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-custom">Computer Vision</span>
+          <span class="badge-custom">PyTorch</span>
+          <span class="badge-custom">ConvNeXt V2</span>
+          <span class="badge-custom">Undergrad Thesis</span>
+        </div>
+        <h3 class="fw-bold h2 mb-3">StereoPose 6D Pose Estimation</h3>
+        <p class="text-muted mb-4">
+          Computer vision research and engineering thesis evaluating 6DoF object pose estimation from binocular stereo image pairs.
+          Evaluated ConvNeXt V2 Nano backbones across three distinct head architectures, achieving sub-15ms real-time inference latency with rotational accuracy under 3 degrees.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="https://github.com/Renoceros/STEREO-6DOF" target="_blank" class="btn btn-outline-primary rounded-pill px-4">View Repository</a>
+          <a href="https://github.com/Renoceros/STEREO-6DOF/blob/main/32210013_hardcover_revisi2_perpus_18SEP_MERGED.pdf" target="_blank" class="btn btn-secondary-custom rounded-pill px-3">Read Paper (PDF)</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 5: F1 TELEMETRY ANALYZER -->
+    <article class="row align-items-center project-row">
+      <div class="col-lg-6 mb-4 mb-lg-0 content-col reveal-left">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge-custom">Python</span>
+          <span class="badge-custom">FastF1</span>
+          <span class="badge-custom">Telemetry</span>
+          <span class="badge-custom">Data Science</span>
+        </div>
+        <h3 class="fw-bold h2 mb-3">F1 Telemetry & Degradation Analyzer</h3>
+        <p class="text-muted mb-4">
+          High-performance telemetry analysis engine for Formula 1 session logs. Models apex speeds, throttle trace variance, and tire compound degradation curves to reconstruct race strategy differentials.
+        </p>
+        <div class="d-flex gap-2">
+          <a href="https://github.com/Renoceros/F1_Analysis" target="_blank" class="btn btn-outline-primary rounded-pill px-4">View Code</a>
+        </div>
+      </div>
+      <div class="col-lg-6 image-col">
+        <div class="img-wrapper">
+          <div class="cv-tag">FASTF1 // PANDAS</div>
+          <img src="https://wallpapers.com/images/hd/max-verstappen-german-grand-prix-dtxkivruasd8lu44.jpg" alt="F1 Telemetry Analyzer">
+        </div>
+      </div>
+    </article>
 
   </main>
 
-  <footer class="text-center py-4 mt-5">
-    <p class="mb-0">&copy; 2026 Renoceros. Built with Bootstrap 5 (and LLMs).</p>
+  <!-- EXHIBITIONS & STUDIO LAB SECTION -->
+  <section id="exhibitions" class="container py-5">
+    <div class="section-title text-center mb-5 reveal-bottom">
+      <h2>Exhibitions & Studio Lab</h2>
+      <p class="section-subtitle">Building, testing, and presenting alongside Apple Developer Academy peers.</p>
+      <div class="line"></div>
+    </div>
+
+    <div class="row g-4 reveal-bottom">
+      <div class="col-md-4">
+        <div class="gallery-card">
+          <div class="gallery-img-wrapper">
+            <img src="assets/exhibition-01.svg" alt="Apple Academy Showcase">
+          </div>
+          <div class="gallery-body">
+            <span class="badge-custom mb-2">EXHIBITION // DEMO DAY</span>
+            <h5 class="fw-bold mt-1">Apple Academy Showcase</h5>
+            <p class="text-muted small mb-0">Presenting live macOS and iOS software to Apple mentors, industry guests, and academic faculty in Bali.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="gallery-card">
+          <div class="gallery-img-wrapper">
+            <img src="assets/exhibition-02.svg" alt="Multicultural Squad in Bali">
+          </div>
+          <div class="gallery-body">
+            <span class="badge-custom mb-2">BALI STUDIO SQUAD</span>
+            <h5 class="fw-bold mt-1">5-Dev Multicultural Sprints</h5>
+            <p class="text-muted small mb-0">Leading sprint planning and design architecture with engineers across 5 nationalities in Bali.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="gallery-card">
+          <div class="gallery-img-wrapper">
+            <img src="assets/exhibition-03.svg" alt="Hardware Labs & Mentor Critiques">
+          </div>
+          <div class="gallery-body">
+            <span class="badge-custom mb-2">HARDWARE & LABS</span>
+            <h5 class="fw-bold mt-1">Silicon & Haptics Testing</h5>
+            <p class="text-muted small mb-0">Benchmarking Apple Neural Engine dispatch, ProMotion touch physics, and Human Interface Guidelines.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITING & THOUGHT LEADERSHIP SECTION -->
+  <section id="writing" class="container py-5">
+    <div class="section-title text-center mb-5 reveal-bottom">
+      <h2>Reflections & Architecture</h2>
+      <p class="section-subtitle">Long-form perspectives on engineering leadership, unlearning self-doubt, and system craft.</p>
+      <div class="line"></div>
+    </div>
+
+    <div class="row g-4 reveal-bottom justify-content-center">
+      <div class="col-lg-6">
+        <div class="writing-card h-100 d-flex flex-column" role="button" data-bs-toggle="modal" data-bs-target="#essayModal">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge-custom">ESSAY // RETROSPECTIVE</span>
+            <span class="small text-muted font-mono">10 min read</span>
+          </div>
+          <h4 class="fw-bold mb-3">The Mirror Without Safeguards: Lessons from the Apple Developer Academy</h4>
+          <p class="text-muted mb-4 flex-grow-1">
+            "With a 1.9 GPA in my first semester of Computer Science, I was comfortable with not knowing things. But the Academy was a different beast: it is a mirror reflecting back the exact beliefs, care, and rigor you project. You must decide which belief walks out in December."
+          </p>
+          <div class="d-flex align-items-center justify-content-between text-success fw-bold small">
+            <span>Read Full Essay Inline &rarr;</span>
+            <span class="text-muted font-mono">November 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="writing-card h-100 d-flex flex-column" role="button" data-bs-toggle="modal" data-bs-target="#locModal">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge-custom">ARCHITECTURE // SWIFTUI</span>
+            <span class="small text-muted font-mono">6 min read</span>
+          </div>
+          <h4 class="fw-bold mb-3">The &lt;300 LOC Invariant: Why Modular SwiftUI Contracts Beat Monoliths</h4>
+          <p class="text-muted mb-4 flex-grow-1">
+            Why monolithic 2,000-line SwiftUI views collapse under compiler pressure and human cognitive limits. How enforcing a strict sub-300-line ceiling creates bulletproof state isolation, zero-regression refactoring, and frictionless design handoffs.
+          </p>
+          <div class="d-flex align-items-center justify-content-between text-success fw-bold small">
+            <span>Read Architectural Breakdown &rarr;</span>
+            <span class="text-muted font-mono">October 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT & CONTACT SECTION -->
+  <section id="about" class="container py-5 glass-node" data-shape="panel" data-thickness="1.0">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-4 text-center">
+        <div class="profile-avatar-frame mb-3">
+          <img src="assets/profile.jpg" alt="Moreno Kristovan" onerror="this.src='icon.svg'">
+        </div>
+        <h4 class="fw-bold mb-1">Moreno Kristovan</h4>
+        <p class="text-muted small mb-3">CEO & Technical Product Architect</p>
+        <span class="badge-custom">Denpasar / Badung, Bali, Indonesia</span>
+      </div>
+
+      <div class="col-lg-8">
+        <h3 class="fw-bold mb-3">Building high-craft native software.</h3>
+        <p class="text-muted mb-3">
+          I'm a native Apple software engineer and venture-backed studio founder based in Bali. 
+          My focus is high-performance macOS desktop applications engineered for Apple Silicon, combining deep systems-level Swift execution with obsessive adherence to Apple Human Interface Guidelines.
+        </p>
+        <p class="text-muted mb-4">
+          Having led a multicultural 5-developer squad at the Apple Developer Academy, I believe the best software comes from radical technical discipline, sub-millisecond local latency, and creating space for peer engineers and designers to operate at the edge of their abilities.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <span class="badge-custom">Native Swift 6</span>
+          <span class="badge-custom">Apple Silicon (M-Series)</span>
+          <span class="badge-custom">AppKit & SwiftUI</span>
+          <span class="badge-custom">CoreML & Metal</span>
+          <span class="badge-custom">&lt;300 LOC Contracts</span>
+          <span class="badge-custom">Computer Vision (ConvNeXt)</span>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a href="assets/Moreno_Kristovan_CV.pdf" target="_blank" class="btn btn-primary rounded-pill px-4">Download Executive CV</a>
+          <a href="https://github.com/Renoceros" target="_blank" class="btn btn-secondary-custom rounded-pill px-4">GitHub (@Renoceros)</a>
+          <a href="https://linkedin.com/in/morenokristovan" target="_blank" class="btn btn-secondary-custom rounded-pill px-4">LinkedIn</a>
+          <a href="mailto:morenokristovan@gmail.com" class="btn btn-secondary-custom rounded-pill px-4">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-5 mt-5">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <img src="icon.svg" alt="Renoceros" style="width: 20px; height: 20px; opacity: 0.6;">
+        <span class="small text-muted">&copy; 2026 Moreno Kristovan (Renoceros). Built with native Apple HIG principles & WebGL.</span>
+      </div>
+      <div class="d-flex gap-3">
+        <a href="#projects" class="text-muted text-decoration-none small">Work</a>
+        <a href="#exhibitions" class="text-muted text-decoration-none small">Exhibitions</a>
+        <a href="#writing" class="text-muted text-decoration-none small">Writing</a>
+        <a href="#about" class="text-muted text-decoration-none small">About</a>
+      </div>
+    </div>
   </footer>
 
+  <!-- ESSAY MODAL: THE MIRROR WITHOUT SAFEGUARDS -->
+  <div class="modal fade" id="essayModal" tabindex="-1" aria-labelledby="essayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content glass-modal border-0">
+        <div class="modal-header border-bottom border-dark-subtle px-4 py-3">
+          <div>
+            <span class="badge-custom mb-1">PERSONAL RETROSPECTIVE</span>
+            <h5 class="modal-title fw-bold" id="essayModalLabel">The Mirror Without Safeguards</h5>
+            <div class="small text-muted font-mono">Apple Developer Academy @ Bali — 1 Month Left</div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4 reading-content">
+          <p class="lead text-muted mb-4">
+            Today is the 1st of November. It's the last month I will spend at the Apple Developer Academy @ BINUS, Bali. It’s exhilarating to finally see the finish line, but part of me wishes I could turn back time—back to January 2026, just one month after graduating college.
+          </p>
+
+          <p>
+            After graduating from Universitas Bunda Mulia, I was applying here and there for work, having completely forgotten about my application to the Apple Developer Academy. A month of ghosted applications and dead-end interviews went by. That was until February 3rd, when a message came in: <em>"Hey, a slot opened up. You want in? You have 3 days to decide."</em>
+          </p>
+
+          <p>
+            With less than a month to plan my move from Jakarta to Bali, I packed my bags, my motorbike, my PC, my home-lab servers, and my tools. I boarded the flight from CGK to DPS with one cynical, pragmatic thought: <em>"It's okay. If anything, Apple has AIKit that I can add to my resume."</em>
+          </p>
+
+          <p>
+            To be completely honest, I also carried a quiet, arrogant belief onto that plane: I thought I understood what it meant to learn something from scratch better than anyone else. In my first semester of college, my GPA was a humiliating <strong>1.9</strong>. I was intimately used to failure. I was used to being the underdog who had to brute-force his way through ignorance. I assumed I was battle-tested.
+          </p>
+
+          <blockquote class="my-4 ps-3 border-start border-3 border-success text-muted fst-italic">
+            "The academy is not an institution. It is a mirror. It reflects back onto you the exact same beliefs, the exact same care, and the exact same rigor you project into it—and then some."
+          </blockquote>
+
+          <p>
+            There are no artificial safeguards. If you are used to burning bright and fast, the academy will let you burn bright and fast until you hit a wall. If you are used to moving slowly, you will be allowed to move slowly. The mentors will egg you on and they won't let you fail easily, but if you enter with unbound ambition and confidence, be ready to be met with unbound support. You are forced to unlearn self-doubt just to survive; that is the bare minimum here.
+          </p>
+
+          <p>
+            In the outside world, you can get away with destructive beliefs—hiding behind cynicism, toxic perfectionism, or wearing burnout like a badge of honor. But inside this environment, those beliefs cannot survive. You come in, and either you survive or that destructive belief survives. You must come to a decision on which one walks out the door in December.
+          </p>
+
+          <h5 class="fw-bold mt-4 mb-2">Unlearning, Relearning & The Burning Sea</h5>
+          <p>
+            I had spent years attaching my entire self-worth and confidence to raw output: GitHub commits, sprint velocity, and arbitrary KPIs. The moment I stopped pushing code, my brain told me I was a failure that amounted to nothing.
+          </p>
+          <p>
+            With generative AI accelerating development, syntax is cheap and boilerplate is generated in seconds. It exposed me to myself: <strong>If my value isn't measured by how many lines of code I crank out per hour, what is my value?</strong>
+          </p>
+          <p>
+            The value of an engineer was never the lines of code. The value is <strong>taste, systems architecture, discernment, and the ability to rally people around a shared outcome.</strong> Code is just the execution medium.
+          </p>
+
+          <h5 class="fw-bold mt-4 mb-2">Meadow: Stepping into Leadership & The Imposter Trap</h5>
+          <p>
+            When leading the <strong>Meadow</strong> challenge, our mentors Ben Chandra and Izar Dienhaque gave me room: <em>"Go ahead, continue. If you want to take it up a notch, explore this..."</em> Their quiet validation gave me confidence, but it was also quietly terrifying. As a first-time lead, having experienced mentors trust you triggers a visceral wave of imposter syndrome: <em>What if I'm found out as an imposter? What if my instincts are wrong?</em>
+          </p>
+          <p>
+            Standing in the academy pantry stressed out of my mind, <strong>Lily Manoharan</strong> (Managing Director at Creative Think Labs) sat down with me. She gave me two phrases that permanently reshaped my view of leadership: <strong>"Give space"</strong> and <strong>"Create space."</strong> Real leadership isn't about directing every move; it's about building an environment where people feel trusted and safe enough to debate, push back, and refuse to settle.
+          </p>
+
+          <h5 class="fw-bold mt-4 mb-2">Learning to Give Myself Grace</h5>
+          <p>
+            It took raw conversations with <strong>Beatrice "Bobo" Mbugwa</strong> to shake me awake from my savior complex: <em>"You're not God, Moreno. There is only so much a team lead can do."</em> I readily accepted and gave unconditional grace to any flaw or mistake from my teammates, but gave myself zero margin for error. I had to learn to show myself grace.
+          </p>
+
+          <h5 class="fw-bold mt-4 mb-2">30 Days Left</h5>
+          <p>
+            With mentorship from <strong>Putri "Pru" Purnomo</strong>, I stopped running away from the artist inside me. I stared into the academy's mirror, let my destructive beliefs drown in the open water, and decided that the version of me walking out the door in December would be an architect, an artist, and a leader.
+          </p>
+          <p class="fw-bold text-success">
+            I am no longer scared of the open ocean. I'm just grateful for the water, ready to swim, and will ram headfirst into whatever comes next.
+          </p>
+        </div>
+        <div class="modal-footer border-top border-dark-subtle px-4 py-3 d-flex justify-content-between">
+          <a href="https://linkedin.com/in/morenokristovan" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+            Open on LinkedIn &rarr;
+          </a>
+          <button type="button" class="btn btn-secondary-custom btn-sm rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE MODAL: FLAGSHIP WEDGE SPECS -->
+  <div class="modal fade" id="wedgeModal" tabindex="-1" aria-labelledby="wedgeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-modal border-0">
+        <div class="modal-header border-bottom border-dark-subtle px-4 py-3">
+          <div>
+            <span class="badge-custom mb-1">SYSTEM SPECIFICATIONS</span>
+            <h5 class="modal-title fw-bold" id="wedgeModalLabel">Flagship macOS Studio Wedge Architecture</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <h6 class="fw-bold text-success mb-2">On-Device Compute Engine</h6>
+              <p class="text-muted small">
+                Executes vector projection and token interaction state natively on Apple Neural Engine silicon. Zero roundtrip cloud latency, sub-0.02ms dispatch, and &gt;90% gross margins.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-bold text-success mb-2">Swift 6 Concurrency Contract</h6>
+              <p class="text-muted small">
+                Complete compiler data-race safety. All interaction events execute under isolated <code>@MainActor</code> UI domains while heavy ML compute runs in detached task pools.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-bold text-success mb-2">&lt;300 LOC Modular Component Rule</h6>
+              <p class="text-muted small">
+                Every SwiftUI view is capped at 300 lines of code. Enforces single responsibility, eliminates SwiftUI redraw cascading, and simplifies collaborative Git merges.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-bold text-success mb-2">Memory Footprint & Footprint Target</h6>
+              <p class="text-muted small">
+                Targeting &lt;45MB resident memory footprint in standby. AppKit bridge for low-overhead menu bar popovers and native windowing ergonomics.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top border-dark-subtle px-4 py-3">
+          <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Got It</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE MODAL: <300 LOC INVARIANT -->
+  <div class="modal fade" id="locModal" tabindex="-1" aria-labelledby="locModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-modal border-0">
+        <div class="modal-header border-bottom border-dark-subtle px-4 py-3">
+          <div>
+            <span class="badge-custom mb-1">SWIFT ARCHITECTURE</span>
+            <h5 class="modal-title fw-bold" id="locModalLabel">The &lt;300 LOC Invariant Rule</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4 py-4">
+          <h6 class="fw-bold text-success mb-2">Why Monolithic Views Are Architectural Debt</h6>
+          <p class="text-muted small mb-3">
+            In SwiftUI, writing 1,000+ line views causes the Swift type-checker to degrade exponentially during compilation. More critically, state mutation anywhere in the monolith forces the entire tree to re-evaluate, dropping frames from 120Hz ProMotion down to stuttering jank.
+          </p>
+          <h6 class="fw-bold text-success mb-2">The Three Rules of the Invariant:</h6>
+          <ol class="small text-muted ps-3 mb-0">
+            <li class="mb-2"><strong>Zero State Ownership in Leaves:</strong> Leaf views only accept immutable props or read-only bindings. State lives strictly in isolated domain stores.</li>
+            <li class="mb-2"><strong>Hard 300-Line Ceiling:</strong> If a view file exceeds 300 lines of code, it is architectural debt and must be refactored into discrete subviews.</li>
+            <li><strong>Atomic Design Seams:</strong> Ensures engineering and design leads can review and merge pull requests in 5 minutes with zero git merge conflicts.</li>
+          </ol>
+        </div>
+        <div class="modal-footer border-top border-dark-subtle px-4 py-3">
+          <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEM HUD MODAL -->
+  <div class="modal fade" id="hudModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content glass-modal border-0 text-center p-3">
+        <h6 class="fw-bold mb-2 font-mono">SYSTEM HUD</h6>
+        <div class="small font-mono text-muted mb-3" id="hudStats">
+          Target: Apple Silicon M-Series<br>
+          Language: Swift 6.0 Native<br>
+          Engine: WebGL SDF Glass<br>
+          DPR: <span id="hudDpr">2.0</span>
+        </div>
+        <button type="button" class="btn btn-secondary-custom btn-sm rounded-pill" data-bs-dismiss="modal">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="script.js"></script>
 </body>

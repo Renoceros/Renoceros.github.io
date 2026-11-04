@@ -1,0 +1,8 @@
+# Theres nothing here...
+# Why are you here even??
+# Engineered with native craft by Moreno Kristovan (Renoceros)
+
+User-agent: *
+Allow: /
+
+Sitemap: https://renoceros.github.io/sitemap.xml

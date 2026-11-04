@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgReefora" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a192f" />
+      <stop offset="100%" stop-color="#020c1b" />
+    </linearGradient>
+    <linearGradient id="coralGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ff7b72" />
+      <stop offset="100%" stop-color="#ffa657" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="1200" height="750" fill="url(#bgReefora)" rx="16" />
+  <rect x="1" y="1" width="1198" height="748" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2" rx="15" />
+  
+  <!-- Underwater Scene Graphic -->
+  <g transform="translate(100, 60)">
+    <rect x="0" y="0" width="1000" height="580" fill="#0d1b2a" rx="12" stroke="#ffffff" stroke-opacity="0.05" />
+    
+    <!-- Light Rays -->
+    <polygon points="200,0 350,0 450,580 150,580" fill="#64dfdf" opacity="0.04" />
+    <polygon points="500,0 680,0 780,580 420,580" fill="#64dfdf" opacity="0.04" />
+    
+    <!-- Coral Formations -->
+    <path d="M 250 580 C 230 460, 290 380, 270 320 C 310 350, 360 420, 340 580" fill="url(#coralGrad)" opacity="0.8" />
+    <path d="M 380 580 C 370 490, 420 420, 400 360 C 440 400, 480 460, 470 580" fill="url(#coralGrad)" opacity="0.6" />
+    
+    <!-- Marine Organism Particles -->
+    <circle cx="580" cy="220" r="18" fill="#48cae4" opacity="0.3" />
+    <circle cx="620" cy="210" r="12" fill="#48cae4" opacity="0.5" />
+    <circle cx="560" cy="240" r="8" fill="#90e0ef" opacity="0.7" />
+    
+    <!-- Squad Architecture Overlay Box -->
+    <rect x="520" y="320" width="420" height="210" fill="#0b132b" rx="8" stroke="#48cae4" stroke-opacity="0.3" />
+    <text x="545" y="355" fill="#48cae4" font-family="'SF Mono', monospace" font-size="13" font-weight="600">Reefora | 5-Dev Squad Native Swift 6</text>
+    <text x="545" y="385" fill="#8b949e" font-family="'SF Mono', monospace" font-size="11">Architecture: Day 1 Complete Concurrency Checks</text>
+    <text x="545" y="410" fill="#8b949e" font-family="'SF Mono', monospace" font-size="11">Data Races: 0 (Strict @MainActor / Sendable models)</text>
+    <text x="545" y="435" fill="#8b949e" font-family="'SF Mono', monospace" font-size="11">Domain: Coral Ecosystem Biology & Simulation</text>
+    <text x="545" y="465" fill="#55c06e" font-family="'SF Mono', monospace" font-size="11">Squad: Uzbek, Kenyan, Indian, Aus, Indonesian</text>
+    <text x="545" y="495" fill="#ffa657" font-family="'SF Mono', monospace" font-size="11">Role: Project Manager & Systems Architect</text>
+  </g>
+  
+  <!-- Placeholder Badge -->
+  <rect x="450" y="680" width="300" height="34" fill="#1f242c" rx="17" stroke="#ffffff" stroke-opacity="0.1" />
+  <text x="600" y="702" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1">DROP IN: assets/reefora-preview.png</text>
+</svg>

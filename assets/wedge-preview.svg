@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14181f" />
+      <stop offset="100%" stop-color="#0b0e13" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2a803d" />
+      <stop offset="100%" stop-color="#55c06e" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="1200" height="750" fill="url(#bgGrad)" rx="16" />
+  <rect x="1" y="1" width="1198" height="748" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2" rx="15" />
+  
+  <!-- Window Titlebar -->
+  <rect x="0" y="0" width="1200" height="56" fill="#1c222b" rx="16" />
+  <rect x="0" y="44" width="1200" height="12" fill="#1c222b" />
+  <line x1="0" y1="56" x2="1200" y2="56" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+  <circle cx="36" cy="28" r="7" fill="#ff5f56" />
+  <circle cx="58" cy="28" r="7" fill="#ffbd2e" />
+  <circle cx="80" cy="28" r="7" fill="#27c93f" />
+  <text x="600" y="34" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="14" font-weight="500" text-anchor="middle">Native macOS Desktop Wedge — Apple Silicon Architecture</text>
+  
+  <!-- Central App Interface Graphic -->
+  <g transform="translate(150, 110)">
+    <!-- Sidebar -->
+    <rect x="0" y="0" width="240" height="540" fill="#161b22" rx="8" stroke="#ffffff" stroke-opacity="0.05" />
+    <rect x="20" y="24" width="120" height="12" fill="#8b949e" rx="4" opacity="0.5" />
+    <rect x="20" y="60" width="200" height="32" fill="#2a803d" fill-opacity="0.2" rx="6" stroke="#2a803d" stroke-opacity="0.4" />
+    <rect x="36" y="72" width="90" height="8" fill="#55c06e" rx="3" />
+    <rect x="20" y="104" width="170" height="24" fill="#ffffff" fill-opacity="0.04" rx="4" />
+    <rect x="36" y="112" width="70" height="8" fill="#8b949e" rx="3" opacity="0.3" />
+    <rect x="20" y="136" width="180" height="24" fill="#ffffff" fill-opacity="0.04" rx="4" />
+    <rect x="36" y="144" width="100" height="8" fill="#8b949e" rx="3" opacity="0.3" />
+    
+    <!-- Main Workspace -->
+    <rect x="260" y="0" width="640" height="540" fill="#0d1117" rx="8" stroke="#ffffff" stroke-opacity="0.05" />
+    
+    <!-- Waveform / State Vector Graphic -->
+    <path d="M 300 280 Q 420 160 520 280 T 740 280 T 860 280" fill="none" stroke="url(#accentGrad)" stroke-width="3" />
+    <circle cx="520" cy="280" r="6" fill="#55c06e" />
+    <circle cx="740" cy="280" r="6" fill="#55c06e" />
+    
+    <!-- Code Snippet / Diagnostics Box -->
+    <rect x="300" y="340" width="560" height="150" fill="#161b22" rx="6" stroke="#ffffff" stroke-opacity="0.06" />
+    <text x="320" y="375" fill="#55c06e" font-family="'SF Mono', Menlo, monospace" font-size="13">// Native Apple Neural Engine Pipeline (Swift 6)</text>
+    <text x="320" y="405" fill="#e6edf3" font-family="'SF Mono', Menlo, monospace" font-size="13">@MainActor final class InteractionEngine {</text>
+    <text x="340" y="435" fill="#8b949e" font-family="'SF Mono', Menlo, monospace" font-size="13">    let latency = computeLocalVector(state) // &lt; 0.02ms on M-Series</text>
+    <text x="320" y="465" fill="#e6edf3" font-family="'SF Mono', Menlo, monospace" font-size="13">}</text>
+  </g>
+  
+  <!-- Placeholder Badge -->
+  <rect x="450" y="680" width="300" height="34" fill="#1f242c" rx="17" stroke="#ffffff" stroke-opacity="0.1" />
+  <text x="600" y="702" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="1">DROP IN: assets/wedge-preview.png</text>
+</svg>
