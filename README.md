@@ -50,14 +50,14 @@ Renoceros.github.io/
     ├── Moreno_Kristovan_CV.pdf       # Executive curriculum vitae
     ├── bettergitgraph-preview.jpeg   # BetterGitGraph VS Code Extension screenshot
     ├── bettergitgraph-search.jpeg    # BetterGitGraph search & ref filter view
-    ├── stereopose-preview.svg        # StereoPose 6D CV thesis vector preview
-    ├── translate-preview.svg         # AI-TL Localization Pipeline vector preview
-    ├── hapticle-preview.svg          # Hapticle Tactile Engine vector preview
+    ├── stereopose-preview.png        # StereoPose 6D preview [PLACE HOLDER]
+    ├── exhibition-03.png             # Architecture Clinic preview [PLACE HOLDER]
+    ├── translate-preview.png         # AI-TL Localization Pipeline preview [PLACE HOLDER]
+    ├── hapticle-preview.png          # Hapticle Tactile Engine preview [PLACE HOLDER]
     ├── hapticle-dial.jpeg            # Hapticle Safe Dial mechanical study
-    ├── reefora-preview.svg           # Reefora 2.5D Marine Sandbox vector preview
-    ├── exhibition-01.svg             # Apple Academy Demo Day preview (in Reefora carousel)
-    ├── exhibition-02.svg             # Living Seas Bali Fieldwork preview (in Reefora carousel)
-    └── exhibition-03.svg             # Architecture Clinic preview (in StereoPose carousel)
+    ├── reefora-preview.png           # Reefora 2.5D Marine Sandbox preview [PLACE HOLDER]
+    ├── exhibition-01.png             # Apple Academy Demo Day preview [PLACE HOLDER]
+    └── exhibition-02.png             # Living Seas Bali Fieldwork preview [PLACE HOLDER]
 ```
 
 ---

@@ -9,21 +9,23 @@ To upgrade any section with your real screenshots or photography, save the file 
 
 | Asset File | Target Project | Status / Format | Aspect Ratio |
 | :--- | :--- | :--- | :--- |
-| `assets/stereopose-preview.svg` | StereoPose 6D Continuous Pose Estimation | Vector SVG (Active) | 16:10 |
+| `assets/stereopose-preview.png` | StereoPose 6D Continuous Pose Estimation | Placeholder PNG (Active) | 16:10 |
 | `assets/bettergitgraph-preview.jpeg` | BetterGitGraph VS Code Extension | High-Res Screenshot (Active) | 16:10 |
-| `assets/translate-preview.svg` | AI-TL Manga/Manhwa Localization Pipeline | Vector SVG (Active) | 16:10 |
-| `assets/hapticle-preview.svg` | Hapticle Physics-Driven Tactile Engine | Vector SVG (Active) | 16:10 |
-| `assets/reefora-preview.svg` | Reefora 2.5D Marine Restoration Sandbox | Vector SVG (Active) | 16:10 |
+| `assets/bettergitgraph-search.jpeg` | BetterGitGraph Ref & Author Search | High-Res Screenshot (Active) | 16:10 |
+| `assets/translate-preview.png` | AI-TL Manga/Manhwa Localization Pipeline | Placeholder PNG (Active) | 16:10 |
+| `assets/hapticle-preview.png` | Hapticle Physics-Driven Tactile Engine | Placeholder PNG (Active) | 16:10 |
+| `assets/hapticle-dial.jpeg` | Hapticle Safe Dial Mechanical Study | High-Res Photo (Active) | 16:10 |
+| `assets/reefora-preview.png` | Reefora 2.5D Marine Restoration Sandbox | Placeholder PNG (Active) | 16:10 |
 
 ---
 
-## 2. Exhibitions & Studio Lab (Atmosphere Photos)
+## 2. Fieldwork & Project Study Slides
 
 | Asset File | Context | Recommended Resolution | Format |
 | :--- | :--- | :--- | :--- |
-| `assets/exhibition-01.svg` | Apple Developer Academy Cohort Demo Days | `1200 × 800 px` (3:2) | `.svg` / `.jpg` / `.png` |
-| `assets/exhibition-02.svg` | Studio Lab & Rapid Prototyping Sprints | `1200 × 800 px` (3:2) | `.svg` / `.jpg` / `.png` |
-| `assets/exhibition-03.svg` | Architecture & Code Invariant Reviews | `1200 × 800 px` (3:2) | `.svg` / `.jpg` / `.png` |
+| `assets/exhibition-01.png` | Apple Developer Academy Cohort Demo Days | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
+| `assets/exhibition-02.png` | Living Seas Bali Restoration Sprints | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
+| `assets/exhibition-03.png` | StereoPose Defense / Architecture Clinic | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
 
 ---
 
