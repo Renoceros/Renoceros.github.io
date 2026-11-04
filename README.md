@@ -32,7 +32,7 @@ This repository is engineered with zero-bloat web craftsmanship:
 2. **BetterGitGraph**: Published VS Code extension rendering Git commit DAGs with hash-deterministic branch coloring and Bézier layouts. Includes interactive graph and ref search filter slides.
 3. **AI-TL**: End-to-end multimodal localization pipeline coordinating text detection, inpainting, and cross-panel LLM dialogue disambiguation.
 4. **Hapticle**: Physical force simulation engine on 120Hz `CADisplayLink` coordinating CoreHaptics transients with procedural sound synthesis. Includes transient waveforms and physical safe dial mechanical study slides.
-5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs.
+5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and structured Architecture Decision Records.
 
 ---
 
