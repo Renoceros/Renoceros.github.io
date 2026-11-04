@@ -8,7 +8,7 @@ Live Site: [https://renoceros.github.io](https://renoceros.github.io)
 
 ## 1. Architectural Philosophy
 
-> *"I Build Tools. Not websites."*
+> *"Crafting systems, tools, and tactile experiences — where rigorous engineering meets thoughtful product design."*
 
 This repository is engineered with zero-bloat web craftsmanship:
 - **Zero-Bloat Front-End:** Native vanilla JavaScript, Bootstrap 5 grid primitives, custom Apple Human Interface Guidelines (HIG) CSS design tokens.
