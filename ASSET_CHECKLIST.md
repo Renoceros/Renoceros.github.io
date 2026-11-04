@@ -25,7 +25,7 @@ To upgrade any section with your real screenshots or photography, save the file 
 | :--- | :--- | :--- | :--- |
 | `assets/exhibition-01.png` | Apple Developer Academy Cohort Demo Days | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
 | `assets/exhibition-02.png` | Living Seas Bali Restoration Sprints | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
-| `assets/exhibition-03.png` | StereoPose Defense / Architecture Clinic | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
+| `assets/exhibition-03.png` | Studio Lab Architecture Clinic & ADR Reviews | `1600 × 1000 px` (16:10) | `.png` / `.jpeg` |
 
 ---
 

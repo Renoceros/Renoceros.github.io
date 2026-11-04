@@ -26,13 +26,13 @@ This repository is engineered with zero-bloat web craftsmanship:
 
 ---
 
-## 2. Featured Systems & In-Card Carousels
+## 2. Featured Systems
 
-1. **StereoPose 6D**: Continuous 6DoF spatial object pose estimation from stereo camera pairs via $SO(3)$ manifold projection. Includes thesis defense & architecture review slides.
+1. **StereoPose 6D**: Continuous 6DoF spatial object pose estimation from stereo camera pairs via $SO(3)$ manifold projection.
 2. **BetterGitGraph**: Published VS Code extension rendering Git commit DAGs with hash-deterministic branch coloring and Bézier layouts. Includes interactive graph and ref search filter slides.
 3. **AI-TL**: End-to-end multimodal localization pipeline coordinating text detection, inpainting, and cross-panel LLM dialogue disambiguation.
 4. **Hapticle**: Physical force simulation engine on 120Hz `CADisplayLink` coordinating CoreHaptics transients with procedural sound synthesis. Includes transient waveforms and physical safe dial mechanical study slides.
-5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs. Includes 2.5D sandbox model, Apple Academy Demo Day showcase, and Bali Living Seas sprint slides.
+5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs.
 
 ---
 
@@ -41,8 +41,8 @@ This repository is engineered with zero-bloat web craftsmanship:
 ```
 Renoceros.github.io/
 ├── index.html            # Clean single-page application structure
-├── style.css             # Apple HIG design system, glass tokens & 2-layer noise engine
-├── script.js             # 2-layer noise engine, repel physics, shortcuts & theme engine
+├── style.css             # Apple HIG design system, glass tokens & responsive styling
+├── script.js             # Repel physics, shortcuts & theme engine
 ├── icon.svg              # Brandmark vector asset (interactive repel)
 ├── robots.txt            # Search crawler directives
 ├── sitemap.xml           # Search engine sitemap
@@ -52,13 +52,13 @@ Renoceros.github.io/
     ├── bettergitgraph-preview.jpeg   # BetterGitGraph VS Code Extension screenshot
     ├── bettergitgraph-search.jpeg    # BetterGitGraph search & ref filter view
     ├── stereopose-preview.png        # StereoPose 6D preview [PLACE HOLDER]
-    ├── exhibition-03.png             # Architecture Clinic preview [PLACE HOLDER]
     ├── translate-preview.png         # AI-TL Localization Pipeline preview [PLACE HOLDER]
     ├── hapticle-preview.png          # Hapticle Tactile Engine preview [PLACE HOLDER]
     ├── hapticle-dial.jpeg            # Hapticle Safe Dial mechanical study
     ├── reefora-preview.png           # Reefora 2.5D Marine Sandbox preview [PLACE HOLDER]
     ├── exhibition-01.png             # Apple Academy Demo Day preview [PLACE HOLDER]
-    └── exhibition-02.png             # Living Seas Bali Fieldwork preview [PLACE HOLDER]
+    ├── exhibition-02.png             # Living Seas Bali Fieldwork preview [PLACE HOLDER]
+    └── exhibition-03.png             # Studio Lab Architecture Review preview [PLACE HOLDER]
 ```
 
 ---
