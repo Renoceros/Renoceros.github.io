@@ -100,6 +100,8 @@ window.addEventListener('keydown', (e) => {
     applyTheme(active === 'dark' ? 'light' : 'dark');
   } else if (key === 'p' || key === 'w' || key === 's') {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  } else if (key === 'd') {
+    document.getElementById('academy')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'i') {
     document.getElementById('invariants')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'a') {
@@ -111,60 +113,21 @@ window.addEventListener('keydown', (e) => {
 });
 
 
-/* 5. HARDWARE-ACCELERATED 2-LAYER NOISE ENGINE & PARALLAX */
-const noiseLayer1 = document.getElementById('noiseLayer1');
-const noiseLayer2 = document.getElementById('noiseLayer2');
+/* 5. LIGHTWEIGHT DESKTOP CARD PARALLAX */
 const isDesktop = window.matchMedia("(min-width: 992px)");
 
-let autoDriftX = 0;
-const driftSpeed = 0.15; // Smooth horizontal drift speed
-let isTabVisible = !document.hidden;
-let animationFrameId = null;
-
-function renderBackground() {
-  const scrollPos = window.scrollY;
-
-  // Layer 1: Vertical parallax shift
-  if (noiseLayer1) {
-    noiseLayer1.style.transform = `translate3d(0, ${scrollPos * -0.06}px, 0)`;
-  }
-
-  // Layer 2: Continuous subtle drift + horizontal scroll coupling (seamlessly wraps every 700px)
-  if (noiseLayer2) {
-    autoDriftX = (autoDriftX - driftSpeed) % 700;
-    const combinedX = (autoDriftX + (scrollPos * -0.2)) % 700;
-    noiseLayer2.style.backgroundPosition = `${combinedX}px 0px`;
-  }
-
-  // Desktop Project Card Parallax
-  if (isDesktop.matches) {
-    const screenCenter = window.innerHeight / 2;
-    document.querySelectorAll('.project-row').forEach(row => {
-      const imgWrapper = row.querySelector('.img-wrapper');
-      if (!imgWrapper) return;
-      const rect = row.getBoundingClientRect();
-      const rowCenter = rect.top + (rect.height / 2);
-      const parallaxY = (rowCenter - screenCenter) * 0.08;
-      imgWrapper.style.transform = `translateY(${parallaxY}px)`;
-    });
-  }
+function handleCardParallax() {
+  if (!isDesktop.matches) return;
+  const screenCenter = window.innerHeight / 2;
+  document.querySelectorAll('.project-row').forEach(row => {
+    const imgWrapper = row.querySelector('.img-wrapper');
+    if (!imgWrapper) return;
+    const rect = row.getBoundingClientRect();
+    const rowCenter = rect.top + (rect.height / 2);
+    const parallaxY = (rowCenter - screenCenter) * 0.06;
+    imgWrapper.style.transform = `translateY(${parallaxY}px)`;
+  });
 }
 
-function engineLoop() {
-  if (!isTabVisible) {
-    animationFrameId = null;
-    return;
-  }
-  renderBackground();
-  animationFrameId = requestAnimationFrame(engineLoop);
-}
-
-// Battery-saving listener: pause animation when browser tab is inactive
-document.addEventListener('visibilitychange', () => {
-  isTabVisible = !document.hidden;
-  if (isTabVisible && !animationFrameId) {
-    animationFrameId = requestAnimationFrame(engineLoop);
-  }
-});
-
-animationFrameId = requestAnimationFrame(engineLoop);
+window.addEventListener('scroll', handleCardParallax, { passive: true });
+handleCardParallax();

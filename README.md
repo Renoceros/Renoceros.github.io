@@ -12,13 +12,14 @@ Live Site: [https://renoceros.github.io](https://renoceros.github.io)
 
 This repository is engineered with zero-bloat web craftsmanship:
 - **Zero-Bloat Front-End:** Native vanilla JavaScript, Bootstrap 5 grid primitives, custom Apple Human Interface Guidelines (HIG) CSS design tokens.
-- **Hardware-Accelerated 2-Layer Noise Engine:** Multi-octave SVG fractal noise layers running with hardware-accelerated transforms and background-position drift. Zero WebGL overhead, zero GPU lockup, battery-saving RAF loop.
+- **Dedicated Apple Developer Academy Section:** Highlights 10 months of Challenge-Based Learning (CBL), multicultural 6-developer squad leadership, and fieldwork sprints in Bali.
 - **Interactive Project Carousels:** Multi-image carousels embedded inside each technical project card showcasing live UI, fieldwork photos, and architectural studies.
 - **High Contrast Accessibility:** High-contrast `--text-muted` tokens exceeding WCAG 2.1 AA specifications (6.2:1 contrast ratio in dark mode).
 - **Google Material Symbols:** Vector symbols for theme toggling (`light_mode` / `dark_mode`), section identifiers, and navigation actions.
 - **Keyboard Shortcuts:**
   - `T`: Toggle light / dark theme
   - `P` / `W` / `S`: Jump to Systems
+  - `D`: Jump to Apple Developer Academy
   - `I`: Jump to Invariants
   - `A`: Jump to Profile & Terminal
   - `C`: Download Executive CV
