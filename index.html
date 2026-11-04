@@ -26,7 +26,7 @@
 </head>
 <body>
 
-  <!-- Animated 2-Layer Noise Background (Hardware Accelerated, Zero WebGL Overhead) -->
+  <!-- Animated 2-Layer Noise Background (Hardware Accelerated, Smooth Parallax Drift) -->
   <div class="bg-noise-container" aria-hidden="true">
     <div class="bg-noise-layer-1" id="noiseLayer1"></div>
     <div class="bg-noise-layer-2" id="noiseLayer2"></div>
@@ -35,10 +35,7 @@
   <!-- Top Navigation -->
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container px-4">
-      <a class="navbar-brand fw-bold" href="#">
-        <span class="material-symbols-outlined text-success" style="font-size: 22px;">terminal</span>
-        <span>Renoceros</span>
-      </a>
+      <a class="navbar-brand fw-bold" href="#">Renoceros<span>.</span></a>
 
       <button class="navbar-toggler border-0 shadow-none text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -50,7 +47,7 @@
             <a class="nav-link" href="#projects">Systems</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#exhibitions">Exhibitions</a>
+            <a class="nav-link" href="#exhibitions">Fieldwork</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#invariants">Invariants</a>
@@ -278,55 +275,84 @@
     </div>
   </main>
 
-  <!-- Exhibitions Section -->
+  <!-- Fieldwork & Showcase Carousel Section -->
   <section id="exhibitions" class="container py-5 my-5">
     <div class="section-header text-center reveal-bottom">
       <span class="section-label">
         <span class="material-symbols-outlined">visibility</span>
         <span>Fieldwork &amp; Showcase</span>
       </span>
-      <h2 class="section-heading">Exhibitions &amp; Studio Lab</h2>
+      <h2 class="section-heading">Exhibitions &amp; Fieldwork</h2>
       <div class="section-divider"></div>
     </div>
 
-    <div class="row g-4">
-      <div class="col-md-4 reveal-left">
-        <div class="exhibition-card">
-          <div class="exhibition-thumb">
-            <img src="assets/exhibition-01.svg" alt="Apple Developer Academy Demo Day" loading="lazy">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 reveal-bottom">
+        <!-- Interactive Cycling Showcase Carousel -->
+        <div id="fieldworkCarousel" class="carousel slide carousel-fade carousel-card shadow-lg" data-bs-ride="carousel" data-bs-interval="4500">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#fieldworkCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#fieldworkCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#fieldworkCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
-          <h4 class="h5 fw-bold mb-2">Apple Academy Demo Days</h4>
-          <p class="small text-muted mb-0">
-            Demonstrated native Swift software to Apple leadership, enterprise partners, and international venture juries at Apple Developer Academy @ BINUS.
-          </p>
-        </div>
-      </div>
-      <div class="col-md-4 reveal-bottom">
-        <div class="exhibition-card">
-          <div class="exhibition-thumb">
-            <img src="assets/exhibition-02.svg" alt="Studio Lab Prototyping Sprints" loading="lazy">
+
+          <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+              <div class="carousel-img-box">
+                <img src="assets/exhibition-01.svg" class="d-block w-100" alt="Apple Developer Academy Demo Day">
+              </div>
+              <div class="carousel-caption-box p-4 p-md-5">
+                <span class="badge bg-secondary mb-2 font-mono">BATAM // COHORT DEMO DAYS</span>
+                <h3 class="h4 fw-bold mb-2">Apple Developer Academy Demo Days</h3>
+                <p class="text-muted mb-0">
+                  Demonstrated native Swift systems directly to Apple leadership, enterprise partners, and venture juries at Apple Developer Academy @ BINUS.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+              <div class="carousel-img-box">
+                <img src="assets/exhibition-02.svg" class="d-block w-100" alt="Studio Lab Prototyping Sprints">
+              </div>
+              <div class="carousel-caption-box p-4 p-md-5">
+                <span class="badge bg-secondary mb-2 font-mono">BALI // STUDIO LAB SPRINTS</span>
+                <h3 class="h4 fw-bold mb-2">Studio Lab Prototyping Sprints</h3>
+                <p class="text-muted mb-0">
+                  High-cadence engineering sprints in Bali evaluating tactile micro-interactions, CoreHaptics detent calibration, and cross-functional design architecture.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+              <div class="carousel-img-box">
+                <img src="assets/exhibition-03.svg" class="d-block w-100" alt="Spec-Driven Architecture Reviews">
+              </div>
+              <div class="carousel-caption-box p-4 p-md-5">
+                <span class="badge bg-secondary mb-2 font-mono">CODEBASE AUDIT // ARCHITECTURE CLINIC</span>
+                <h3 class="h4 fw-bold mb-2">Architecture Reviews &amp; ADR Audits</h3>
+                <p class="text-muted mb-0">
+                  Technical peer reviews auditing codebase boundaries, concurrency bottlenecks, and strict enforcement of modular domain invariants.
+                </p>
+              </div>
+            </div>
           </div>
-          <h4 class="h5 fw-bold mb-2">Studio Lab Sprints</h4>
-          <p class="small text-muted mb-0">
-            High-cadence engineering sprints in Bali evaluating tactile micro-interactions, CoreHaptics detent curves, and cross-functional design architecture.
-          </p>
-        </div>
-      </div>
-      <div class="col-md-4 reveal-right">
-        <div class="exhibition-card">
-          <div class="exhibition-thumb">
-            <img src="assets/exhibition-03.svg" alt="Architecture Critiques" loading="lazy">
-          </div>
-          <h4 class="h5 fw-bold mb-2">Architecture Reviews</h4>
-          <p class="small text-muted mb-0">
-            Technical peer reviews auditing codebase boundaries, concurrency bottlenecks, and strict enforcement of modular domain invariants.
-          </p>
+
+          <!-- Carousel Controls -->
+          <button class="carousel-control-prev custom-nav carousel-nav-btn" type="button" data-bs-target="#fieldworkCarousel" data-bs-slide="prev" aria-label="Previous slide">
+            <span class="material-symbols-outlined" style="font-size: 22px;">chevron_left</span>
+          </button>
+          <button class="carousel-control-next custom-nav carousel-nav-btn" type="button" data-bs-target="#fieldworkCarousel" data-bs-slide="next" aria-label="Next slide">
+            <span class="material-symbols-outlined" style="font-size: 22px;">chevron_right</span>
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Engineering Invariants Section -->
+  <!-- Engineering Invariants Section (Reworked to Product Development & Spec-Driven Realities) -->
   <section id="invariants" class="container py-5 my-5">
     <div class="section-header text-center reveal-bottom">
       <span class="section-label">
@@ -349,40 +375,40 @@
       </div>
       <div class="col-md-4 reveal-bottom">
         <div class="invariant-card">
-          <div class="invariant-badge">0 UI Imports</div>
-          <h4 class="h5 fw-bold mb-3">Pure Domain Isolation</h4>
+          <div class="invariant-badge">PRD &amp; TDD</div>
+          <h4 class="h5 fw-bold mb-3">Spec-Driven Engineering</h4>
           <p class="text-muted small mb-0">
-            Core mathematical engines (EcoEngine, kinematic Butterworth filters, DAG layout solvers) maintain zero dependencies on SwiftUI, UIKit, or DOM. Every domain model is 100% testable via headless, off-device test suites.
+            No premature coding. Every architecture is anchored in comprehensive Product Requirement Documents (PRDs), Technical Design Documents (TDDs), and immutable Architecture Decision Registers (such as Reefora's 38 ADRs).
           </p>
         </div>
       </div>
       <div class="col-md-4 reveal-right">
         <div class="invariant-card">
-          <div class="invariant-badge">&lt; 16.6ms</div>
-          <h4 class="h5 fw-bold mb-3">Deterministic Frame Budget</h4>
+          <div class="invariant-badge">DISCOVERY</div>
+          <h4 class="h5 fw-bold mb-3">Customer Research Grounding</h4>
           <p class="text-muted small mb-0">
-            Zero dropped frames at 60Hz and 120Hz ProMotion. All sensor ingestion, numerical integration, and storage persistence are dispatched off the main thread to dedicated Swift Actors and worker pools.
+            No assumptions. Every system is shaped by qualitative interviews, customer journey mapping, and continuous prototype testing in the field before entering production.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About & Specification Profile Section (No Personal Photos) -->
+  <!-- About & Profile Terminal Section (Restored whoami from eb603f6) -->
   <section id="about" class="container py-5 my-5 glass-node">
     <div class="p-4 p-md-5">
       <div class="section-header text-center reveal-bottom">
         <span class="section-label">
           <span class="material-symbols-outlined">badge</span>
-          <span>Architect Specification</span>
+          <span>Architect Profile</span>
         </span>
-        <h2 class="section-heading">Profile &amp; Contact</h2>
+        <h2 class="section-heading">About The Builder</h2>
         <div class="section-divider"></div>
       </div>
 
       <div class="row justify-content-center">
         <div class="col-lg-10">
-          <!-- Cupertino Terminal Specification Window -->
+          <!-- Cupertino Terminal Window Card (Exact whoami from eb603f6) -->
           <div class="terminal-window mb-5 reveal-bottom">
             <div class="terminal-header">
               <div class="terminal-dots">
@@ -390,21 +416,24 @@
                 <span class="terminal-dot dot-yellow"></span>
                 <span class="terminal-dot dot-green"></span>
               </div>
-              <span class="terminal-title">renoceros@developer-workstation:~</span>
+              <span class="terminal-title">renoceros@developer-academy:~</span>
             </div>
             <div class="terminal-body font-mono">
-              <p class="mb-3">
-                <span class="terminal-prompt">$</span> <span class="terminal-highlight">sysctl -a sys.profile</span><br>
-                <span class="terminal-dim">[SYSTEM SPECIFICATION]</span><br>
-                <span class="terminal-dim">Architect       : Moreno Kristovan (Alias: Renoceros)</span><br>
-                <span class="terminal-dim">Credentials     : Apple Developer Academy Graduate, Computer Science B.S.</span><br>
-                <span class="terminal-dim">Core Paradigms  : Deterministic State Automata, Strict Concurrency (Swift 6), Pure Domain TDD</span><br>
-                <span class="terminal-dim">Toolchain       : Swift 6, Python, Metal / MSL, TypeScript, PyTorch, CoreHaptics</span><br>
-                <span class="terminal-dim">Hardware Targets: Apple Silicon (M-Series / A-Series), iOS/iPadOS, Embedded Touch &amp; IMU</span>
+              <p class="mb-2">
+                <span class="terminal-prompt">$</span> <span class="terminal-highlight">whoami --verbose</span><br>
+                <span class="terminal-dim">&gt; Moreno Kristovan (Alias: Renoceros)</span><br>
+                <span class="terminal-dim">&gt; Role: Technical Product Architect &amp; Systems Engineer</span><br>
+                <span class="terminal-dim">&gt; Background: Apple Developer Academy Graduate</span>
+              </p>
+              <p class="mb-2">
+                <span class="terminal-prompt">$</span> <span class="terminal-highlight">cat ~/.tech_stack</span><br>
+                <span class="terminal-dim">&gt; Languages: Swift 6, Python, Metal Shading Language, C++</span><br>
+                <span class="terminal-dim">&gt; Domains: Native Apple Systems, Computer Vision (6DoF), Developer Tooling</span><br>
+                <span class="terminal-dim">&gt; Discipline: Apple HIG, &lt;300 LOC Invariants, Spec-Driven Development</span>
               </p>
               <p class="mb-0">
-                <span class="terminal-prompt">$</span> <span class="terminal-highlight">cat ~/.architectural_postulate</span><br>
-                <span class="text-success">&gt; "High-performance software is created by constraint: strict memory ownership, mathematical formulations over runtime bloat, and interfaces designed for human touch."</span>
+                <span class="terminal-prompt">$</span> <span class="terminal-highlight">echo $ETHOS</span><br>
+                <span class="text-success">&gt; "I build tools. Not websites. Focused on high-leverage workflows and uncompromised craft."</span>
               </p>
             </div>
           </div>

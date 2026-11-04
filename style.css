@@ -16,7 +16,7 @@
   --accent-glow: rgba(12, 75, 28, 0.2);
   --badge-bg: #e5e5ea;
   --badge-text: #1d1d1f;
-  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.75);
   --card-border: rgba(0, 0, 0, 0.08);
   --terminal-bg: #1c1d22;
   --terminal-text: #f0f0f5;
@@ -27,12 +27,12 @@
   --bs-body-color: var(--text-color);
 
   /* Glass Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.8);
 
   /* 2-Layer Noise Settings (Light Mode) */
-  --noise-opacity-1: 0.22;
-  --noise-opacity-2: 0.12;
+  --noise-opacity-1: 0.38;
+  --noise-opacity-2: 0.22;
   --noise-blend: multiply;
 }
 
@@ -47,7 +47,7 @@
   --accent-glow: rgba(42, 128, 61, 0.3);
   --badge-bg: #1c1e24;
   --badge-text: #e6edf3;
-  --card-bg: rgba(20, 23, 30, 0.7);
+  --card-bg: rgba(20, 23, 30, 0.75);
   --card-border: rgba(255, 255, 255, 0.09);
   --terminal-bg: #0a0b0e;
   --terminal-text: #e6edf3;
@@ -58,13 +58,13 @@
   --bs-body-color: var(--text-color);
 
   /* Glass Tokens */
-  --glass-bg: rgba(22, 25, 34, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(22, 25, 34, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.12);
 
   /* 2-Layer Noise Settings (Dark Mode) */
-  --noise-opacity-1: 0.18;
-  --noise-opacity-2: 0.08;
-  --noise-blend: screen;
+  --noise-opacity-1: 0.28;
+  --noise-opacity-2: 0.16;
+  --noise-blend: overlay;
 }
 
 /* Base Document Setup */
@@ -96,12 +96,13 @@ body {
 }
 
 /* --- ANIMATED 2-LAYER NOISE BACKGROUND --- */
+/* Placed at z-index: 0 on top of body bg, below content (z-index: 2) */
 .bg-noise-container {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
 }
@@ -114,8 +115,8 @@ body {
   top: -50%;
   left: -50%;
   background-repeat: repeat;
-  background-size: 1600px 1600px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1600 1600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter1)'/%3E%3C/svg%3E");
+  background-size: 1400px 1400px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1400 1400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter1)'/%3E%3C/svg%3E");
   filter: grayscale(1);
   opacity: var(--noise-opacity-1);
   mix-blend-mode: var(--noise-blend);
@@ -131,13 +132,19 @@ body {
   width: 100%;
   height: 100%;
   background-repeat: repeat;
-  background-size: 900px 900px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 900 900' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E");
+  background-size: 700px 700px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 700 700' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E");
   filter: grayscale(1);
   opacity: var(--noise-opacity-2);
   mix-blend-mode: var(--noise-blend);
   transition: opacity 0.5s ease;
   will-change: background-position;
+}
+
+/* Elevate all content sections above noise layer */
+header, main, section, footer {
+  position: relative;
+  z-index: 2;
 }
 
 /* Typography Helpers */
@@ -180,6 +187,7 @@ body {
   transition: background-color 0.5s cubic-bezier(0.25, 1, 0.5, 1),
               border-color 0.5s ease;
   z-index: 1030;
+  position: relative;
 }
 
 .navbar-brand {
@@ -187,9 +195,6 @@ body {
   font-size: 1.25rem;
   letter-spacing: -0.02em;
   color: var(--text-color) !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
 }
 
 .navbar-brand span {
@@ -356,8 +361,8 @@ body {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 28px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
   transition: background-color 0.5s ease, border-color 0.5s ease;
 }
@@ -559,46 +564,94 @@ body {
   transform: translateY(-1px);
 }
 
-/* Exhibition Cards */
-.exhibition-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 1.5rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.exhibition-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
-}
-
-.exhibition-thumb {
-  border-radius: 12px;
+/* --- FIELDWORK CAROUSEL --- */
+.carousel-card {
+  border-radius: 24px;
   overflow: hidden;
-  margin-bottom: 1.25rem;
-  aspect-ratio: 16 / 10;
-  background-color: #12151b;
+  border: 1px solid var(--card-border);
+  background-color: var(--card-bg);
 }
 
-.exhibition-thumb img {
+.carousel-img-box {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #0d1117;
+  position: relative;
+}
+
+.carousel-img-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
+.carousel-caption-box {
+  background: linear-gradient(180deg, rgba(12, 13, 16, 0.8) 0%, rgba(12, 13, 16, 0.96) 100%);
+  border-top: 1px solid var(--card-border);
+}
+
+[data-theme="light"] .carousel-caption-box {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.98) 100%);
+}
+
+.carousel-nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 10;
+  opacity: 0.85;
+}
+
+.carousel-nav-btn:hover {
+  background-color: var(--badge-bg);
+  opacity: 1;
+  color: var(--accent-light);
+}
+
+.carousel-control-prev.custom-nav { left: 18px; }
+.carousel-control-next.custom-nav { right: 18px; }
+
+.carousel-indicators [data-bs-target] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 4px;
+  background-color: var(--text-muted);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.carousel-indicators .active {
+  width: 24px;
+  border-radius: 12px;
+  background-color: var(--accent-light);
+  opacity: 1;
+}
+
 /* Engineering Invariants Cards */
 .invariant-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 2rem;
   height: 100%;
   transition: transform 0.3s ease;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 .invariant-card:hover {
@@ -606,7 +659,7 @@ body {
 }
 
 .invariant-badge {
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: var(--accent-light);
   line-height: 1;
@@ -614,7 +667,7 @@ body {
   font-family: "SF Mono", monospace;
 }
 
-/* Terminal Specification Profile (No Photo) */
+/* Terminal Specification Window (No Photo) */
 .terminal-window {
   background-color: var(--terminal-bg);
   color: var(--terminal-text);
