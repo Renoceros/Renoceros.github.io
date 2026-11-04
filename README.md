@@ -13,25 +13,25 @@ Live Site: [https://renoceros.github.io](https://renoceros.github.io)
 This repository is engineered with zero-bloat web craftsmanship:
 - **Zero-Bloat Front-End:** Native vanilla JavaScript, Bootstrap 5 grid primitives, custom Apple Human Interface Guidelines (HIG) CSS design tokens.
 - **Hardware-Accelerated 2-Layer Noise Engine:** Multi-octave SVG fractal noise layers running with hardware-accelerated transforms and background-position drift. Zero WebGL overhead, zero GPU lockup, battery-saving RAF loop.
+- **Interactive Project Carousels:** Multi-image carousels embedded inside each technical project card showcasing live UI, fieldwork photos, and architectural studies.
 - **High Contrast Accessibility:** High-contrast `--text-muted` tokens exceeding WCAG 2.1 AA specifications (6.2:1 contrast ratio in dark mode).
 - **Google Material Symbols:** Vector symbols for theme toggling (`light_mode` / `dark_mode`), section identifiers, and navigation actions.
 - **Keyboard Shortcuts:**
   - `T`: Toggle light / dark theme
   - `P` / `W` / `S`: Jump to Systems
-  - `E`: Jump to Exhibitions
   - `I`: Jump to Invariants
   - `A`: Jump to Profile & Terminal
   - `C`: Download Executive CV
 
 ---
 
-## 2. Featured Systems
+## 2. Featured Systems & In-Card Carousels
 
-1. **StereoPose 6D**: Continuous 6DoF spatial object pose estimation from stereo camera pairs via $SO(3)$ manifold projection.
-2. **BetterGitGraph**: Published VS Code extension rendering Git commit DAGs with hash-deterministic branch coloring and Bézier layouts.
+1. **StereoPose 6D**: Continuous 6DoF spatial object pose estimation from stereo camera pairs via $SO(3)$ manifold projection. Includes thesis defense & architecture review slides.
+2. **BetterGitGraph**: Published VS Code extension rendering Git commit DAGs with hash-deterministic branch coloring and Bézier layouts. Includes interactive graph and ref search filter slides.
 3. **AI-TL**: End-to-end multimodal localization pipeline coordinating text detection, inpainting, and cross-panel LLM dialogue disambiguation.
-4. **Hapticle**: Physical force simulation engine on 120Hz `CADisplayLink` coordinating CoreHaptics transients with procedural sound synthesis.
-5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs.
+4. **Hapticle**: Physical force simulation engine on 120Hz `CADisplayLink` coordinating CoreHaptics transients with procedural sound synthesis. Includes transient waveforms and physical safe dial mechanical study slides.
+5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs. Includes 2.5D sandbox model, Apple Academy Demo Day showcase, and Bali Living Seas sprint slides.
 
 ---
 
@@ -49,13 +49,15 @@ Renoceros.github.io/
 └── assets/
     ├── Moreno_Kristovan_CV.pdf       # Executive curriculum vitae
     ├── bettergitgraph-preview.jpeg   # BetterGitGraph VS Code Extension screenshot
+    ├── bettergitgraph-search.jpeg    # BetterGitGraph search & ref filter view
     ├── stereopose-preview.svg        # StereoPose 6D CV thesis vector preview
     ├── translate-preview.svg         # AI-TL Localization Pipeline vector preview
     ├── hapticle-preview.svg          # Hapticle Tactile Engine vector preview
+    ├── hapticle-dial.jpeg            # Hapticle Safe Dial mechanical study
     ├── reefora-preview.svg           # Reefora 2.5D Marine Sandbox vector preview
-    ├── exhibition-01.svg             # Apple Academy Demo Day vector preview
-    ├── exhibition-02.svg             # Studio Lab & Bali Sprints vector preview
-    └── exhibition-03.svg             # Architecture Reviews vector preview
+    ├── exhibition-01.svg             # Apple Academy Demo Day preview (in Reefora carousel)
+    ├── exhibition-02.svg             # Living Seas Bali Fieldwork preview (in Reefora carousel)
+    └── exhibition-03.svg             # Architecture Clinic preview (in StereoPose carousel)
 ```
 
 ---

@@ -446,7 +446,7 @@ header, main, section, footer {
   border: 1px solid var(--card-border);
 }
 
-/* Image Wrapper with YOLO Corner Brackets */
+/* Image Wrapper with YOLO Corner Brackets & Embedded Project Carousel */
 .img-wrapper {
   overflow: hidden;
   border-radius: 16px;
@@ -455,6 +455,13 @@ header, main, section, footer {
   border: 1px solid var(--card-border);
   background-color: #0d1117;
   aspect-ratio: 16 / 10;
+}
+
+.img-wrapper .carousel,
+.img-wrapper .carousel-inner,
+.img-wrapper .carousel-item {
+  width: 100%;
+  height: 100%;
 }
 
 .img-wrapper img {
@@ -485,7 +492,7 @@ header, main, section, footer {
   border: 2px solid var(--accent-light);
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   opacity: 0;
-  z-index: 5;
+  z-index: 15;
   pointer-events: none;
 }
 
@@ -526,13 +533,96 @@ header, main, section, footer {
   opacity: 0;
   transform: translateY(-8px);
   transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: 10;
+  z-index: 16;
   pointer-events: none;
 }
 
 .img-wrapper:hover .cv-tag {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Slide Caption Overlay Tag inside Project Carousel */
+.slide-caption-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-family: "SF Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background-color: rgba(10, 12, 16, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f5f5f7;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 14;
+  pointer-events: none;
+}
+
+/* Mini Carousel Navigation Controls */
+.mini-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(12, 13, 16, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #f5f5f7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease, background-color 0.2s ease, transform 0.2s ease;
+  z-index: 15;
+  cursor: pointer;
+  padding: 0;
+}
+
+.img-wrapper:hover .mini-carousel-nav {
+  opacity: 1;
+}
+
+.mini-carousel-nav:hover {
+  background-color: rgba(12, 13, 16, 0.95);
+  color: var(--accent-light);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.mini-prev { left: 10px; }
+.mini-next { right: 10px; }
+
+/* Subtle Indicators at bottom-right of project card */
+.project-carousel-indicators {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  left: auto;
+  margin: 0;
+  display: flex;
+  gap: 4px;
+  z-index: 14;
+}
+
+.project-carousel-indicators [data-bs-target] {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.45);
+  border: none;
+  opacity: 0.6;
+  transition: all 0.25s ease;
+  padding: 0;
+}
+
+.project-carousel-indicators .active {
+  width: 16px;
+  border-radius: 8px;
+  background-color: var(--accent-light);
+  opacity: 1;
 }
 
 /* Action Links */
@@ -564,83 +654,7 @@ header, main, section, footer {
   transform: translateY(-1px);
 }
 
-/* --- FIELDWORK CAROUSEL --- */
-.carousel-card {
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid var(--card-border);
-  background-color: var(--card-bg);
-}
 
-.carousel-img-box {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background-color: #0d1117;
-  position: relative;
-}
-
-.carousel-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.carousel-caption-box {
-  background: linear-gradient(180deg, rgba(12, 13, 16, 0.8) 0%, rgba(12, 13, 16, 0.96) 100%);
-  border-top: 1px solid var(--card-border);
-}
-
-[data-theme="light"] .carousel-caption-box {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.98) 100%);
-}
-
-.carousel-nav-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  color: var(--text-color);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  z-index: 10;
-  opacity: 0.85;
-}
-
-.carousel-nav-btn:hover {
-  background-color: var(--badge-bg);
-  opacity: 1;
-  color: var(--accent-light);
-}
-
-.carousel-control-prev.custom-nav { left: 18px; }
-.carousel-control-next.custom-nav { right: 18px; }
-
-.carousel-indicators [data-bs-target] {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 0 4px;
-  background-color: var(--text-muted);
-  opacity: 0.5;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.carousel-indicators .active {
-  width: 24px;
-  border-radius: 12px;
-  background-color: var(--accent-light);
-  opacity: 1;
-}
 
 /* Engineering Invariants Cards */
 .invariant-card {

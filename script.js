@@ -100,8 +100,6 @@ window.addEventListener('keydown', (e) => {
     applyTheme(active === 'dark' ? 'light' : 'dark');
   } else if (key === 'p' || key === 'w' || key === 's') {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-  } else if (key === 'e') {
-    document.getElementById('exhibitions')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'i') {
     document.getElementById('invariants')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'a') {
