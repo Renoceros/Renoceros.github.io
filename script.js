@@ -1,49 +1,48 @@
 /* ==========================================================================
    RENOCEROS PORTFOLIO ENGINE — script.js
-   Architecture: Moreno Kristovan Portfolio Core
-   Stack: WebGL SDF Glass, Intersection Observer, Apple HIG Theme Engine
+   Author: Moreno Kristovan
+   Stack: Vanilla ES6+, WebGL SDF Shaders, IntersectionObserver
    ========================================================================== */
 
 /* 1. THEME ENGINE & PERSISTENCE */
-const themesColors = {
+const themePalette = {
   light: { bg: [248/255, 249/255, 250/255], noise: [225/255, 230/255, 235/255] },
-  dark:  { bg: [18/255, 18/255, 18/255],   noise: [35/255, 38/255, 42/255] }
+  dark:  { bg: [12/255, 13/255, 16/255],     noise: [28/255, 32/255, 38/255] }
 };
 
-const toggleBtn = document.getElementById('themeToggle');
-const icon = toggleBtn ? toggleBtn.querySelector('.icon') : null;
 const html = document.documentElement;
+const toggleBtn = document.getElementById('themeToggle');
+const themeIcon = toggleBtn ? toggleBtn.querySelector('.icon') : null;
 
 const savedTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-let currentThemeCols = themesColors.light;
+let currentThemeCols = themePalette.dark;
 
-function setTheme(theme) {
+function applyTheme(theme) {
   html.setAttribute('data-theme', theme);
-  if (icon) {
-    icon.textContent = theme === 'light' ? '🌞' : '🌜';
-  }
   localStorage.setItem('theme', theme);
-  currentThemeCols = themesColors[theme] || themesColors.light;
+  if (themeIcon) {
+    themeIcon.textContent = theme === 'dark' ? '🌞' : '🌜';
+  }
+  currentThemeCols = themePalette[theme] || themePalette.dark;
 }
 
-if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-  setTheme('dark');
+if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+  applyTheme('light');
 } else {
-  setTheme('light');
+  applyTheme('dark');
 }
 
 if (toggleBtn) {
   toggleBtn.addEventListener('click', () => {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
+    const active = html.getAttribute('data-theme');
+    applyTheme(active === 'dark' ? 'light' : 'dark');
   });
 }
 
 
-/* 2. SCROLL REVEAL OBSERVER */
+/* 2. SCROLL ENTRANCE REVEAL (Observer) */
 const observerOptions = {
   root: null,
   threshold: 0.12,
@@ -69,24 +68,24 @@ document.querySelectorAll('.reveal-left, .reveal-right, .reveal-bottom').forEach
 const logo = document.getElementById('repelLogo');
 
 if (logo) {
-  const handleRepel = (clientX, clientY) => {
+  const repelMath = (clientX, clientY) => {
     const rect = logo.getBoundingClientRect();
     const x = clientX - rect.left - (rect.width / 2);
     const y = clientY - rect.top - (rect.height / 2);
-    // Move -2.5% away from cursor
+    // Repel by -2.5% of mouse delta
     const moveX = x * -0.025;
     const moveY = y * -0.025;
     logo.style.transform = `translate(${moveX}px, ${moveY}px)`;
   };
 
-  logo.addEventListener('mousemove', (e) => handleRepel(e.clientX, e.clientY));
+  logo.addEventListener('mousemove', (e) => repelMath(e.clientX, e.clientY));
   logo.addEventListener('mouseleave', () => {
     logo.style.transform = 'translate(0px, 0px)';
   });
 
   logo.addEventListener('touchmove', (e) => {
     if (e.touches && e.touches[0]) {
-      handleRepel(e.touches[0].clientX, e.touches[0].clientY);
+      repelMath(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, { passive: true });
 
@@ -96,52 +95,24 @@ if (logo) {
 }
 
 
-/* 4. SYSTEM HUD & TELEMETRY */
-const hudTrigger = document.getElementById('hudTrigger');
-const hudModalEl = document.getElementById('hudModal');
-const hudDpr = document.getElementById('hudDpr');
-
-function updateDprTelemetry() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
-  if (hudDpr) {
-    hudDpr.textContent = dpr.toFixed(1) + 'x';
-  }
-}
-updateDprTelemetry();
-
-if (hudTrigger && hudModalEl) {
-  hudTrigger.addEventListener('click', () => {
-    if (window.bootstrap && window.bootstrap.Modal) {
-      const modal = window.bootstrap.Modal.getOrCreateInstance(hudModalEl);
-      modal.show();
-    }
-  });
-}
-
-
-/* 5. KEYBOARD COMMAND NAVIGATION */
+/* 4. KEYBOARD COMMAND NAVIGATION */
 window.addEventListener('keydown', (e) => {
-  // Ignore keystrokes when typing into input or textarea
   if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable) {
     return;
   }
 
   const key = e.key.toLowerCase();
-
   if (key === 't') {
-    const currentTheme = html.getAttribute('data-theme');
-    setTheme(currentTheme === 'light' ? 'dark' : 'light');
-  } else if (key === 'w') {
+    const active = html.getAttribute('data-theme');
+    applyTheme(active === 'dark' ? 'light' : 'dark');
+  } else if (key === 'p' || key === 'w') {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'e') {
     document.getElementById('exhibitions')?.scrollIntoView({ behavior: 'smooth' });
+  } else if (key === 'i') {
+    document.getElementById('invariants')?.scrollIntoView({ behavior: 'smooth' });
   } else if (key === 'a') {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-  } else if (key === 'h' || key === '?') {
-    if (hudModalEl && window.bootstrap && window.bootstrap.Modal) {
-      const modal = window.bootstrap.Modal.getOrCreateInstance(hudModalEl);
-      modal.show();
-    }
   } else if (key === 'c') {
     const cvLink = document.querySelector('a[href$="Moreno_Kristovan_CV.pdf"]');
     if (cvLink) cvLink.click();
@@ -149,7 +120,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 
-/* 6. WEBGL LIQUID GLASS & PROCEDURAL BACKGROUND ENGINE */
+/* 5. WEBGL LIQUID GLASS & PROCEDURAL ENGINE */
 const glCanvas = document.getElementById('glCanvas');
 let gl = null;
 let prog = null;
@@ -163,7 +134,7 @@ if (glCanvas) {
     gl = glCanvas.getContext('webgl', { antialias: true, alpha: false }) ||
          glCanvas.getContext('experimental-webgl', { antialias: true, alpha: false });
   } catch (err) {
-    console.warn('[WebGL] Initialization failed, relying on CSS glass fallback:', err);
+    console.warn('[WebGL] Context creation error, using CSS glass fallback:', err);
     gl = null;
   }
 
@@ -275,7 +246,6 @@ if (glCanvas) {
         vec2 sampleUV = fragUV + zoomedUV * 0.08 * thick + refrOffset;
         
         vec2 caDir = normalize(localUV + 0.001);
-        
         vec2 frostOffset = (vec2(rand(fragUV * 10.0), rand(fragUV * 10.0 + 1.0)) - 0.5) * (u_frostBlur * 0.05);
         sampleUV += frostOffset;
 
@@ -360,7 +330,7 @@ if (glCanvas) {
      'u_caFalloff','u_gloss','u_specInt','u_rim','u_tintAlpha','u_opacity','u_nodeCount'].forEach(n => {
       U[n] = gl.getUniformLocation(prog, n);
     });
-    
+
     U.u_nodes = Array.from({length:8}, (_,i) => gl.getUniformLocation(prog, `u_nodes[${i}]`));
     U.u_nodeThick = Array.from({length:8}, (_,i) => gl.getUniformLocation(prog, `u_nodeThick[${i}]`));
 
@@ -368,7 +338,6 @@ if (glCanvas) {
       const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
       glCanvas.width = Math.floor(window.innerWidth * dpr);
       glCanvas.height = Math.floor(window.innerHeight * dpr);
-      updateDprTelemetry();
     }
 
     window.addEventListener('resize', resizeCanvas);
@@ -377,41 +346,40 @@ if (glCanvas) {
 }
 
 
-/* 7. COMBINED ENGINE & RENDER LOOP WITH BATTERY-SAVER SLEEP */
+/* 6. ENGINE LOOP WITH TAB VISIBILITY SLEEP */
 let isTabVisible = !document.hidden;
 let animationFrameId = null;
 
 function renderFrame() {
   const scrollPos = window.scrollY;
 
-  // Parallax calculations for desktop
+  // HTML Parallax updates on desktop
   if (isDesktop.matches) {
     const screenCenter = window.innerHeight / 2;
     document.querySelectorAll('.project-row').forEach(row => {
       const imgWrapper = row.querySelector('.img-wrapper');
       if (!imgWrapper) return;
       const rect = row.getBoundingClientRect();
-      imgWrapper.style.transform = `translateY(${((rect.top + (rect.height / 2)) - screenCenter) * 0.12}px)`;
+      imgWrapper.style.transform = `translateY(${((rect.top + (rect.height / 2)) - screenCenter) * 0.1}px)`;
     });
   }
 
-  // WebGL Shader Pass
+  // WebGL Render Pass
   if (gl && prog) {
     const W = glCanvas.width, H = glCanvas.height;
     gl.viewport(0, 0, W, H);
-    
+
     gl.uniform2f(U.u_res, W, H);
     gl.uniform1f(U.u_time, (performance.now() - startTime) / 1000.0);
     gl.uniform1f(U.u_scrollY, scrollPos);
-    
+
     gl.uniform3f(U.u_bgColor, currentThemeCols.bg[0], currentThemeCols.bg[1], currentThemeCols.bg[2]);
     gl.uniform3f(U.u_noiseColor, currentThemeCols.noise[0], currentThemeCols.noise[1], currentThemeCols.noise[2]);
-    
-    // Apple Glass Calibration Parameters
+
     gl.uniform1f(U.u_ior, 1.6);
     gl.uniform1f(U.u_thickness, 0.85);
     gl.uniform1f(U.u_feather, 0.03);
-    gl.uniform1f(U.normalStr || U.u_normalStr, 0.24);
+    gl.uniform1f(U.u_normalStr, 0.24);
     gl.uniform1f(U.u_frostBlur, 0.31);
     gl.uniform1f(U.u_grain, 0.005);
     gl.uniform1f(U.u_fisheye, 0.24);
@@ -423,10 +391,9 @@ function renderFrame() {
     gl.uniform1f(U.u_rim, 0.03);
     gl.uniform1f(U.u_tintAlpha, 0.0);
     gl.uniform1f(U.u_opacity, 1.0);
-    
+
     gl.uniform1i(U.u_nodeCount, glassNodes.length);
 
-    // Pass viewport-relative bounding boxes (normalized 0..1)
     const winW = window.innerWidth;
     const winH = window.innerHeight;
     glassNodes.forEach((el, i) => {
@@ -449,7 +416,6 @@ function engineLoop() {
   animationFrameId = requestAnimationFrame(engineLoop);
 }
 
-// Battery saving: pause when tab is inactive, resume on return
 document.addEventListener('visibilitychange', () => {
   isTabVisible = !document.hidden;
   if (isTabVisible && !animationFrameId) {
@@ -458,5 +424,4 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// Kick off engine loop
 animationFrameId = requestAnimationFrame(engineLoop);

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="f1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e14" />
+      <stop offset="100%" stop-color="#182230" />
+    </linearGradient>
+    <linearGradient id="speedGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e10600" />
+      <stop offset="50%" stop-color="#ff8700" />
+      <stop offset="100%" stop-color="#00d2be" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="16" fill="url(#f1Grad)" stroke="#223246" stroke-width="2" />
+  
+  <!-- Telemetry Grid -->
+  <g opacity="0.15">
+    <line x1="60" y1="100" x2="740" y2="100" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="60" y1="180" x2="740" y2="180" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="60" y1="260" x2="740" y2="260" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="60" y1="340" x2="740" y2="340" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="200" y1="60" x2="200" y2="420" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="400" y1="60" x2="400" y2="420" stroke="#fff" stroke-dasharray="4,4" />
+    <line x1="600" y1="60" x2="600" y2="420" stroke="#fff" stroke-dasharray="4,4" />
+  </g>
+
+  <!-- Telemetry Trace Lines -->
+  <!-- Speed trace -->
+  <path d="M 80 340 Q 150 330 220 140 T 360 220 T 480 120 T 620 310 T 720 160" fill="none" stroke="url(#speedGrad)" stroke-width="4" stroke-linecap="round" />
+  <!-- Throttle trace -->
+  <path d="M 80 400 L 160 400 L 180 370 L 260 370 L 290 410 L 420 370 L 520 370 L 540 415 L 680 370 L 720 370" fill="none" stroke="#2a803d" stroke-width="2.5" opacity="0.8" />
+  <!-- Brake trace -->
+  <path d="M 80 430 L 160 430 L 170 385 L 185 430 L 515 430 L 525 385 L 538 430 L 720 430" fill="none" stroke="#ff3b30" stroke-width="2.5" opacity="0.8" />
+
+  <!-- Data Readouts HUD -->
+  <rect x="60" y="50" width="220" height="40" rx="8" fill="#111822" stroke="#28384a" />
+  <circle cx="80" cy="70" r="5" fill="#e10600" />
+  <text x="95" y="75" font-family="-apple-system, monospace" font-size="13" font-weight="700" fill="#f5f5f7">F1 TELEMETRY // SECTOR 2</text>
+
+  <rect x="580" y="50" width="160" height="40" rx="8" fill="#111822" stroke="#28384a" />
+  <text x="595" y="75" font-family="-apple-system, monospace" font-size="12" fill="#00d2be">SPEED: 318.4 KM/H</text>
+
+  <!-- Legend -->
+  <g transform="translate(60, 460)" font-family="-apple-system, monospace" font-size="11">
+    <circle cx="5" cy="5" r="4" fill="#ff8700" />
+    <text x="16" y="9" fill="#86868b">Velocity (km/h)</text>
+    <circle cx="150" cy="5" r="4" fill="#2a803d" />
+    <text x="161" y="9" fill="#86868b">Throttle %</text>
+    <circle cx="270" cy="5" r="4" fill="#ff3b30" />
+    <text x="281" y="9" fill="#86868b">Brake Pressure</text>
+    <text x="550" y="9" fill="#48484a">FASTF1 • PANDAS • SEABORN</text>
+  </g>
+</svg>
