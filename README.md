@@ -1,6 +1,6 @@
 # Renoceros.github.io
 
-Official personal portfolio and technical showcase of **Moreno Kristovan** (Renoceros) — Apple Developer Academy Graduate, Technical Product Architect & Systems Engineer.
+Official personal portfolio and technical showcase of **Moreno Kristovan** (Renoceros) — Apple Developer Academy Graduate, Systems Engineer & Technical Product Architect.
 
 Live Site: [https://renoceros.github.io](https://renoceros.github.io)
 
@@ -12,50 +12,51 @@ Live Site: [https://renoceros.github.io](https://renoceros.github.io)
 
 This repository is engineered with zero-bloat web craftsmanship:
 - **Zero-Bloat Front-End:** Native vanilla JavaScript, Bootstrap 5 grid primitives, custom Apple Human Interface Guidelines (HIG) CSS design tokens.
-- **WebGL SDF Liquid Glass Engine:** Real-time signed distance field (SDF) refraction shader simulating frosted optical glass and chromatic aberration mapped to DOM element bounding boxes.
-- **Battery-Saving Telemetry:** WebGL rendering loop pauses automatically via `visibilitychange` when tabs are backgrounded.
-- **Retina Crispness:** Viewport resolution scales dynamically up to 2.0x DPR with device-pixel matching.
+- **Hardware-Accelerated 2-Layer Noise Engine:** Multi-octave SVG fractal noise layers running with hardware-accelerated transforms and background-position drift. Zero WebGL overhead, zero GPU lockup, battery-saving RAF loop.
+- **High Contrast Accessibility:** High-contrast `--text-muted` tokens exceeding WCAG 2.1 AA specifications (6.2:1 contrast ratio in dark mode).
+- **Google Material Symbols:** Vector symbols for theme toggling (`light_mode` / `dark_mode`), section identifiers, and navigation actions.
 - **Keyboard Shortcuts:**
   - `T`: Toggle light / dark theme
-  - `P` or `W`: Jump to Projects
+  - `P` / `W` / `S`: Jump to Systems
   - `E`: Jump to Exhibitions
   - `I`: Jump to Invariants
-  - `A`: Jump to About & Terminal
+  - `A`: Jump to Profile & Terminal
   - `C`: Download Executive CV
 
 ---
 
-## 2. Directory Structure
+## 2. Featured Systems
+
+1. **StereoPose 6D**: Continuous 6DoF spatial object pose estimation from stereo camera pairs via $SO(3)$ manifold projection.
+2. **BetterGitGraph**: Published VS Code extension rendering Git commit DAGs with hash-deterministic branch coloring and Bézier layouts.
+3. **AI-TL**: End-to-end multimodal localization pipeline coordinating text detection, inpainting, and cross-panel LLM dialogue disambiguation.
+4. **Hapticle**: Physical force simulation engine on 120Hz `CADisplayLink` coordinating CoreHaptics transients with procedural sound synthesis.
+5. **Reefora**: 2.5D tactile marine restoration sandbox built for Living Seas Bali, backed by a pure Swift `EcoEngine` domain package and 38 immutable ADRs.
+
+---
+
+## 3. Directory Structure
 
 ```
 Renoceros.github.io/
 ├── index.html            # Clean single-page application structure
-├── style.css             # Apple HIG design system, glass tokens & typography
-├── script.js             # WebGL SDF engine, repel physics, shortcuts & theme engine
+├── style.css             # Apple HIG design system, glass tokens & 2-layer noise engine
+├── script.js             # 2-layer noise engine, repel physics, shortcuts & theme engine
 ├── icon.svg              # Brandmark vector asset (interactive repel)
 ├── robots.txt            # Search crawler directives
 ├── sitemap.xml           # Search engine sitemap
 ├── ASSET_CHECKLIST.md    # High-resolution asset drop specification
 └── assets/
-    ├── Moreno_Kristovan_CV.pdf # Executive curriculum vitae
-    ├── f1-preview.svg          # F1 Telemetry Analyzer vector preview
-    ├── stereopose-preview.svg  # StereoPose 6D CV thesis vector preview
-    ├── translate-preview.svg   # MTL Translation Pipeline vector preview
-    ├── penpal-preview.svg      # Penpal iPad canvas vector preview
-    ├── reefora-preview.svg     # Reefora 3D coral simulation vector preview
-    ├── exhibition-01.svg       # Apple Academy Demo Day vector preview
-    ├── exhibition-02.svg       # Studio Lab & Bali Sprints vector preview
-    └── exhibition-03.svg       # Architecture Critiques vector preview
+    ├── Moreno_Kristovan_CV.pdf       # Executive curriculum vitae
+    ├── bettergitgraph-preview.jpeg   # BetterGitGraph VS Code Extension screenshot
+    ├── stereopose-preview.svg        # StereoPose 6D CV thesis vector preview
+    ├── translate-preview.svg         # AI-TL Localization Pipeline vector preview
+    ├── hapticle-preview.svg          # Hapticle Tactile Engine vector preview
+    ├── reefora-preview.svg           # Reefora 2.5D Marine Sandbox vector preview
+    ├── exhibition-01.svg             # Apple Academy Demo Day vector preview
+    ├── exhibition-02.svg             # Studio Lab & Bali Sprints vector preview
+    └── exhibition-03.svg             # Architecture Reviews vector preview
 ```
-
----
-
-## 3. Asset Replacement Workflow
-
-All image slots are currently populated with clean vector SVGs or executive documents. To drop real screenshots or high-res photos:
-1. Refer to [ASSET_CHECKLIST.md](file:///Users/moreno_m5/Projects/Personal%20PR%20and%20Branding/Renoceros.github.io/ASSET_CHECKLIST.md).
-2. Save your PNG/JPG into `assets/` matching the required filename and aspect ratio.
-3. Commit and push to `main` branch. GitHub Pages deploys automatically.
 
 ---
 

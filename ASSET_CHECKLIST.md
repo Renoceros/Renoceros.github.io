@@ -1,19 +1,19 @@
 # Renoceros Portfolio — Asset Drop Specification
 
-All images on the portfolio are currently linked to vector SVGs in `assets/`.
+All images on the portfolio are currently linked to vector SVGs or high-resolution imagery in `assets/`.
 To upgrade any section with your real screenshots or photography, save the file to `assets/` with the exact filename below. GitHub Pages deploys updates automatically on push.
 
 ---
 
-## 1. Selected Projects (Screenshots)
+## 1. Selected Technical Systems (Screenshots)
 
-| Asset File | Target Project | Recommended Resolution | Aspect Ratio | Format |
-| :--- | :--- | :--- | :--- | :--- |
-| `assets/f1-preview.svg` | The F1 Telemetry Analyzer | `1600 × 1000 px` | 16:10 | `.svg` / `.png` / `.jpg` |
-| `assets/stereopose-preview.svg` | StereoPose 6D Pose Estimation | `1600 × 1000 px` | 16:10 | `.svg` / `.png` / `.jpg` |
-| `assets/translate-preview.svg` | MTL Manga/Manhwa Translation Pipeline | `1600 × 1000 px` | 16:10 | `.svg` / `.png` / `.jpg` |
-| `assets/penpal-preview.svg` | Penpal (iPadOS Apple Pencil Canvas) | `1600 × 1000 px` | 16:10 | `.svg` / `.png` / `.jpg` |
-| `assets/reefora-preview.svg` | Reefora (3D Marine Simulation) | `1600 × 1000 px` | 16:10 | `.svg` / `.png` / `.jpg` |
+| Asset File | Target Project | Status / Format | Aspect Ratio |
+| :--- | :--- | :--- | :--- |
+| `assets/stereopose-preview.svg` | StereoPose 6D Continuous Pose Estimation | Vector SVG (Active) | 16:10 |
+| `assets/bettergitgraph-preview.jpeg` | BetterGitGraph VS Code Extension | High-Res Screenshot (Active) | 16:10 |
+| `assets/translate-preview.svg` | AI-TL Manga/Manhwa Localization Pipeline | Vector SVG (Active) | 16:10 |
+| `assets/hapticle-preview.svg` | Hapticle Physics-Driven Tactile Engine | Vector SVG (Active) | 16:10 |
+| `assets/reefora-preview.svg` | Reefora 2.5D Marine Restoration Sandbox | Vector SVG (Active) | 16:10 |
 
 ---
 
