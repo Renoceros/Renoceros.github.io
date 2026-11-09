@@ -2,6 +2,7 @@
    RENOCEROS ATELIER — art.js
    Style: Pure Visual Wheel (Circle, not Cylinder)
    Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
+   Features: Native Aspect Ratios, Expanded Radius, Auto-Discovery of New Artwork
    ========================================================================== */
 
 (function () {
@@ -10,16 +11,12 @@
   // 1. DOM REFERENCES
   const html = document.documentElement;
   const stage = document.getElementById('wheelStage');
-  const cards = Array.from(document.querySelectorAll('.wheel-card'));
+  const apex = document.getElementById('wheelApex');
+  let cards = Array.from(document.querySelectorAll('.wheel-card'));
 
   // Theme elements
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = themeToggle ? themeToggle.querySelector('.icon') : null;
-
-  // Modal elements
-  const modal = document.getElementById('darkroomModal');
-  const modalImg = document.getElementById('modalImage');
-  const modalClose = document.getElementById('modalClose');
 
   // 2. THEME PERSISTENCE
   function applyTheme(theme) {
@@ -46,14 +43,14 @@
   }
 
   // 3. CIRCULAR WHEEL KINEMATICS & PHYSICS
-  const N = cards.length; // 10 original artworks
-  const ANGLE_STEP = 360 / N; // 36 degrees per artwork
-  let radius = 1100;
+  let N = cards.length || 10;
+  let ANGLE_STEP = 360 / N;
+  let radius = 1800;
 
   function updateRadius() {
     radius = window.innerWidth < 768 
-      ? Math.max(680, window.innerWidth * 1.05) 
-      : Math.max(1050, window.innerWidth * 0.75);
+      ? Math.max(1100, window.innerWidth * 1.5) 
+      : Math.max(1750, window.innerWidth * 1.15);
     requestRender();
   }
 
@@ -103,10 +100,10 @@
     const velocity = currentAngle - prevAngle; // degrees per frame
 
     // Dynamic tangential sway (lagging inertia)
-    const targetSway = Math.max(-16, Math.min(16, -velocity * 1.5));
+    const targetSway = Math.max(-18, Math.min(18, -velocity * 1.6));
     sway += (targetSway - sway) * 0.12;
 
-    const flare = Math.max(-9, Math.min(0, -Math.abs(velocity) * 0.4));
+    const flare = Math.max(-10, Math.min(0, -Math.abs(velocity) * 0.45));
 
     let closestAbs = Infinity;
     let closestIdx = 0;
@@ -122,25 +119,25 @@
         closestIdx = i;
       }
 
-      // Circular arc coordinates
+      // Circular arc coordinates along the increased wheel radius
       const rad = (diff * Math.PI) / 180;
       const x = radius * Math.sin(rad);
       const yDrop = (1 - Math.cos(rad)) * radius;
 
-      // Rotation along circle tangent + dynamic sway
+      // Rotation along circle tangent + dynamic inertia sway
       const totalRotation = diff + sway;
 
-      // Apply composite-only GPU transform
-      cards[i].style.transform = `translate3d(${x.toFixed(2)}px, ${yDrop.toFixed(2)}px, 0) rotate(${totalRotation.toFixed(2)}deg) perspective(1000px) rotateX(${flare.toFixed(2)}deg)`;
+      // Apply composite-only GPU transform with native aspect centering
+      cards[i].style.transform = `translate3d(${x.toFixed(2)}px, ${yDrop.toFixed(2)}px, 0) translate(-50%, -50%) rotate(${totalRotation.toFixed(2)}deg) perspective(1000px) rotateX(${flare.toFixed(2)}deg)`;
 
       // Opacity falloff as cards arc below the visible top
-      if (absDiff > 78) {
+      if (absDiff > 75) {
         cards[i].style.opacity = '0';
         cards[i].style.pointerEvents = 'none';
       } else {
-        const op = Math.max(0.15, 1 - (absDiff / 78) * 0.82);
+        const op = Math.max(0.12, 1 - (absDiff / 75) * 0.84);
         cards[i].style.opacity = op.toFixed(2);
-        cards[i].style.pointerEvents = absDiff < 22 ? 'auto' : 'none';
+        cards[i].style.pointerEvents = 'none'; // No clicking
         cards[i].style.zIndex = Math.round(100 - absDiff);
       }
 
@@ -149,7 +146,7 @@
 
     activeIndex = closestIdx;
 
-    // Soft spring-snap to nearest 36-degree card when slowing down
+    // Soft spring-snap to nearest card when slowing down
     if (!isDragging && Math.abs(velocity) < 0.16) {
       const snapTarget = Math.round(targetAngle / ANGLE_STEP) * ANGLE_STEP;
       targetAngle += (snapTarget - targetAngle) * 0.08;
@@ -172,19 +169,17 @@
     }
   }
 
-  // 5. INPUT LISTENERS
+  // 5. INPUT LISTENERS (Wheel, Drag, Keyboard)
 
   // Wheel & Trackpad
   window.addEventListener('wheel', (e) => {
-    if (modal && modal.classList.contains('active')) return;
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    targetAngle -= delta * 0.18;
+    targetAngle -= delta * 0.16;
     requestRender();
   }, { passive: true });
 
   // Touch Events (Mobile Ergonomics)
   window.addEventListener('touchstart', (e) => {
-    if (modal && modal.classList.contains('active')) return;
     if (!e.touches[0]) return;
     isDragging = true;
     startX = e.touches[0].clientX;
@@ -208,7 +203,7 @@
     lastDragTime = now;
 
     const dx = currentX - startX;
-    targetAngle = startTargetAngle + dx * 0.26;
+    targetAngle = startTargetAngle + dx * 0.22;
     requestRender();
   }, { passive: false });
 
@@ -217,7 +212,7 @@
     isDragging = false;
     // Fling momentum
     if (Math.abs(dragVelocity) > 0.3) {
-      targetAngle += dragVelocity * 55;
+      targetAngle += dragVelocity * 50;
     }
     requestRender();
   }, { passive: true });
@@ -225,7 +220,7 @@
   // Mouse Drag (Desktop)
   if (stage) {
     stage.addEventListener('mousedown', (e) => {
-      if (e.target.closest('button, a, .darkroom-modal')) return;
+      if (e.target.closest('button, a')) return;
       isDragging = true;
       startX = e.clientX;
       startTargetAngle = targetAngle;
@@ -245,7 +240,7 @@
       lastDragTime = now;
 
       const dx = e.clientX - startX;
-      targetAngle = startTargetAngle + dx * 0.22;
+      targetAngle = startTargetAngle + dx * 0.20;
       requestRender();
     });
 
@@ -253,7 +248,7 @@
       if (!isDragging) return;
       isDragging = false;
       if (Math.abs(dragVelocity) > 0.3) {
-        targetAngle += dragVelocity * 50;
+        targetAngle += dragVelocity * 45;
       }
       requestRender();
     });
@@ -262,11 +257,6 @@
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
-
-    if (modal && modal.classList.contains('active')) {
-      if (e.key === 'Escape') closeModal();
-      return;
-    }
 
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
       e.preventDefault();
@@ -286,48 +276,89 @@
     requestRender();
   }
 
-  // Card click: inspect if active at apex, or rotate to apex if flanking
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      if (Math.abs(dragVelocity) > 0.15) return;
-      if (i === activeIndex) {
-        openModal(i);
-      } else {
-        rotateToIndex(i);
+  // 6. DYNAMIC ARTWORK FOLDER AUTO-DISCOVERY
+  async function syncArtworkFolder() {
+    let fileList = [];
+
+    // Strategy A: Dev server directory listing parse (when dumping files into /artwork/)
+    try {
+      const res = await fetch('assets/artwork/?t=' + Date.now());
+      if (res.ok) {
+        const text = await res.text();
+        const matches = text.match(/href=["']([^"']+\.(?:png|jpe?g|webp|gif|svg|avif))["']/gi);
+        if (matches && matches.length > 0) {
+          const set = new Set();
+          matches.forEach(m => {
+            const raw = m.replace(/href=["']|["']/gi, '');
+            const filename = raw.split('/').pop().split('?')[0];
+            if (filename && !filename.startsWith('.')) set.add(filename);
+          });
+          fileList = Array.from(set).sort();
+        }
       }
-    });
-  });
+    } catch (e) {}
 
-  // 6. DARKROOM LIGHTBOX MODAL
-  function openModal(idx) {
-    const card = cards[idx];
-    if (!card) return;
+    // Strategy B: manifest.json fallback
+    if (fileList.length === 0) {
+      try {
+        const res = await fetch('assets/artwork/manifest.json?t=' + Date.now());
+        if (res.ok) {
+          const list = await res.json();
+          if (Array.isArray(list) && list.length > 0) fileList = list;
+        }
+      } catch (e) {}
+    }
 
-    const fullSrc = card.dataset.full || card.querySelector('img').src;
-    modalImg.src = fullSrc;
-    modal.classList.add('active');
-  }
+    // Strategy C: GitHub API when on GitHub Pages
+    if (fileList.length === 0 && location.hostname.includes('github.io')) {
+      try {
+        const res = await fetch('https://api.github.com/repos/Renoceros/renoceros.github.io/contents/assets/artwork');
+        if (res.ok) {
+          const items = await res.json();
+          const validExts = ['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif'];
+          fileList = items
+            .filter(item => validExts.some(ext => item.name.toLowerCase().endsWith(ext)))
+            .map(item => item.name);
+        }
+      } catch (e) {}
+    }
 
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.remove('active');
-    modalImg.src = '';
-  }
+    if (fileList.length > 0) {
+      const currentSources = cards.map(c => c.getAttribute('data-src') || c.querySelector('img')?.getAttribute('src') || '');
+      const newSources = fileList.map(f => `assets/artwork/${f}`);
 
-  if (modalClose) modalClose.addEventListener('click', closeModal);
+      // Check if file list differs from existing DOM
+      const isDifferent = newSources.length !== currentSources.length || newSources.some((s, i) => s !== currentSources[i]);
 
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target.classList.contains('darkroom-img-wrapper')) {
-        closeModal();
+      if (isDifferent && apex) {
+        // Rebuild cards dynamically
+        apex.innerHTML = '';
+        newSources.forEach((src, idx) => {
+          const article = document.createElement('article');
+          article.className = 'wheel-card';
+          article.setAttribute('data-src', src);
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = 'Artwork';
+          img.loading = idx === 0 ? 'eager' : 'lazy';
+          img.decoding = 'async';
+          article.appendChild(img);
+          apex.appendChild(article);
+        });
+
+        cards = Array.from(document.querySelectorAll('.wheel-card'));
+        N = cards.length;
+        ANGLE_STEP = 360 / N;
+        requestRender();
       }
-    });
+    }
   }
 
   // 7. BOOT
   function init() {
     updateRadius();
-    render(); // Synchronous first frame
+    render(performance.now());
+    syncArtworkFolder();
   }
 
   if (document.readyState === 'loading') {

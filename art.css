@@ -1,7 +1,8 @@
 /* ==========================================================================
    RENOCEROS ATELIER — art.css
    Style: Pure Visual Wheel (Circle, not Cylinder)
-   Physics: 120 FPS Wheel Rotation with Tangential Tilt & Dynamic Sway
+   Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
+   Features: Native Aspect Ratios, Expanded Wheel Radius, Zero Click Distractions
    ========================================================================== */
 
 /* 1. ROOT GALLERY ENVIRONMENT */
@@ -20,20 +21,20 @@ body.art-mode {
   background-color: var(--bg-color);
 }
 
-/* Ambient Spotlight Glow */
+/* Ambient Radial Glow */
 .gallery-ambient {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(circle at 50% 45%, rgba(34, 70, 30, 0.22) 0%, rgba(10, 11, 14, 0.98) 72%);
+  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.22) 0%, rgba(10, 11, 14, 0.98) 72%);
 }
 
 [data-theme="light"] .gallery-ambient {
-  background: radial-gradient(circle at 50% 45%, rgba(34, 70, 30, 0.10) 0%, rgba(246, 247, 249, 0.98) 72%);
+  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.10) 0%, rgba(246, 247, 249, 0.98) 72%);
 }
 
-/* 2. TOP NAV OVERLAY */
+/* Top Navigation (Minimal, Non-Intrusive) */
 .art-mode .navbar {
   background-color: transparent !important;
   backdrop-filter: blur(20px);
@@ -42,7 +43,7 @@ body.art-mode {
   z-index: 1030;
 }
 
-/* 3. THE WHEEL STAGE */
+/* 2. THE WHEEL STAGE */
 .wheel-stage {
   position: absolute;
   inset: 0;
@@ -56,125 +57,57 @@ body.art-mode {
   cursor: grabbing;
 }
 
-/* Apex Anchor Point: The highest crest of the wheel */
+/* The Apex Anchor: The highest crest of the wheel */
 .wheel-apex {
   position: absolute;
   left: 50%;
-  top: 48%;
+  top: 50%;
   width: 0;
   height: 0;
   will-change: transform;
 }
 
-/* Wheel Card Element */
+/* Wheel Card Element — Pure Artwork in Native Aspect Ratio */
 .wheel-card {
   position: absolute;
   top: 0;
   left: 0;
-  width: 440px;
-  height: 560px;
-  margin-top: -280px;
-  margin-left: -220px;
-  border-radius: 18px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
   overflow: hidden;
-  background-color: #0b0c10;
-  box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 35px 95px -15px rgba(0, 0, 0, 0.75);
   border: 1px solid var(--card-border);
-  cursor: pointer;
   will-change: transform, opacity;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.wheel-card:hover {
-  border-color: var(--accent-light);
-  box-shadow: 0 35px 90px -10px rgba(0, 0, 0, 0.85);
-}
-
-.wheel-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
   pointer-events: none;
-  image-orientation: from-image;
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+  background: transparent;
 }
 
-.wheel-card.is-active:hover img {
-  transform: scale(1.03);
-}
-
-/* 4. FULLSCREEN DARKROOM LIGHTBOX MODAL */
-.darkroom-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 10050;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(6, 7, 9, 0.94);
-  backdrop-filter: blur(36px);
-  -webkit-backdrop-filter: blur(36px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  padding: 24px;
-}
-
-.darkroom-modal.active {
-  display: flex;
-  opacity: 1;
-}
-
-.darkroom-img-wrapper {
-  max-width: 92vw;
-  max-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.darkroom-img-wrapper img {
-  max-width: 100%;
-  max-height: 90vh;
+/* Image maintains 100% authentic aspect ratio */
+.wheel-card img {
+  display: block;
+  max-height: 60vh;
+  max-width: 62vw;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  border-radius: 14px;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  image-orientation: from-image;
+  pointer-events: none;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.darkroom-close-btn {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10060;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.darkroom-close-btn:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.22);
-}
-
-/* 5. RESPONSIVE SIZING */
+/* Responsive adjustment for phones */
 @media (max-width: 768px) {
   .wheel-apex {
-    top: 50%;
+    top: 52%;
   }
-  .wheel-card {
-    width: 290px;
-    height: 400px;
-    margin-top: -200px;
-    margin-left: -145px;
-    border-radius: 14px;
+  .wheel-card img {
+    max-height: 52vh;
+    max-width: 84vw;
+    border-radius: 12px;
   }
 }
