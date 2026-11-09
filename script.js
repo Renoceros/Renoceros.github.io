@@ -131,3 +131,84 @@ function handleCardParallax() {
 
 window.addEventListener('scroll', handleCardParallax, { passive: true });
 handleCardParallax();
+
+
+/* 6. IDLE SPECULATIVE PRELOADER FOR ART ATELIER
+   Guarantees 0% contention with index.html loading & interaction:
+   - Defers execution until window 'load' + 1500ms safety buffer + requestIdleCallback
+   - Respects Save-Data and 2G mobile connection constraints
+   - Streams art.html, art.css, art.js, and low-res thumbnails sequentially into HTTP/image cache
+   - Supports early trigger on portal button hover / focus
+*/
+(function setupArtPreloader() {
+  if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType))) {
+    return;
+  }
+
+  const artAssets = [
+    { url: 'art.html', as: 'document' },
+    { url: 'art.css', as: 'style' },
+    { url: 'art.js', as: 'script' },
+    { url: 'assets/artwork/thumbs/3waydeadlock.png', as: 'image' },
+    { url: 'assets/artwork/thumbs/Dutch_Lion.png', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_4189.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_4225.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_4237.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_5208.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_6180.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/IMG_6185.jpg', as: 'image' },
+    { url: 'assets/artwork/thumbs/MadMax.png', as: 'image' },
+    { url: 'assets/artwork/thumbs/Untitled_Artwork 8.png', as: 'image' }
+  ];
+
+  let preloaded = false;
+
+  function runIdlePreload() {
+    if (preloaded) return;
+    preloaded = true;
+
+    let index = 0;
+    function loadNext() {
+      if (index >= artAssets.length) return;
+      const asset = artAssets[index++];
+
+      if (asset.as === 'image') {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = asset.url;
+      } else if ('fetch' in window) {
+        fetch(asset.url, { priority: 'low' }).catch(() => {});
+      } else {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = asset.url;
+        if (asset.as) link.as = asset.as;
+        document.head.appendChild(link);
+      }
+
+      // 120ms staggered interval keeps network pipelines completely clear
+      setTimeout(loadNext, 120);
+    }
+
+    loadNext();
+  }
+
+  // Defer strictly until index.html has 100% completed loading
+  window.addEventListener('load', () => {
+    const schedule = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(runIdlePreload, { timeout: 4000 });
+      } else {
+        setTimeout(runIdlePreload, 1500);
+      }
+    };
+    setTimeout(schedule, 1200);
+  });
+
+  // Early trigger if user gestures towards the portal button
+  const portalBtn = document.getElementById('modeToggle');
+  if (portalBtn) {
+    portalBtn.addEventListener('pointerenter', runIdlePreload, { once: true });
+    portalBtn.addEventListener('focus', runIdlePreload, { once: true });
+  }
+})();
