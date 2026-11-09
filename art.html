@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <title>Moreno Kristovan | Atelier</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="description" content="Visual work, physical prototypes, and design studies by Moreno Kristovan." />
+  <meta name="description" content="Visual work and artwork by Moreno Kristovan." />
   <meta name="author" content="Moreno Kristovan" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://renoceros.github.io/art.html" />
   <meta property="og:title" content="Moreno Kristovan | Atelier" />
-  <meta property="og:description" content="Visual work, physical prototypes, and design studies." />
+  <meta property="og:description" content="Artwork and visual experiments." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -27,10 +27,10 @@
 </head>
 <body class="art-mode">
 
-  <!-- Ambient Spotlight Pool -->
+  <!-- Ambient Spotlight Glow -->
   <div class="gallery-ambient"></div>
 
-  <!-- Top Navigation (Fixed, Clean Icon Portal) -->
+  <!-- Top Navigation (Clean Icon Portal) -->
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container px-4">
       <a class="navbar-brand fw-bold" href="index.html">Renoceros<span>.</span></a>
@@ -41,7 +41,7 @@
           <span>Engineering CV</span>
         </a>
 
-        <!-- Portal Switch Button: Clean Terminal Icon -->
+        <!-- Portal Switch: Clean Terminal Icon -->
         <a id="modeToggle" class="mode-btn" href="index.html" role="button" aria-label="Systems" title="Systems Portfolio (or press 'V')">
           <span class="material-symbols-outlined icon">terminal</span>
         </a>
@@ -54,168 +54,76 @@
     </div>
   </nav>
 
-  <!-- 3D Revolver Cylinder Stage -->
-  <main class="revolver-stage" id="revolverStage" aria-label="3D Revolver Gallery">
-    <div class="revolver-drum" id="revolverDrum">
+  <!-- 3D Circular Wheel Stage (Top of the Wheel) -->
+  <main class="wheel-stage" id="wheelStage" aria-label="Circular Art Wheel">
+    <div class="wheel-apex" id="wheelApex">
 
-      <!-- 01: Isometric Geometry -->
-      <article class="revolver-card"
-               data-idx="0"
-               data-title="Isometric Geometry"
-               data-medium="Rapidograph ink on drafting film · 2024"
-               data-desc="Axonometric projection study testing structural depth, lineweight hierarchies, and spatial axonometry."
-               data-full="assets/art/01_blueprint_isometric_geometry.jpg">
-        <div class="revolver-card-media">
-          <img src="assets/art/01_blueprint_isometric_geometry.jpg" alt="Isometric Geometry" loading="eager" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 01 -->
+      <article class="wheel-card" data-idx="0" data-full="assets/artwork/3waydeadlock.png">
+        <img src="assets/artwork/3waydeadlock.png" alt="Artwork" loading="eager" decoding="async" />
       </article>
 
-      <!-- 02: Circular Hallmark -->
-      <article class="revolver-card"
-               data-idx="1"
-               data-title="Circular Hallmark"
-               data-medium="Precision compass &amp; vector construction · 2024"
-               data-desc="Concentric circular subdivision establishing rotational proportions and geometric stability."
-               data-full="assets/art/02_blueprint_circular_hallmark.jpg">
-        <div class="revolver-card-media">
-          <img src="assets/art/02_blueprint_circular_hallmark.jpg" alt="Circular Hallmark" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 02 -->
+      <article class="wheel-card" data-idx="1" data-full="assets/artwork/Dutch_Lion.png">
+        <img src="assets/artwork/Dutch_Lion.png" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 03: Signet Ring & Wax Seal -->
-      <article class="revolver-card"
-               data-idx="2"
-               data-title="Signet Ring &amp; Wax Seal"
-               data-medium="Lost-wax metal casting study · 2025"
-               data-desc="Dimensional micro-relief drafting translating mathematical emblems into physical metal casting molds."
-               data-full="assets/art/07_bespoke_signet_ring_hallmark.jpg">
-        <div class="revolver-card-media">
-          <img src="assets/art/07_bespoke_signet_ring_hallmark.jpg" alt="Signet Ring &amp; Wax Seal" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 03 -->
+      <article class="wheel-card" data-idx="2" data-full="assets/artwork/IMG_4189.jpg">
+        <img src="assets/artwork/IMG_4189.jpg" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 04: Classified Dossier Seal -->
-      <article class="revolver-card"
-               data-idx="3"
-               data-title="Classified Dossier Seal"
-               data-medium="Wax impression &amp; tactile relief · 2025"
-               data-desc="Tactile study of negative space stamping, heat dissipation, and physical wax seal relief."
-               data-full="assets/art/08_classified_dossier_wax_seal.jpg">
-        <div class="revolver-card-media">
-          <img src="assets/art/08_classified_dossier_wax_seal.jpg" alt="Classified Dossier Seal" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 04 -->
+      <article class="wheel-card" data-idx="3" data-full="assets/artwork/IMG_4225.jpg">
+        <img src="assets/artwork/IMG_4225.jpg" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 05: Modernist Curves -->
-      <article class="revolver-card"
-               data-idx="4"
-               data-title="Modernist Curves"
-               data-medium="Vector Bézier curvature · 2024"
-               data-desc="Golden ratio arc intersections and curvature continuity (G² curvature) applied to physical silhouettes."
-               data-full="assets/art/10_modernist_geometric_curves.jpg">
-        <div class="revolver-card-media">
-          <img src="assets/art/10_modernist_geometric_curves.jpg" alt="Modernist Curves" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 05 -->
+      <article class="wheel-card" data-idx="4" data-full="assets/artwork/IMG_4237.jpg">
+        <img src="assets/artwork/IMG_4237.jpg" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 06: Hapticle Safe Dial -->
-      <article class="revolver-card"
-               data-idx="5"
-               data-title="Hapticle Safe Dial"
-               data-medium="3D printed mechanical detent · 2025"
-               data-desc="Kinematic detent study matching physical spring resistance to Apple CoreHaptics transient vibration impulses."
-               data-full="assets/art/hapticle-dial-study.jpeg">
-        <div class="revolver-card-media">
-          <img src="assets/art/hapticle-dial-study.jpeg" alt="Hapticle Safe Dial Mechanical Study" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 06 -->
+      <article class="wheel-card" data-idx="5" data-full="assets/artwork/IMG_5208.jpg">
+        <img src="assets/artwork/IMG_5208.jpg" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 07: Stylus Contact (Down) -->
-      <article class="revolver-card"
-               data-idx="6"
-               data-title="Stylus Contact (Down)"
-               data-medium="Kinematic pressure study · 2025"
-               data-desc="Spatial UI study on stylus contact states, dynamic contact shadow displacement, and pen telemetry in digital drawing engines."
-               data-full="assets/art/Pen_Down.png">
-        <div class="revolver-card-media">
-          <img src="assets/art/Pen_Down.png" alt="Stylus Contact (Down)" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 07 -->
+      <article class="wheel-card" data-idx="6" data-full="assets/artwork/IMG_6180.jpg">
+        <img src="assets/artwork/IMG_6180.jpg" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
-      <!-- 08: Stylus Altitude (Up) -->
-      <article class="revolver-card"
-               data-idx="7"
-               data-title="Stylus Altitude (Up)"
-               data-medium="Kinematic hover &amp; shadow · 2025"
-               data-desc="Simulating altitude angle, azimuth, and pressure hover dynamics for real-time natural media stroke engines."
-               data-full="assets/art/Pen_Up.png">
-        <div class="revolver-card-media">
-          <img src="assets/art/Pen_Up.png" alt="Stylus Altitude (Up)" loading="lazy" decoding="async" />
-          <div class="card-hover-cue">Inspect</div>
-        </div>
+      <!-- 08 -->
+      <article class="wheel-card" data-idx="7" data-full="assets/artwork/IMG_6185.jpg">
+        <img src="assets/artwork/IMG_6185.jpg" alt="Artwork" loading="lazy" decoding="async" />
+      </article>
+
+      <!-- 09 -->
+      <article class="wheel-card" data-idx="8" data-full="assets/artwork/MadMax.png">
+        <img src="assets/artwork/MadMax.png" alt="Artwork" loading="lazy" decoding="async" />
+      </article>
+
+      <!-- 10 -->
+      <article class="wheel-card" data-idx="9" data-full="assets/artwork/Untitled_Artwork 8.png">
+        <img src="assets/artwork/Untitled_Artwork 8.png" alt="Artwork" loading="lazy" decoding="async" />
       </article>
 
     </div>
   </main>
 
-  <!-- Editorial Caption & Minimal Pagination (Bottom Center) -->
-  <footer class="gallery-caption">
-    <h2 class="caption-title" id="captionTitle">Isometric Geometry</h2>
-    <div class="caption-medium" id="captionMedium">Rapidograph ink on drafting film · 2024</div>
-    <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="Artwork selection">
-      <button class="gallery-dot is-active" aria-label="Piece 1"></button>
-      <button class="gallery-dot" aria-label="Piece 2"></button>
-      <button class="gallery-dot" aria-label="Piece 3"></button>
-      <button class="gallery-dot" aria-label="Piece 4"></button>
-      <button class="gallery-dot" aria-label="Piece 5"></button>
-      <button class="gallery-dot" aria-label="Piece 6"></button>
-      <button class="gallery-dot" aria-label="Piece 7"></button>
-      <button class="gallery-dot" aria-label="Piece 8"></button>
-    </div>
-  </footer>
-
-  <!-- Darkroom Lightbox Modal -->
+  <!-- Fullscreen Darkroom Lightbox Modal -->
   <div class="darkroom-modal" id="darkroomModal" role="dialog" aria-modal="true" aria-label="Artwork Inspector">
     <div class="darkroom-close-btn" id="modalClose" aria-label="Close Inspector">
       <span class="material-symbols-outlined">close</span>
     </div>
-    <div class="darkroom-nav-btn darkroom-prev" id="modalPrev" aria-label="Previous Artwork">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </div>
-    <div class="darkroom-nav-btn darkroom-next" id="modalNext" aria-label="Next Artwork">
-      <span class="material-symbols-outlined">arrow_forward</span>
-    </div>
-
-    <div class="darkroom-container">
-      <div class="darkroom-preview">
-        <img id="modalImage" src="" alt="Artwork Preview" />
-      </div>
-      <div class="darkroom-sidebar">
-        <div>
-          <h3 id="modalTitle" style="font-size: 1.6rem; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.02em;">Title</h3>
-          <div id="modalMedium" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Medium</div>
-          <p id="modalDesc" style="color: var(--text-color); font-size: 0.95rem; line-height: 1.6; opacity: 0.9;">Description</p>
-        </div>
-        <div class="pt-4 border-top" style="border-color: var(--card-border) !important;">
-          <div class="d-flex justify-content-between align-items-center small text-muted">
-            <span>Atelier</span>
-            <span>Moreno Kristovan</span>
-          </div>
-        </div>
-      </div>
+    <div class="darkroom-img-wrapper">
+      <img id="modalImage" src="" alt="Artwork Full View" />
     </div>
   </div>
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <!-- Atelier 3D Revolver Kinematics Engine -->
+  <!-- Circular Wheel Kinematics Engine -->
   <script src="art.js"></script>
   <!-- Datamosh Transition Engine -->
   <script src="datamosh.js"></script>

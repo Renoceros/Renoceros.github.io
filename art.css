@@ -1,7 +1,7 @@
 /* ==========================================================================
    RENOCEROS ATELIER — art.css
-   Style: Creative Coding / Contemporary Art Gallery
-   Physics: 3D Revolver Cylinder with Velocity Sway & Centrifugal Inertia
+   Style: Pure Visual Wheel (Circle, not Cylinder)
+   Physics: 120 FPS Wheel Rotation with Tangential Tilt & Dynamic Sway
    ========================================================================== */
 
 /* 1. ROOT GALLERY ENVIRONMENT */
@@ -17,195 +17,94 @@ body.art-mode {
   -webkit-user-select: none;
   margin: 0;
   padding: 0;
+  background-color: var(--bg-color);
 }
 
-/* Ambient Spotlight Canvas (Soft radial light behind active sculpture) */
+/* Ambient Spotlight Glow */
 .gallery-ambient {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.22) 0%, rgba(10, 11, 14, 0.98) 70%);
-  transition: background 0.5s ease;
+  background: radial-gradient(circle at 50% 45%, rgba(34, 70, 30, 0.22) 0%, rgba(10, 11, 14, 0.98) 72%);
 }
 
 [data-theme="light"] .gallery-ambient {
-  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.10) 0%, rgba(246, 247, 249, 0.98) 70%);
+  background: radial-gradient(circle at 50% 45%, rgba(34, 70, 30, 0.10) 0%, rgba(246, 247, 249, 0.98) 72%);
 }
 
-/* 2. TOP NAV OVERLAY (Crisp, Minimal) */
+/* 2. TOP NAV OVERLAY */
 .art-mode .navbar {
   background-color: transparent !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--card-border);
   z-index: 1030;
 }
 
-/* 3. 3D REVOLVER CYLINDER STAGE */
-.revolver-stage {
+/* 3. THE WHEEL STAGE */
+.wheel-stage {
   position: absolute;
   inset: 0;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1300px;
-  perspective-origin: 50% 48%;
   overflow: hidden;
   cursor: grab;
   touch-action: none;
 }
 
-.revolver-stage:active {
+.wheel-stage:active {
   cursor: grabbing;
 }
 
-/* The Revolver Drum (Rotates around Y axis, sways on Z and X) */
-.revolver-drum {
+/* Apex Anchor Point: The highest crest of the wheel */
+.wheel-apex {
   position: absolute;
-  top: 50%;
   left: 50%;
+  top: 48%;
   width: 0;
   height: 0;
-  transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* Individual Card on the Revolver Radius */
-.revolver-card {
+/* Wheel Card Element */
+.wheel-card {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 380px;
-  height: 490px;
-  margin-top: -265px;
-  margin-left: -190px;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+  top: 0;
+  left: 0;
+  width: 440px;
+  height: 560px;
+  margin-top: -280px;
+  margin-left: -220px;
   border-radius: 18px;
   overflow: hidden;
-  background: var(--card-bg);
+  background-color: #0b0c10;
+  box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.65);
   border: 1px solid var(--card-border);
-  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.55);
   cursor: pointer;
+  will-change: transform, opacity;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.revolver-card:hover {
+.wheel-card:hover {
   border-color: var(--accent-light);
-  box-shadow: 0 35px 85px -15px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 35px 90px -10px rgba(0, 0, 0, 0.85);
 }
 
-.revolver-card-media {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #0d0e12;
-}
-
-.revolver-card-media img {
+.wheel-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   pointer-events: none;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  image-orientation: from-image;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.revolver-card.is-active:hover .revolver-card-media img {
-  transform: scale(1.04);
+.wheel-card.is-active:hover img {
+  transform: scale(1.03);
 }
 
-/* Subtle view hint on active card hover */
-.card-hover-cue {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.revolver-card.is-active:hover .card-hover-cue {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* 4. EDITORIAL CAPTION & PAGINATION (Bottom Center) */
-.gallery-caption {
-  position: fixed;
-  bottom: 34px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  text-align: center;
-  pointer-events: none;
-  width: 90vw;
-  max-width: 600px;
-}
-
-.caption-title {
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  color: var(--text-color);
-  margin: 0 0 4px 0;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.caption-medium {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  letter-spacing: -0.01em;
-  margin: 0 0 14px 0;
-  transition: opacity 0.25s ease;
-}
-
-/* Pagination Dots */
-.gallery-dots {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.gallery-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--text-muted);
-  opacity: 0.35;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  padding: 0;
-  border: none;
-}
-
-.gallery-dot:hover {
-  opacity: 0.7;
-}
-
-.gallery-dot.is-active {
-  width: 22px;
-  border-radius: 999px;
-  background-color: var(--accent-light);
-  opacity: 1;
-  box-shadow: 0 0 8px var(--accent-glow);
-}
-
-/* 5. DARKROOM LIGHTBOX MODAL */
+/* 4. FULLSCREEN DARKROOM LIGHTBOX MODAL */
 .darkroom-modal {
   position: fixed;
   inset: 0;
@@ -213,12 +112,12 @@ body.art-mode {
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 9, 12, 0.92);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
+  background: rgba(6, 7, 9, 0.94);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  padding: 30px;
+  transition: opacity 0.3s ease;
+  padding: 24px;
 }
 
 .darkroom-modal.active {
@@ -226,136 +125,56 @@ body.art-mode {
   opacity: 1;
 }
 
-.darkroom-container {
-  position: relative;
-  max-width: 1100px;
-  max-height: 88vh;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 35px 90px -15px rgba(0, 0, 0, 0.75);
-  transform: scale(0.96);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.darkroom-modal.active .darkroom-container {
-  transform: scale(1);
-}
-
-.darkroom-preview {
-  flex: 1 1 65%;
-  background-color: #050608;
+.darkroom-img-wrapper {
+  max-width: 92vw;
+  max-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  min-height: 480px;
+  position: relative;
 }
 
-.darkroom-preview img {
+.darkroom-img-wrapper img {
   max-width: 100%;
-  max-height: 82vh;
+  max-height: 90vh;
   object-fit: contain;
-  display: block;
-}
-
-.darkroom-sidebar {
-  flex: 1 1 35%;
-  padding: 36px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-left: 1px solid var(--card-border);
-  background: var(--nav-bg);
+  border-radius: 14px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
 }
 
 .darkroom-close-btn {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 36px;
-  height: 36px;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--badge-bg);
-  border: 1px solid var(--card-border);
-  color: var(--text-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 20;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.darkroom-close-btn:hover {
-  transform: scale(1.1);
-}
-
-.darkroom-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 15;
+  z-index: 10060;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.darkroom-nav-btn:hover {
-  transform: translateY(-50%) scale(1.1);
-  background: rgba(0, 0, 0, 0.85);
+.darkroom-close-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.22);
 }
 
-.darkroom-prev {
-  left: 18px;
-}
-
-.darkroom-next {
-  right: 18px;
-}
-
-/* 6. RESPONSIVE BREAKPOINTS (Mobile & Tablet) */
+/* 5. RESPONSIVE SIZING */
 @media (max-width: 768px) {
-  .revolver-card {
-    width: 280px;
-    height: 380px;
-    margin-top: -205px;
-    margin-left: -140px;
+  .wheel-apex {
+    top: 50%;
+  }
+  .wheel-card {
+    width: 290px;
+    height: 400px;
+    margin-top: -200px;
+    margin-left: -145px;
     border-radius: 14px;
-  }
-  .caption-title {
-    font-size: 1.15rem;
-  }
-  .caption-medium {
-    font-size: 0.78rem;
-    margin-bottom: 10px;
-  }
-  .gallery-caption {
-    bottom: 24px;
-  }
-  .darkroom-container {
-    flex-direction: column;
-    max-height: 86vh;
-    overflow-y: auto;
-  }
-  .darkroom-preview {
-    min-height: 280px;
-  }
-  .darkroom-sidebar {
-    border-left: none;
-    border-top: 1px solid var(--card-border);
-    padding: 20px;
   }
 }

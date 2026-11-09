@@ -1,7 +1,7 @@
 /* ==========================================================================
    RENOCEROS ATELIER — art.js
-   Physics: 120 FPS 3D Revolver Cylinder with Velocity Sway & Centrifugal Inertia
-   Style: Creative Coding / Minimalist Fine Art Gallery
+   Style: Pure Visual Wheel (Circle, not Cylinder)
+   Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
    ========================================================================== */
 
 (function () {
@@ -9,12 +9,8 @@
 
   // 1. DOM REFERENCES
   const html = document.documentElement;
-  const stage = document.getElementById('revolverStage');
-  const drum = document.getElementById('revolverDrum');
-  const cards = Array.from(document.querySelectorAll('.revolver-card'));
-  const dots = Array.from(document.querySelectorAll('.gallery-dot'));
-  const captionTitle = document.getElementById('captionTitle');
-  const captionMedium = document.getElementById('captionMedium');
+  const stage = document.getElementById('wheelStage');
+  const cards = Array.from(document.querySelectorAll('.wheel-card'));
 
   // Theme elements
   const themeToggle = document.getElementById('themeToggle');
@@ -23,12 +19,7 @@
   // Modal elements
   const modal = document.getElementById('darkroomModal');
   const modalImg = document.getElementById('modalImage');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalMedium = document.getElementById('modalMedium');
-  const modalDesc = document.getElementById('modalDesc');
   const modalClose = document.getElementById('modalClose');
-  const modalPrev = document.getElementById('modalPrev');
-  const modalNext = document.getElementById('modalNext');
 
   // 2. THEME PERSISTENCE
   function applyTheme(theme) {
@@ -54,18 +45,15 @@
     });
   }
 
-  // 3. REVOLVER CYLINDER GEOMETRY & PHYSICS
-  const N = cards.length; // 8 authentic artworks
-  const ANGLE_STEP = 360 / N; // 45 degrees per item
-  let radius = 680;
+  // 3. CIRCULAR WHEEL KINEMATICS & PHYSICS
+  const N = cards.length; // 10 original artworks
+  const ANGLE_STEP = 360 / N; // 36 degrees per artwork
+  let radius = 1100;
 
   function updateRadius() {
-    radius = window.innerWidth < 768 ? 400 : 680;
-    // Position each card at fixed radial angle
-    for (let i = 0; i < N; i++) {
-      const cardAngle = i * ANGLE_STEP;
-      cards[i].style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px)`;
-    }
+    radius = window.innerWidth < 768 
+      ? Math.max(680, window.innerWidth * 1.05) 
+      : Math.max(1050, window.innerWidth * 0.75);
     requestRender();
   }
 
@@ -74,10 +62,10 @@
   // Motion physics state
   let currentAngle = 0;
   let targetAngle = 0;
-  let swayZ = 0;
-  let swayX = 0;
+  let sway = 0;
   let isAnimating = false;
   let rafId = null;
+  let fallbackTimer = null;
   let activeIndex = 0;
 
   // Pointer drag state
@@ -88,29 +76,38 @@
   let lastDragTime = 0;
   let dragVelocity = 0;
 
+  function scheduleNextFrame() {
+    if (!isAnimating) return;
+    cancelAnimationFrame(rafId);
+    clearTimeout(fallbackTimer);
+    rafId = requestAnimationFrame((now) => {
+      clearTimeout(fallbackTimer);
+      render(now);
+    });
+    fallbackTimer = setTimeout(() => {
+      render(performance.now());
+    }, 16);
+  }
+
   function requestRender() {
     if (!isAnimating) {
       isAnimating = true;
-      rafId = requestAnimationFrame(render);
+      scheduleNextFrame();
     }
   }
 
   // 4. 120 FPS LERP RENDERING LOOP
-  function render() {
+  function render(now) {
     const prevAngle = currentAngle;
     currentAngle += (targetAngle - currentAngle) * 0.085;
     const velocity = currentAngle - prevAngle; // degrees per frame
 
-    // Dynamic centrifugal banking sway
-    const targetSwayZ = Math.max(-13, Math.min(13, velocity * 1.8));
-    const targetSwayX = Math.max(-7, Math.min(0, Math.abs(velocity) * -0.4));
-    swayZ += (targetSwayZ - swayZ) * 0.12;
-    swayX += (targetSwayX - swayX) * 0.12;
+    // Dynamic tangential sway (lagging inertia)
+    const targetSway = Math.max(-16, Math.min(16, -velocity * 1.5));
+    sway += (targetSway - sway) * 0.12;
 
-    // Apply 3D matrix to revolver drum
-    drum.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle.toFixed(3)}deg) rotateZ(${swayZ.toFixed(2)}deg) rotateX(${swayX.toFixed(2)}deg)`;
+    const flare = Math.max(-9, Math.min(0, -Math.abs(velocity) * 0.4));
 
-    // Calculate facing angles & opacity falloff
     let closestAbs = Infinity;
     let closestIdx = 0;
 
@@ -125,59 +122,54 @@
         closestIdx = i;
       }
 
-      // Smooth opacity falloff as card arcs around radius
-      if (absDiff > 96) {
+      // Circular arc coordinates
+      const rad = (diff * Math.PI) / 180;
+      const x = radius * Math.sin(rad);
+      const yDrop = (1 - Math.cos(rad)) * radius;
+
+      // Rotation along circle tangent + dynamic sway
+      const totalRotation = diff + sway;
+
+      // Apply composite-only GPU transform
+      cards[i].style.transform = `translate3d(${x.toFixed(2)}px, ${yDrop.toFixed(2)}px, 0) rotate(${totalRotation.toFixed(2)}deg) perspective(1000px) rotateX(${flare.toFixed(2)}deg)`;
+
+      // Opacity falloff as cards arc below the visible top
+      if (absDiff > 78) {
         cards[i].style.opacity = '0';
         cards[i].style.pointerEvents = 'none';
       } else {
-        const op = Math.max(0.12, 1 - (absDiff / 96) * 0.82);
+        const op = Math.max(0.15, 1 - (absDiff / 78) * 0.82);
         cards[i].style.opacity = op.toFixed(2);
-        cards[i].style.pointerEvents = absDiff < 32 ? 'auto' : 'none';
+        cards[i].style.pointerEvents = absDiff < 22 ? 'auto' : 'none';
+        cards[i].style.zIndex = Math.round(100 - absDiff);
       }
 
-      cards[i].classList.toggle('is-active', absDiff < 22);
+      cards[i].classList.toggle('is-active', absDiff < 18);
     }
 
-    // Update active index, caption & dots
-    if (closestIdx !== activeIndex) {
-      activeIndex = closestIdx;
-      updateCaption(activeIndex);
-    }
+    activeIndex = closestIdx;
 
-    // Spring snap to nearest 45-degree angle when slowing down
-    if (!isDragging) {
+    // Soft spring-snap to nearest 36-degree card when slowing down
+    if (!isDragging && Math.abs(velocity) < 0.16) {
       const snapTarget = Math.round(targetAngle / ANGLE_STEP) * ANGLE_STEP;
-      if (Math.abs(velocity) < 0.15) {
-        targetAngle += (snapTarget - targetAngle) * 0.08;
-      }
+      targetAngle += (snapTarget - targetAngle) * 0.08;
     }
 
-    // Idle sleep check — 0% CPU overhead
+    // 0% CPU idle check
     if (
       !isDragging &&
       Math.abs(targetAngle - currentAngle) < 0.01 &&
       Math.abs(velocity) < 0.01 &&
-      Math.abs(swayZ) < 0.05
+      Math.abs(sway) < 0.05
     ) {
-      currentAngle = targetAngle;
-      drum.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle.toFixed(3)}deg)`;
+      currentAngle = Math.round(currentAngle / ANGLE_STEP) * ANGLE_STEP;
       isAnimating = false;
+      cancelAnimationFrame(rafId);
+      clearTimeout(fallbackTimer);
       rafId = null;
     } else {
-      rafId = requestAnimationFrame(render);
+      scheduleNextFrame();
     }
-  }
-
-  function updateCaption(idx) {
-    const activeCard = cards[idx];
-    if (!activeCard) return;
-
-    if (captionTitle) captionTitle.textContent = activeCard.dataset.title || '';
-    if (captionMedium) captionMedium.textContent = activeCard.dataset.medium || '';
-
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('is-active', i === idx);
-    });
   }
 
   // 5. INPUT LISTENERS
@@ -186,7 +178,7 @@
   window.addEventListener('wheel', (e) => {
     if (modal && modal.classList.contains('active')) return;
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    targetAngle -= delta * 0.22;
+    targetAngle -= delta * 0.18;
     requestRender();
   }, { passive: true });
 
@@ -216,16 +208,16 @@
     lastDragTime = now;
 
     const dx = currentX - startX;
-    targetAngle = startTargetAngle + dx * 0.32;
+    targetAngle = startTargetAngle + dx * 0.26;
     requestRender();
   }, { passive: false });
 
   window.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
-    // Add momentum flick
+    // Fling momentum
     if (Math.abs(dragVelocity) > 0.3) {
-      targetAngle += dragVelocity * 65;
+      targetAngle += dragVelocity * 55;
     }
     requestRender();
   }, { passive: true });
@@ -253,7 +245,7 @@
       lastDragTime = now;
 
       const dx = e.clientX - startX;
-      targetAngle = startTargetAngle + dx * 0.28;
+      targetAngle = startTargetAngle + dx * 0.22;
       requestRender();
     });
 
@@ -261,7 +253,7 @@
       if (!isDragging) return;
       isDragging = false;
       if (Math.abs(dragVelocity) > 0.3) {
-        targetAngle += dragVelocity * 60;
+        targetAngle += dragVelocity * 50;
       }
       requestRender();
     });
@@ -273,8 +265,6 @@
 
     if (modal && modal.classList.contains('active')) {
       if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowLeft') showPrevModal();
-      if (e.key === 'ArrowRight') showNextModal();
       return;
     }
 
@@ -296,7 +286,7 @@
     requestRender();
   }
 
-  // Card click: inspect if active, or spin to center if flanking
+  // Card click: inspect if active at apex, or rotate to apex if flanking
   cards.forEach((card, i) => {
     card.addEventListener('click', () => {
       if (Math.abs(dragVelocity) > 0.15) return;
@@ -308,27 +298,13 @@
     });
   });
 
-  // Dots click
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      rotateToIndex(i);
-    });
-  });
-
   // 6. DARKROOM LIGHTBOX MODAL
-  let currentModalIdx = 0;
-
   function openModal(idx) {
-    currentModalIdx = idx;
     const card = cards[idx];
     if (!card) return;
 
     const fullSrc = card.dataset.full || card.querySelector('img').src;
     modalImg.src = fullSrc;
-    if (modalTitle) modalTitle.textContent = card.dataset.title || '';
-    if (modalMedium) modalMedium.textContent = card.dataset.medium || '';
-    if (modalDesc) modalDesc.textContent = card.dataset.desc || '';
-
     modal.classList.add('active');
   }
 
@@ -338,28 +314,25 @@
     modalImg.src = '';
   }
 
-  function showPrevModal() {
-    const prev = (currentModalIdx - 1 + N) % N;
-    openModal(prev);
-  }
-
-  function showNextModal() {
-    const next = (currentModalIdx + 1) % N;
-    openModal(next);
-  }
-
   if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalPrev) modalPrev.addEventListener('click', showPrevModal);
-  if (modalNext) modalNext.addEventListener('click', showNextModal);
 
   if (modal) {
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
+      if (e.target === modal || e.target.classList.contains('darkroom-img-wrapper')) {
+        closeModal();
+      }
     });
   }
 
   // 7. BOOT
-  updateRadius();
-  updateCaption(0);
-  requestRender();
+  function init() {
+    updateRadius();
+    render(); // Synchronous first frame
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
