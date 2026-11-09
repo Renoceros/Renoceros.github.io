@@ -2,7 +2,7 @@
    RENOCEROS ATELIER — art.css
    Style: Pure Visual Wheel (Circle, not Cylinder)
    Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
-   Features: Native Aspect Ratios, Expanded Wheel Radius, Zero Click Distractions
+   Features: Set Apparent Card Width, Dynamic Radius Scaling, Zero Click Overlays
    ========================================================================== */
 
 /* 1. ROOT GALLERY ENVIRONMENT */
@@ -67,11 +67,14 @@ body.art-mode {
   will-change: transform;
 }
 
-/* Wheel Card Element — Pure Artwork in Native Aspect Ratio */
+/* Wheel Card Element — Set Uniform Width for Consistent Apparent Size */
 .wheel-card {
   position: absolute;
   top: 0;
   left: 0;
+  width: 520px;
+  max-width: 55vw;
+  height: auto;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
@@ -83,21 +86,21 @@ body.art-mode {
   will-change: transform, opacity;
   pointer-events: none;
   user-select: none;
-  background: transparent;
+  background: rgba(14, 15, 19, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Image maintains 100% authentic aspect ratio */
+/* Image fills the uniform width while preserving its native aspect ratio */
 .wheel-card img {
   display: block;
-  max-height: 60vh;
-  max-width: 62vw;
-  width: auto;
+  width: 100%;
   height: auto;
+  max-height: 65vh;
   object-fit: contain;
   border-radius: 15px;
   image-orientation: from-image;
   pointer-events: none;
-  box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive adjustment for phones */
@@ -105,9 +108,13 @@ body.art-mode {
   .wheel-apex {
     top: 52%;
   }
+  .wheel-card {
+    width: 82vw;
+    max-width: 380px;
+    border-radius: 14px;
+  }
   .wheel-card img {
-    max-height: 52vh;
-    max-width: 84vw;
-    border-radius: 12px;
+    max-height: 56vh;
+    border-radius: 13px;
   }
 }

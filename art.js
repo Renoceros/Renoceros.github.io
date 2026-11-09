@@ -2,7 +2,7 @@
    RENOCEROS ATELIER — art.js
    Style: Pure Visual Wheel (Circle, not Cylinder)
    Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
-   Features: Native Aspect Ratios, Expanded Radius, Auto-Discovery of New Artwork
+   Features: Set Apparent Card Width, Radius Dynamically Scales with N, Auto-Discovery
    ========================================================================== */
 
 (function () {
@@ -42,15 +42,18 @@
     });
   }
 
-  // 3. CIRCULAR WHEEL KINEMATICS & PHYSICS
+  // 3. DYNAMIC CIRCULAR WHEEL KINEMATICS & RADIUS SCALING
   let N = cards.length || 10;
   let ANGLE_STEP = 360 / N;
   let radius = 1800;
 
   function updateRadius() {
-    radius = window.innerWidth < 768 
-      ? Math.max(1100, window.innerWidth * 1.5) 
-      : Math.max(1750, window.innerWidth * 1.15);
+    // Radius grows dynamically with the amount of photos inputted (N)
+    // S represents the linear physical arc spacing between card centers
+    const isMobile = window.innerWidth < 768;
+    const S = isMobile ? 750 : 1150;
+    const minRadius = isMobile ? 1100 : 1700;
+    radius = Math.max(minRadius, (N * S) / (2 * Math.PI));
     requestRender();
   }
 
@@ -108,6 +111,9 @@
     let closestAbs = Infinity;
     let closestIdx = 0;
 
+    // Angle threshold dynamically scaled to card spacing
+    const angleThreshold = ANGLE_STEP * 2.3;
+
     for (let i = 0; i < N; i++) {
       let diff = (i * ANGLE_STEP + currentAngle) % 360;
       if (diff > 180) diff -= 360;
@@ -119,7 +125,7 @@
         closestIdx = i;
       }
 
-      // Circular arc coordinates along the increased wheel radius
+      // Circular arc coordinates along the dynamic wheel radius
       const rad = (diff * Math.PI) / 180;
       const x = radius * Math.sin(rad);
       const yDrop = (1 - Math.cos(rad)) * radius;
@@ -127,21 +133,21 @@
       // Rotation along circle tangent + dynamic inertia sway
       const totalRotation = diff + sway;
 
-      // Apply composite-only GPU transform with native aspect centering
+      // Apply composite-only GPU transform with set width centering
       cards[i].style.transform = `translate3d(${x.toFixed(2)}px, ${yDrop.toFixed(2)}px, 0) translate(-50%, -50%) rotate(${totalRotation.toFixed(2)}deg) perspective(1000px) rotateX(${flare.toFixed(2)}deg)`;
 
       // Opacity falloff as cards arc below the visible top
-      if (absDiff > 75) {
+      if (absDiff > angleThreshold) {
         cards[i].style.opacity = '0';
         cards[i].style.pointerEvents = 'none';
       } else {
-        const op = Math.max(0.12, 1 - (absDiff / 75) * 0.84);
+        const op = Math.max(0.12, 1 - (absDiff / angleThreshold) * 0.88);
         cards[i].style.opacity = op.toFixed(2);
         cards[i].style.pointerEvents = 'none'; // No clicking
         cards[i].style.zIndex = Math.round(100 - absDiff);
       }
 
-      cards[i].classList.toggle('is-active', absDiff < 18);
+      cards[i].classList.toggle('is-active', absDiff < (ANGLE_STEP * 0.5));
     }
 
     activeIndex = closestIdx;
@@ -349,7 +355,7 @@
         cards = Array.from(document.querySelectorAll('.wheel-card'));
         N = cards.length;
         ANGLE_STEP = 360 / N;
-        requestRender();
+        updateRadius();
       }
     }
   }
