@@ -855,3 +855,91 @@ footer {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   PORTAL SWITCH PILL (IMMUNE TO TRANSITIONS & GLITCHES)
+   ========================================================================== */
+.portal-item {
+  position: relative;
+  z-index: 10005 !important;
+}
+
+.mode-portal-pill {
+  position: relative;
+  z-index: 10005 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background-color: var(--badge-bg);
+  color: var(--text-color) !important;
+  border: 1px solid var(--card-border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  user-select: none;
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mode-portal-pill:hover {
+  transform: scale(1.05);
+  border-color: var(--accent-light);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.mode-portal-pill .portal-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #f59e0b; /* Amber = Systems Mode */
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.7);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mode-portal-pill.active .portal-indicator {
+  background-color: #10b981; /* Emerald = Atelier Mode */
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.85);
+}
+
+.mode-portal-pill .portal-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mode-portal-pill .portal-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.mode-portal-pill.mosh-firing {
+  transform: scale(0.96);
+  border-color: #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+}
+
+/* Datamosh Tearing State — Everything except portal item shakes */
+body.mosh-active #stage-viewport,
+body.mosh-active .spatial-viewport,
+body.mosh-active .navbar-brand,
+body.mosh-active .nav-link,
+body.mosh-active .action-link,
+body.mosh-active .theme-btn {
+  animation: moshTear 0.08s steps(2) infinite;
+  filter: contrast(1.25) saturate(1.2);
+}
+
+@keyframes moshTear {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-10px, 0, 0); }
+  50% { transform: translate3d(8px, 0, 0); }
+  75% { transform: translate3d(-4px, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
