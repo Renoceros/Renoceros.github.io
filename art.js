@@ -94,6 +94,15 @@
     requestRender();
   }
 
+  function attachImageLoadListeners() {
+    cards.forEach(c => {
+      const img = c.querySelector('img');
+      if (img && !img.complete) {
+        img.addEventListener('load', () => computeLayout(), { once: true });
+      }
+    });
+  }
+
   window.addEventListener('resize', computeLayout);
 
   // Motion physics state
@@ -190,7 +199,11 @@
       cards[i].classList.toggle('is-active', absDiff < 14);
     }
 
-    activeIndex = closestIdx;
+    if (closestIdx !== activeIndex) {
+      activeIndex = closestIdx;
+      prioritizeVisibleFullRes();
+      scheduleIdleFullResQueue();
+    }
 
     // Soft spring-snap to nearest image when slowing down
     if (!isDragging && Math.abs(velocity) < 0.16 && thetas.length > 0) {
@@ -330,7 +343,119 @@
     requestRender();
   }
 
-  // 6. DYNAMIC ARTWORK FOLDER AUTO-DISCOVERY
+  // 6. PROGRESSIVE FULL-RES LOADER
+  const loadedFullRes = new Set();
+  const loadingFullRes = new Set();
+
+  function loadFullRes(card, onDone) {
+    if (!card) {
+      if (onDone) onDone();
+      return;
+    }
+    const fullSrc = card.getAttribute('data-full') || card.getAttribute('data-src');
+    if (!fullSrc) {
+      if (onDone) onDone();
+      return;
+    }
+    if (loadedFullRes.has(fullSrc)) {
+      if (onDone) onDone();
+      return;
+    }
+    if (loadingFullRes.has(fullSrc)) {
+      return;
+    }
+
+    const img = card.querySelector('img');
+    if (!img) {
+      if (onDone) onDone();
+      return;
+    }
+
+    // Already on full resolution
+    if (img.src.endsWith(fullSrc)) {
+      loadedFullRes.add(fullSrc);
+      if (onDone) onDone();
+      return;
+    }
+
+    loadingFullRes.add(fullSrc);
+    const preload = new Image();
+    preload.src = fullSrc;
+
+    const onComplete = () => {
+      img.src = fullSrc;
+      card.classList.add('is-fullres');
+      loadedFullRes.add(fullSrc);
+      loadingFullRes.delete(fullSrc);
+      if (onDone) onDone();
+    };
+
+    if (preload.decode) {
+      preload.decode()
+        .then(onComplete)
+        .catch(() => {
+          if (preload.complete && preload.naturalWidth > 0) {
+            onComplete();
+          } else {
+            loadingFullRes.delete(fullSrc);
+            if (onDone) onDone();
+          }
+        });
+    } else if (preload.complete) {
+      onComplete();
+    } else {
+      preload.onload = onComplete;
+      preload.onerror = () => {
+        loadingFullRes.delete(fullSrc);
+        if (onDone) onDone();
+      };
+    }
+  }
+
+  function prioritizeVisibleFullRes() {
+    if (cards.length === 0) return;
+    // 1. Center apex artwork
+    loadFullRes(cards[activeIndex]);
+    // 2. Immediate flanking neighbours
+    loadFullRes(cards[(activeIndex + 1) % N]);
+    loadFullRes(cards[(activeIndex - 1 + N) % N]);
+  }
+
+  // Progressively queue remaining cards gently during idle time
+  let idleQueueTimer = null;
+  function scheduleIdleFullResQueue() {
+    clearTimeout(idleQueueTimer);
+    idleQueueTimer = setTimeout(() => {
+      const remaining = [];
+      for (let offset = 2; offset <= Math.floor(N / 2); offset++) {
+        const right = (activeIndex + offset) % N;
+        const left = (activeIndex - offset + N) % N;
+        if (!remaining.includes(right)) remaining.push(right);
+        if (!remaining.includes(left)) remaining.push(left);
+      }
+
+      function loadNextSequential() {
+        if (remaining.length === 0) return;
+        const idx = remaining.shift();
+        const card = cards[idx];
+        if (card) {
+          const fullSrc = card.getAttribute('data-full') || card.getAttribute('data-src');
+          if (!loadedFullRes.has(fullSrc) && !loadingFullRes.has(fullSrc)) {
+            loadFullRes(card, () => {
+              // Once this fullres image has decoded, take a gentle breather before the next
+              setTimeout(loadNextSequential, 280);
+            });
+            return;
+          }
+        }
+        setTimeout(loadNextSequential, 60);
+      }
+
+      loadNextSequential();
+    }, 1200);
+  }
+
+  // 7. DYNAMIC ARTWORK FOLDER AUTO-DISCOVERY
   async function syncArtworkFolder() {
     let fileList = [];
 
@@ -344,8 +469,9 @@
           const set = new Set();
           matches.forEach(m => {
             const raw = m.replace(/href=["']|["']/gi, '');
-            const filename = raw.split('/').pop().split('?')[0];
-            if (filename && !filename.startsWith('.')) set.add(filename);
+            let filename = raw.split('/').pop().split('?')[0];
+            try { filename = decodeURIComponent(filename); } catch (e) {}
+            if (filename && !filename.startsWith('.') && !filename.startsWith('thumbs')) set.add(filename);
           });
           fileList = Array.from(set).sort();
         }
@@ -378,7 +504,7 @@
     }
 
     if (fileList.length > 0) {
-      const currentSources = cards.map(c => c.getAttribute('data-src') || c.querySelector('img')?.getAttribute('src') || '');
+      const currentSources = cards.map(c => decodeURIComponent(c.getAttribute('data-full') || c.getAttribute('data-src') || c.querySelector('img')?.getAttribute('src') || ''));
       const newSources = fileList.map(f => `assets/artwork/${f}`);
 
       const isDifferent = newSources.length !== currentSources.length || newSources.some((s, i) => s !== currentSources[i]);
@@ -386,28 +512,42 @@
       if (isDifferent && apex) {
         apex.innerHTML = '';
         newSources.forEach((src, idx) => {
+          const filename = src.split('/').pop();
+          const thumbSrc = `assets/artwork/thumbs/${filename}`;
           const article = document.createElement('article');
           article.className = 'wheel-card';
           article.setAttribute('data-src', src);
+          article.setAttribute('data-full', src);
+          article.setAttribute('data-thumb', thumbSrc);
           const img = document.createElement('img');
-          img.src = src;
+          img.src = thumbSrc;
+          img.setAttribute('data-full', src);
           img.alt = 'Artwork';
           img.loading = idx === 0 ? 'eager' : 'lazy';
           img.decoding = 'async';
+          img.onerror = () => {
+            if (img.src !== src) img.src = src;
+          };
           article.appendChild(img);
           apex.appendChild(article);
         });
 
         cards = Array.from(document.querySelectorAll('.wheel-card'));
+        attachImageLoadListeners();
         computeLayout();
+        prioritizeVisibleFullRes();
+        scheduleIdleFullResQueue();
       }
     }
   }
 
-  // 7. BOOT
+  // 8. BOOT
   function init() {
+    attachImageLoadListeners();
     computeLayout();
     render(performance.now());
+    prioritizeVisibleFullRes();
+    scheduleIdleFullResQueue();
     syncArtworkFolder();
 
     // Refine layout after images complete loading/decoding
