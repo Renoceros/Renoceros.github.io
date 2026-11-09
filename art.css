@@ -2,7 +2,7 @@
    RENOCEROS ATELIER — art.css
    Style: Pure Visual Wheel (Circle, not Cylinder)
    Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
-   Features: Set Apparent Card Width, Dynamic Radius Scaling, Zero Click Overlays
+   Features: Zero Canvas Box (No Side Borders), Consistent Inter-Image Gaps
    ========================================================================== */
 
 /* 1. ROOT GALLERY ENVIRONMENT */
@@ -67,40 +67,45 @@ body.art-mode {
   will-change: transform;
 }
 
-/* Wheel Card Element — Set Uniform Width for Consistent Apparent Size */
+/* Wheel Card Element — Zero Canvas Box, Zero Letterboxing */
 .wheel-card {
   position: absolute;
   top: 0;
   left: 0;
-  width: 520px;
-  max-width: 55vw;
+  width: auto;
   height: auto;
   transform: translate(-50%, -50%);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 35px 95px -15px rgba(0, 0, 0, 0.75);
-  border: 1px solid var(--card-border);
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  border: none;
+  background: transparent;
   will-change: transform, opacity;
   pointer-events: none;
   user-select: none;
-  background: rgba(14, 15, 19, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Image fills the uniform width while preserving its native aspect ratio */
+/* Image itself defines its own tight boundaries without extra canvas */
 .wheel-card img {
   display: block;
-  width: 100%;
-  height: auto;
-  max-height: 65vh;
+  height: 52vh;
+  max-height: 500px;
+  width: auto;
+  max-width: 65vw;
   object-fit: contain;
-  border-radius: 15px;
+  border-radius: 14px;
+  box-shadow: 0 25px 80px -10px rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   image-orientation: from-image;
   pointer-events: none;
+}
+
+[data-theme="light"] .wheel-card img {
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Responsive adjustment for phones */
@@ -108,13 +113,10 @@ body.art-mode {
   .wheel-apex {
     top: 52%;
   }
-  .wheel-card {
-    width: 82vw;
-    max-width: 380px;
-    border-radius: 14px;
-  }
   .wheel-card img {
-    max-height: 56vh;
-    border-radius: 13px;
+    height: 46vh;
+    max-height: 400px;
+    max-width: 84vw;
+    border-radius: 12px;
   }
 }

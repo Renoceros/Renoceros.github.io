@@ -2,7 +2,7 @@
    RENOCEROS ATELIER — art.js
    Style: Pure Visual Wheel (Circle, not Cylinder)
    Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
-   Features: Set Apparent Card Width, Radius Dynamically Scales with N, Auto-Discovery
+   Features: Zero Canvas Box, Consistent Inter-Image Gaps, Dynamic R Scaling
    ========================================================================== */
 
 (function () {
@@ -42,22 +42,59 @@
     });
   }
 
-  // 3. DYNAMIC CIRCULAR WHEEL KINEMATICS & RADIUS SCALING
+  // 3. DYNAMIC VARIABLE-GAP KINEMATICS
   let N = cards.length || 10;
-  let ANGLE_STEP = 360 / N;
-  let radius = 1800;
+  let radius = 1300;
+  let thetas = []; // Base angular positions along the circle
 
-  function updateRadius() {
-    // Radius grows dynamically with the amount of photos inputted (N)
-    // S represents the linear physical arc spacing between card centers
+  function computeLayout() {
+    cards = Array.from(document.querySelectorAll('.wheel-card'));
+    N = cards.length;
+    if (N === 0) return;
+
     const isMobile = window.innerWidth < 768;
-    const S = isMobile ? 750 : 1150;
-    const minRadius = isMobile ? 1100 : 1700;
-    radius = Math.max(minRadius, (N * S) / (2 * Math.PI));
+    // Tight physical gap between adjacent artwork edges
+    const GAP = isMobile ? 32 : 54;
+    const targetH = Math.min(window.innerHeight * (isMobile ? 0.46 : 0.52), isMobile ? 400 : 500);
+
+    // Measure exact rendered widths or aspect ratios of every image
+    const widths = cards.map(c => {
+      const img = c.querySelector('img');
+      if (!img) return 500;
+      if (img.offsetWidth > 10) return img.offsetWidth;
+      if (img.naturalWidth && img.naturalHeight) {
+        return Math.round(targetH * (img.naturalWidth / img.naturalHeight));
+      }
+      return 500;
+    });
+
+    // Compute center-to-center distances along circumference: W_i/2 + GAP + W_{i+1}/2
+    let totalC = 0;
+    const D = [];
+    for (let i = 0; i < N; i++) {
+      const w1 = widths[i];
+      const w2 = widths[(i + 1) % N];
+      const dist = w1 / 2 + GAP + w2 / 2;
+      D.push(dist);
+      totalC += dist;
+    }
+
+    // Radius needed to seamlessly close the circle with exactly GAP between all items
+    const minRadius = isMobile ? 950 : 1300;
+    radius = Math.max(minRadius, totalC / (2 * Math.PI));
+
+    // Calculate exact angular positions
+    thetas = [0];
+    let accum = 0;
+    for (let i = 0; i < N - 1; i++) {
+      accum += (D[i] / radius) * (180 / Math.PI);
+      thetas.push(accum);
+    }
+
     requestRender();
   }
 
-  window.addEventListener('resize', updateRadius);
+  window.addEventListener('resize', computeLayout);
 
   // Motion physics state
   let currentAngle = 0;
@@ -103,19 +140,19 @@
     const velocity = currentAngle - prevAngle; // degrees per frame
 
     // Dynamic tangential sway (lagging inertia)
-    const targetSway = Math.max(-18, Math.min(18, -velocity * 1.6));
+    const targetSway = Math.max(-16, Math.min(16, -velocity * 1.5));
     sway += (targetSway - sway) * 0.12;
 
-    const flare = Math.max(-10, Math.min(0, -Math.abs(velocity) * 0.45));
+    const flare = Math.max(-8, Math.min(0, -Math.abs(velocity) * 0.4));
 
     let closestAbs = Infinity;
     let closestIdx = 0;
 
-    // Angle threshold dynamically scaled to card spacing
-    const angleThreshold = ANGLE_STEP * 2.3;
+    const visibleLimit = window.innerWidth * 0.88;
 
     for (let i = 0; i < N; i++) {
-      let diff = (i * ANGLE_STEP + currentAngle) % 360;
+      const baseTheta = thetas[i] || 0;
+      let diff = (baseTheta + currentAngle) % 360;
       if (diff > 180) diff -= 360;
       if (diff < -180) diff += 360;
       const absDiff = Math.abs(diff);
@@ -125,7 +162,7 @@
         closestIdx = i;
       }
 
-      // Circular arc coordinates along the dynamic wheel radius
+      // Circular arc coordinates along dynamic radius
       const rad = (diff * Math.PI) / 180;
       const x = radius * Math.sin(rad);
       const yDrop = (1 - Math.cos(rad)) * radius;
@@ -133,29 +170,35 @@
       // Rotation along circle tangent + dynamic inertia sway
       const totalRotation = diff + sway;
 
-      // Apply composite-only GPU transform with set width centering
+      // Apply composite-only GPU transform (translate -50%, -50% ensures image center rides on rim)
       cards[i].style.transform = `translate3d(${x.toFixed(2)}px, ${yDrop.toFixed(2)}px, 0) translate(-50%, -50%) rotate(${totalRotation.toFixed(2)}deg) perspective(1000px) rotateX(${flare.toFixed(2)}deg)`;
 
-      // Opacity falloff as cards arc below the visible top
-      if (absDiff > angleThreshold) {
+      // Arc distance in pixels along the wheel
+      const arcDist = absDiff * (Math.PI / 180) * radius;
+
+      // Opacity falloff as cards arc away from the apex
+      if (arcDist > visibleLimit) {
         cards[i].style.opacity = '0';
         cards[i].style.pointerEvents = 'none';
       } else {
-        const op = Math.max(0.12, 1 - (absDiff / angleThreshold) * 0.88);
+        const op = Math.max(0.12, 1 - (arcDist / visibleLimit) * 0.88);
         cards[i].style.opacity = op.toFixed(2);
         cards[i].style.pointerEvents = 'none'; // No clicking
-        cards[i].style.zIndex = Math.round(100 - absDiff);
+        cards[i].style.zIndex = Math.round(100 - (arcDist / 20));
       }
 
-      cards[i].classList.toggle('is-active', absDiff < (ANGLE_STEP * 0.5));
+      cards[i].classList.toggle('is-active', absDiff < 14);
     }
 
     activeIndex = closestIdx;
 
-    // Soft spring-snap to nearest card when slowing down
-    if (!isDragging && Math.abs(velocity) < 0.16) {
-      const snapTarget = Math.round(targetAngle / ANGLE_STEP) * ANGLE_STEP;
-      targetAngle += (snapTarget - targetAngle) * 0.08;
+    // Soft spring-snap to nearest image when slowing down
+    if (!isDragging && Math.abs(velocity) < 0.16 && thetas.length > 0) {
+      const currentApexBase = -thetas[activeIndex];
+      let snapDiff = (currentApexBase - targetAngle) % 360;
+      if (snapDiff > 180) snapDiff -= 360;
+      if (snapDiff < -180) snapDiff += 360;
+      targetAngle += snapDiff * 0.08;
     }
 
     // 0% CPU idle check
@@ -165,7 +208,8 @@
       Math.abs(velocity) < 0.01 &&
       Math.abs(sway) < 0.05
     ) {
-      currentAngle = Math.round(currentAngle / ANGLE_STEP) * ANGLE_STEP;
+      currentAngle = -thetas[activeIndex];
+      targetAngle = currentAngle;
       isAnimating = false;
       cancelAnimationFrame(rafId);
       clearTimeout(fallbackTimer);
@@ -266,19 +310,23 @@
 
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
       e.preventDefault();
-      rotateToIndex(activeIndex + 1);
+      stepCard(1);
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
       e.preventDefault();
-      rotateToIndex(activeIndex - 1);
+      stepCard(-1);
     } else if (e.key.toLowerCase() === 't') {
       const active = html.getAttribute('data-theme');
       applyTheme(active === 'dark' ? 'light' : 'dark');
     }
   });
 
-  function rotateToIndex(idx) {
-    const normalized = (idx % N + N) % N;
-    targetAngle = -normalized * ANGLE_STEP;
+  function stepCard(dir) {
+    if (thetas.length === 0) return;
+    const nextIdx = (activeIndex + dir + N) % N;
+    let stepAngle = (thetas[nextIdx] - thetas[activeIndex]);
+    if (dir > 0 && stepAngle < 0) stepAngle += 360;
+    if (dir < 0 && stepAngle > 0) stepAngle -= 360;
+    targetAngle -= stepAngle;
     requestRender();
   }
 
@@ -333,11 +381,9 @@
       const currentSources = cards.map(c => c.getAttribute('data-src') || c.querySelector('img')?.getAttribute('src') || '');
       const newSources = fileList.map(f => `assets/artwork/${f}`);
 
-      // Check if file list differs from existing DOM
       const isDifferent = newSources.length !== currentSources.length || newSources.some((s, i) => s !== currentSources[i]);
 
       if (isDifferent && apex) {
-        // Rebuild cards dynamically
         apex.innerHTML = '';
         newSources.forEach((src, idx) => {
           const article = document.createElement('article');
@@ -353,18 +399,19 @@
         });
 
         cards = Array.from(document.querySelectorAll('.wheel-card'));
-        N = cards.length;
-        ANGLE_STEP = 360 / N;
-        updateRadius();
+        computeLayout();
       }
     }
   }
 
   // 7. BOOT
   function init() {
-    updateRadius();
+    computeLayout();
     render(performance.now());
     syncArtworkFolder();
+
+    // Refine layout after images complete loading/decoding
+    window.addEventListener('load', computeLayout);
   }
 
   if (document.readyState === 'loading') {
