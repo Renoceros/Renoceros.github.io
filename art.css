@@ -1,0 +1,122 @@
+/* ==========================================================================
+   RENOCEROS ATELIER — art.css
+   Style: Pure Visual Wheel (Circle, not Cylinder)
+   Physics: 120 FPS Wheel Rotation with Inertial Tangential Drag & Sway
+   Features: Zero Canvas Box (No Side Borders), Consistent Inter-Image Gaps
+   ========================================================================== */
+
+/* 1. ROOT GALLERY ENVIRONMENT */
+html.art-html,
+body.art-mode {
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden !important;
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+}
+
+/* Ambient Radial Glow */
+.gallery-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.22) 0%, rgba(10, 11, 14, 0.98) 72%);
+}
+
+[data-theme="light"] .gallery-ambient {
+  background: radial-gradient(circle at 50% 48%, rgba(34, 70, 30, 0.10) 0%, rgba(246, 247, 249, 0.98) 72%);
+}
+
+/* Top Navigation (Minimal, Non-Intrusive) */
+.art-mode .navbar {
+  background-color: transparent !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  z-index: 1030;
+}
+
+/* 2. THE WHEEL STAGE */
+.wheel-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+.wheel-stage:active {
+  cursor: grabbing;
+}
+
+/* The Apex Anchor: The highest crest of the wheel */
+.wheel-apex {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  will-change: transform;
+}
+
+/* Wheel Card Element — Zero Canvas Box, Zero Letterboxing */
+.wheel-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  will-change: transform, opacity;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Image itself defines its own tight boundaries without extra canvas */
+.wheel-card img {
+  display: block;
+  height: 52vh;
+  max-height: 500px;
+  width: auto;
+  max-width: 65vw;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 25px 80px -10px rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  image-orientation: from-image;
+  pointer-events: none;
+}
+
+[data-theme="light"] .wheel-card img {
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive adjustment for phones */
+@media (max-width: 768px) {
+  .wheel-apex {
+    top: 52%;
+  }
+  .wheel-card img {
+    height: 46vh;
+    max-height: 400px;
+    max-width: 84vw;
+    border-radius: 12px;
+  }
+}
