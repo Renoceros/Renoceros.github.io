@@ -2,16 +2,16 @@
 <html lang="en" data-theme="dark" class="art-html">
 <head>
   <meta charset="UTF-8" />
-  <title>Moreno Kristovan | Atelier &amp; Design Repository</title>
+  <title>Moreno Kristovan | Atelier</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="description" content="Atelier and visual design archive of Moreno Kristovan (Renoceros) — Technical blueprints, physical prototypes, tactile detent studies, and modernist vector explorations." />
+  <meta name="description" content="Visual work, physical prototypes, and design studies by Moreno Kristovan." />
   <meta name="author" content="Moreno Kristovan" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://renoceros.github.io/art.html" />
-  <meta property="og:title" content="Moreno Kristovan | Atelier &amp; Visual Design Archive" />
-  <meta property="og:description" content="Technical blueprints, tactile prototypes, 3D mechanical studies, and expressive digital artwork." />
+  <meta property="og:title" content="Moreno Kristovan | Atelier" />
+  <meta property="og:description" content="Visual work, physical prototypes, and design studies." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -27,360 +27,159 @@
 </head>
 <body class="art-mode">
 
-  <!-- Background Blueprint Precision Grid -->
-  <div class="atelier-grid-bg"></div>
-  <div class="atelier-coords">
-    <span>LAT: -8.6500 // LON: 115.2166 // BALI</span>
-    <span>EXP: ISO_800 // 1/120s // P3_GAMUT</span>
-    <span>ARCHIVE: 2024–2026 // CODEX_RAW</span>
-  </div>
+  <!-- Ambient Spotlight Pool -->
+  <div class="gallery-ambient"></div>
 
-  <!-- Top Navigation (Fixed, Immune Anchor) -->
+  <!-- Top Navigation (Fixed, Clean Icon Portal) -->
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container px-4">
       <a class="navbar-brand fw-bold" href="index.html">Renoceros<span>.</span></a>
 
-      <button class="navbar-toggler border-0 shadow-none text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <a class="action-link d-none d-sm-inline-flex" href="assets/Moreno_Kristovan_CV.pdf" download="Moreno_Kristovan_CV.pdf" target="_blank" rel="noopener">
+          <span class="material-symbols-outlined" style="font-size: 16px;">download</span>
+          <span>Engineering CV</span>
+        </a>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navContent">
-        <ul class="navbar-nav align-items-lg-center gap-1 my-3 my-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html#projects">Systems</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html#academy">Academy</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="art.html" style="color: var(--text-color) !important; font-weight: 600;">Atelier</a>
-          </li>
-          <li class="nav-item ms-lg-2">
-            <a class="action-link" href="assets/Moreno_Kristovan_CV.pdf" download="Moreno_Kristovan_CV.pdf" target="_blank" rel="noopener">
-              <span class="material-symbols-outlined" style="font-size: 16px;">download</span>
-              <span>Engineering CV</span>
-            </a>
-          </li>
-          <!-- Immune Switch Button -->
-          <li class="nav-item portal-item ms-lg-2 mt-2 mt-lg-0">
-            <a id="modeToggle" class="mode-portal-pill active" href="index.html" role="button" aria-label="Return to Systems Engineering CV" title="Return to Systems (or press 'V')">
-              <span class="portal-indicator"></span>
-              <span class="portal-label font-mono">Systems</span>
-              <span class="material-symbols-outlined portal-icon">terminal</span>
-            </a>
-          </li>
-          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-            <div id="themeToggle" class="theme-btn" role="button" aria-label="Toggle dark/light theme" title="Toggle Theme (or press 'T')">
-              <span class="material-symbols-outlined icon">light_mode</span>
-            </div>
-          </li>
-        </ul>
+        <!-- Portal Switch Button: Clean Terminal Icon -->
+        <a id="modeToggle" class="mode-btn" href="index.html" role="button" aria-label="Systems" title="Systems Portfolio (or press 'V')">
+          <span class="material-symbols-outlined icon">terminal</span>
+        </a>
+
+        <!-- Theme Toggle -->
+        <div id="themeToggle" class="theme-btn" role="button" aria-label="Toggle dark/light theme" title="Toggle Theme (or press 'T')">
+          <span class="material-symbols-outlined icon">light_mode</span>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- Sticky Codec Residue (HUD Corners) -->
-  <div class="codec-hud codec-hud-tl">
-    <div><span class="hud-accent">[RAW_DUMP // CH-02]</span></div>
-    <div>ATELIER // RENOCEROS ARCHIVE</div>
-  </div>
+  <!-- 3D Revolver Cylinder Stage -->
+  <main class="revolver-stage" id="revolverStage" aria-label="3D Revolver Gallery">
+    <div class="revolver-drum" id="revolverDrum">
 
-  <div class="codec-hud codec-hud-tr">
-    <div><span class="hud-accent">120 FPS // PROMOTION ACTIVE</span></div>
-    <div>SPATIAL KINETIC HORIZON</div>
-  </div>
-
-  <div class="codec-hud codec-hud-bl">
-    <div>FRAME: [ <span id="currentFrame" class="hud-accent">01</span> / 10 ]</div>
-    <div id="currentTitle" style="color: var(--text-color); font-weight: 600;">BLUEPRINT ISOMETRIC GEOMETRY</div>
-  </div>
-
-  <div class="codec-hud codec-hud-br">
-    <div><span class="kbd-hint">SCROLL</span> <span class="kbd-hint">DRAG</span> <span class="kbd-hint">← →</span> <span class="kbd-hint">CLICK TO INSPECT</span> <span class="kbd-hint">V: SYSTEMS</span></div>
-  </div>
-
-  <!-- Margin Tape Tracking Ticks (VHS / Video Tape Codec Aesthetics) -->
-  <div class="margin-tape-track margin-tape-left">
-    <div class="tape-pip" id="leftTapePip"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-  </div>
-  <div class="margin-tape-track margin-tape-right">
-    <div class="tape-pip" id="rightTapePip"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-    <div class="tape-tick"></div><div class="tape-tick"></div><div class="tape-tick"></div>
-  </div>
-
-  <!-- 2.5D Spatial Filmstrip Viewport -->
-  <main class="spatial-viewport" id="spatialViewport" aria-label="Horizontal spatial gallery">
-    <div class="filmstrip-track" id="filmstripTrack">
-
-      <!-- CARD 01 -->
-      <article class="art-card" 
-               data-idx="01"
-               data-tag="ARCHITECTURAL DRAFTING"
-               data-title="Isometric Blueprint Geometry"
-               data-medium="Rotring Rapidograph &amp; CAD Linework"
-               data-desc="Rigorous architectural isometric drafting study exploring geometric intersections, perspective grids, and spatial axonometry."
+      <!-- 01: Isometric Geometry -->
+      <article class="revolver-card"
+               data-idx="0"
+               data-title="Isometric Geometry"
+               data-medium="Rapidograph ink on drafting film · 2024"
+               data-desc="Axonometric projection study testing structural depth, lineweight hierarchies, and spatial axonometry."
                data-full="assets/art/01_blueprint_isometric_geometry.jpg">
-        <header class="art-card-header">
-          <span class="card-idx">[ 01 // STUDY ]</span>
-          <span class="card-tag">DRAFTING</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/blueprint_isometric.jpg" alt="Isometric Blueprint Geometry" loading="eager" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Isometric Blueprint Geometry</h2>
-          <div class="art-card-medium">Rotring Rapidograph &amp; CAD Linework</div>
-          <p class="art-card-desc">Axonometric projection study testing structural depth, lineweight hierarchies, and geometric clarity.</p>
+        <div class="revolver-card-media">
+          <img src="assets/art/01_blueprint_isometric_geometry.jpg" alt="Isometric Geometry" loading="eager" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
-      <!-- CARD 02 -->
-      <article class="art-card" 
-               data-idx="02"
-               data-tag="TACTILE INDUSTRIAL"
-               data-title="Hapticle: Mechanical Safe Dial"
-               data-medium="3D Printed ABS, Spring Steel &amp; CoreHaptics"
-               data-desc="Physical detent mechanism study investigating tactile tooth pitch, rotational torque curves, and audio-tactile calibration."
-               data-full="assets/art/hapticle-dial-study.jpeg">
-        <header class="art-card-header">
-          <span class="card-idx">[ 02 // PROTOTYPE ]</span>
-          <span class="card-tag">HARDWARE</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/hapticle_dial.jpg" alt="Hapticle Safe Dial Mechanical Study" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Hapticle: Safe Dial Detents</h2>
-          <div class="art-card-medium">3D Printed ABS &amp; Spring Steel</div>
-          <p class="art-card-desc">Kinematic detent study matching physical spring resistance to Apple CoreHaptics transient vibration impulses.</p>
+      <!-- 02: Circular Hallmark -->
+      <article class="revolver-card"
+               data-idx="1"
+               data-title="Circular Hallmark"
+               data-medium="Precision compass &amp; vector construction · 2024"
+               data-desc="Concentric circular subdivision establishing rotational proportions and geometric stability."
+               data-full="assets/art/02_blueprint_circular_hallmark.jpg">
+        <div class="revolver-card-media">
+          <img src="assets/art/02_blueprint_circular_hallmark.jpg" alt="Circular Hallmark" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
-      <!-- CARD 03 -->
-      <article class="art-card" 
-               data-idx="03"
-               data-tag="DIGITAL ILLUSTRATION"
-               data-title="3-Way Deadlock: Cinematic Study"
-               data-medium="Procreate · 4K Digital Canvas"
-               data-desc="Narrative composition capturing standoff tension, dramatic chiaroscuro lighting, and cinematic atmospheric depth."
-               data-full="assets/artwork/3waydeadlock.png">
-        <header class="art-card-header">
-          <span class="card-idx">[ 03 // NARRATIVE ]</span>
-          <span class="card-tag">ILLUSTRATION</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/3waydeadlock.jpg" alt="3-Way Deadlock Cinematic Study" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">3-Way Deadlock</h2>
-          <div class="art-card-medium">Procreate · 4K Digital Canvas</div>
-          <p class="art-card-desc">Atmospheric tension study exploring multi-character silhouette staging, cast shadows, and spatial narrative.</p>
+      <!-- 03: Signet Ring & Wax Seal -->
+      <article class="revolver-card"
+               data-idx="2"
+               data-title="Signet Ring &amp; Wax Seal"
+               data-medium="Lost-wax metal casting study · 2025"
+               data-desc="Dimensional micro-relief drafting translating mathematical emblems into physical metal casting molds."
+               data-full="assets/art/07_bespoke_signet_ring_hallmark.jpg">
+        <div class="revolver-card-media">
+          <img src="assets/art/07_bespoke_signet_ring_hallmark.jpg" alt="Signet Ring &amp; Wax Seal" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
-      <!-- CARD 04 -->
-      <article class="art-card" 
-               data-idx="04"
-               data-tag="FORM EXPLORATION"
-               data-title="Modernist Geometric Curves"
-               data-medium="Affinity Designer · Vector Bézier Topology"
-               data-desc="Vector study on proportional harmony, continuous curvature, and minimalist silhouette construction."
+      <!-- 04: Classified Dossier Seal -->
+      <article class="revolver-card"
+               data-idx="3"
+               data-title="Classified Dossier Seal"
+               data-medium="Wax impression &amp; tactile relief · 2025"
+               data-desc="Tactile study of negative space stamping, heat dissipation, and physical wax seal relief."
+               data-full="assets/art/08_classified_dossier_wax_seal.jpg">
+        <div class="revolver-card-media">
+          <img src="assets/art/08_classified_dossier_wax_seal.jpg" alt="Classified Dossier Seal" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
+        </div>
+      </article>
+
+      <!-- 05: Modernist Curves -->
+      <article class="revolver-card"
+               data-idx="4"
+               data-title="Modernist Curves"
+               data-medium="Vector Bézier curvature · 2024"
+               data-desc="Golden ratio arc intersections and curvature continuity (G² curvature) applied to physical silhouettes."
                data-full="assets/art/10_modernist_geometric_curves.jpg">
-        <header class="art-card-header">
-          <span class="card-idx">[ 04 // TOPOLOGY ]</span>
-          <span class="card-tag">VECTOR</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/geometric_curves.jpg" alt="Modernist Geometric Curves" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Modernist Geometric Curves</h2>
-          <div class="art-card-medium">Affinity Designer · Vector Bézier Topology</div>
-          <p class="art-card-desc">Golden ratio arc intersections and curvature continuity ($G^2$ curvature) applied to industrial form factors.</p>
+        <div class="revolver-card-media">
+          <img src="assets/art/10_modernist_geometric_curves.jpg" alt="Modernist Curves" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
-      <!-- CARD 05 -->
-      <article class="art-card" 
-               data-idx="05"
-               data-tag="INTERACTION DESIGN"
-               data-title="Stylus Kinematic Dynamics"
-               data-medium="Apple Pencil &amp; Metal Shaders"
+      <!-- 06: Hapticle Safe Dial -->
+      <article class="revolver-card"
+               data-idx="5"
+               data-title="Hapticle Safe Dial"
+               data-medium="3D printed mechanical detent · 2025"
+               data-desc="Kinematic detent study matching physical spring resistance to Apple CoreHaptics transient vibration impulses."
+               data-full="assets/art/hapticle-dial-study.jpeg">
+        <div class="revolver-card-media">
+          <img src="assets/art/hapticle-dial-study.jpeg" alt="Hapticle Safe Dial Mechanical Study" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
+        </div>
+      </article>
+
+      <!-- 07: Stylus Contact (Down) -->
+      <article class="revolver-card"
+               data-idx="6"
+               data-title="Stylus Contact (Down)"
+               data-medium="Kinematic pressure study · 2025"
                data-desc="Spatial UI study on stylus contact states, dynamic contact shadow displacement, and pen telemetry in digital drawing engines."
                data-full="assets/art/Pen_Down.png">
-        <header class="art-card-header">
-          <span class="card-idx">[ 05 // TELEMETRY ]</span>
-          <span class="card-tag">INTERACTION</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/pen_down.jpg" alt="Stylus Kinematic Dynamics" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Stylus Kinematic Dynamics</h2>
-          <div class="art-card-medium">Apple Pencil &amp; Metal Shaders</div>
-          <p class="art-card-desc">Simulating altitude angle, azimuth, and pressure contact dynamics for real-time natural media stroke engines.</p>
+        <div class="revolver-card-media">
+          <img src="assets/art/Pen_Down.png" alt="Stylus Contact (Down)" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
-      <!-- CARD 06 -->
-      <article class="art-card" 
-               data-idx="06"
-               data-tag="CONCEPT ART"
-               data-title="Mad Max: Wasteland Industrial"
-               data-medium="Procreate · P3 Wide Color Gamut"
-               data-desc="Heavy atmospheric industrial landscape study, exploring rust patinas, harsh desert sunlight, and kinetic vehicle silhouettes."
-               data-full="assets/artwork/MadMax.png">
-        <header class="art-card-header">
-          <span class="card-idx">[ 06 // ENVIRONMENT ]</span>
-          <span class="card-tag">CONCEPT</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/MadMax.jpg" alt="Mad Max Wasteland Industrial Study" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Mad Max: Wasteland Industrial</h2>
-          <div class="art-card-medium">Procreate · P3 Wide Color Gamut</div>
-          <p class="art-card-desc">Brutalist machinery concept dissecting weathered industrial iron, sun-bleached pigments, and dust dispersion.</p>
-        </div>
-      </article>
-
-      <!-- CARD 07 -->
-      <article class="art-card" 
-               data-idx="07"
-               data-tag="PHYSICAL CRAFT"
-               data-title="Signet Ring Hallmark &amp; Wax Seal"
-               data-medium="Lost-Wax Metal Casting &amp; Intaglio Engraving"
-               data-desc="Tactile study of negative space engraving, metallurgic stamping tolerances, and physical wax seal imprint relief."
-               data-full="assets/art/07_bespoke_signet_ring_hallmark.jpg">
-        <header class="art-card-header">
-          <span class="card-idx">[ 07 // PHYSICAL ]</span>
-          <span class="card-tag">INTAGLIO</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/signet_ring.jpg" alt="Signet Ring Hallmark and Wax Seal" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Signet Ring &amp; Wax Seal</h2>
-          <div class="art-card-medium">Lost-Wax Casting &amp; Intaglio</div>
-          <p class="art-card-desc">Dimensional micro-relief drafting translating mathematical emblems into physical metal casting molds.</p>
-        </div>
-      </article>
-
-      <!-- CARD 08 -->
-      <article class="art-card" 
-               data-idx="08"
-               data-tag="MATHEMATICAL BLUEPRINT"
-               data-title="Circular Hallmark &amp; Compass Geometry"
-               data-medium="Precision Compass &amp; Vector Reconstruction"
-               data-desc="Concentric arc dissection, tangent circular arcs, and precision technical drafting hallmarks."
-               data-full="assets/art/02_blueprint_circular_hallmark.jpg">
-        <header class="art-card-header">
-          <span class="card-idx">[ 08 // GEOMETRY ]</span>
-          <span class="card-tag">HALLMARK</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/blueprint_hallmark.jpg" alt="Circular Hallmark and Compass Geometry" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Circular Hallmark Geometry</h2>
-          <div class="art-card-medium">Precision Compass &amp; Vector Curves</div>
-          <p class="art-card-desc">Concentric circular subdivision establishing structural proportions and geometric stability.</p>
-        </div>
-      </article>
-
-      <!-- CARD 09 -->
-      <article class="art-card" 
-               data-idx="09"
-               data-tag="HERALDIC MODERNISM"
-               data-title="Dutch Lion: Modernist Emblem"
-               data-medium="Vector Illustration &amp; Fine Line Engraving"
-               data-desc="Reinterpreting historical heraldry through brutalist geometric symmetry and sharp vector cuts."
-               data-full="assets/artwork/Dutch_Lion.png">
-        <header class="art-card-header">
-          <span class="card-idx">[ 09 // EMBLEM ]</span>
-          <span class="card-tag">HERALDRY</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/Dutch_Lion.jpg" alt="Dutch Lion Modernist Emblem" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Dutch Lion: Modernist Emblem</h2>
-          <div class="art-card-medium">Vector Illustration &amp; Line Engraving</div>
-          <p class="art-card-desc">Sharp polygonal silhouette decomposition applied to classical national heraldry.</p>
-        </div>
-      </article>
-
-      <!-- CARD 10 -->
-      <article class="art-card" 
-               data-idx="10"
-               data-tag="DIGITAL PAINTING"
-               data-title="Atelier Study No. 08: Atmosphere"
-               data-medium="Digital Impasto &amp; Textured Brushes"
-               data-desc="Expressive color exploration testing volumetric lighting gradients, organic textures, and atmospheric depth."
-               data-full="assets/artwork/Untitled_Artwork 8.png">
-        <header class="art-card-header">
-          <span class="card-idx">[ 10 // EXPRESSIVE ]</span>
-          <span class="card-tag">ATMOSPHERE</span>
-        </header>
-        <div class="art-card-media">
-          <img src="assets/art/web/artwork_study_08.jpg" alt="Atelier Study No. 08 Atmosphere" loading="lazy" decoding="async" />
-          <div class="card-inspect-hint">
-            <span class="material-symbols-outlined" style="font-size: 14px;">open_in_full</span>
-            <span>INSPECT</span>
-          </div>
-        </div>
-        <div class="art-card-body">
-          <h2 class="art-card-title">Atelier Study: Atmosphere</h2>
-          <div class="art-card-medium">Digital Impasto &amp; Textured Brushes</div>
-          <p class="art-card-desc">Color temperature gradients, textured brush drag, and painterly light dispersion across a wide canvas.</p>
+      <!-- 08: Stylus Altitude (Up) -->
+      <article class="revolver-card"
+               data-idx="7"
+               data-title="Stylus Altitude (Up)"
+               data-medium="Kinematic hover &amp; shadow · 2025"
+               data-desc="Simulating altitude angle, azimuth, and pressure hover dynamics for real-time natural media stroke engines."
+               data-full="assets/art/Pen_Up.png">
+        <div class="revolver-card-media">
+          <img src="assets/art/Pen_Up.png" alt="Stylus Altitude (Up)" loading="lazy" decoding="async" />
+          <div class="card-hover-cue">Inspect</div>
         </div>
       </article>
 
     </div>
   </main>
+
+  <!-- Editorial Caption & Minimal Pagination (Bottom Center) -->
+  <footer class="gallery-caption">
+    <h2 class="caption-title" id="captionTitle">Isometric Geometry</h2>
+    <div class="caption-medium" id="captionMedium">Rapidograph ink on drafting film · 2024</div>
+    <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="Artwork selection">
+      <button class="gallery-dot is-active" aria-label="Piece 1"></button>
+      <button class="gallery-dot" aria-label="Piece 2"></button>
+      <button class="gallery-dot" aria-label="Piece 3"></button>
+      <button class="gallery-dot" aria-label="Piece 4"></button>
+      <button class="gallery-dot" aria-label="Piece 5"></button>
+      <button class="gallery-dot" aria-label="Piece 6"></button>
+      <button class="gallery-dot" aria-label="Piece 7"></button>
+      <button class="gallery-dot" aria-label="Piece 8"></button>
+    </div>
+  </footer>
 
   <!-- Darkroom Lightbox Modal -->
   <div class="darkroom-modal" id="darkroomModal" role="dialog" aria-modal="true" aria-label="Artwork Inspector">
@@ -400,18 +199,14 @@
       </div>
       <div class="darkroom-sidebar">
         <div>
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="font-mono small" id="modalIdx" style="color: var(--accent-light);">[ 01 // EXHIBITION ]</span>
-            <span class="badge" id="modalTag" style="background: var(--badge-bg); color: var(--text-color); font-weight: 500; font-family: monospace;">STUDY</span>
-          </div>
-          <h3 id="modalTitle" class="tracking-tight" style="font-size: 1.6rem; font-weight: 700; margin-bottom: 6px;">Title</h3>
-          <div id="modalMedium" class="font-mono small mb-4" style="color: var(--accent-light);">Medium</div>
-          <p id="modalDesc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Description</p>
+          <h3 id="modalTitle" style="font-size: 1.6rem; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.02em;">Title</h3>
+          <div id="modalMedium" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Medium</div>
+          <p id="modalDesc" style="color: var(--text-color); font-size: 0.95rem; line-height: 1.6; opacity: 0.9;">Description</p>
         </div>
         <div class="pt-4 border-top" style="border-color: var(--card-border) !important;">
-          <div class="d-flex justify-content-between align-items-center font-mono small text-muted">
-            <span>ARCHIVE // ATELIER</span>
-            <span>MORENO KRISTOVAN</span>
+          <div class="d-flex justify-content-between align-items-center small text-muted">
+            <span>Atelier</span>
+            <span>Moreno Kristovan</span>
           </div>
         </div>
       </div>
@@ -420,7 +215,7 @@
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <!-- Atelier Kinetic Horizon Engine -->
+  <!-- Atelier 3D Revolver Kinematics Engine -->
   <script src="art.js"></script>
   <!-- Datamosh Transition Engine -->
   <script src="datamosh.js"></script>

@@ -1,8 +1,7 @@
 /* ==========================================================================
-   RENOCEROS ATELIER KINETIC HORIZON ENGINE — art.js
-   Author: Moreno Kristovan (Renoceros)
-   Performance: Locked 120 FPS Composite-Only GPU Acceleration
-   Architecture: Spring-Dampened Horizontal Filmstrip + Touch Physics + Lightbox
+   RENOCEROS ATELIER — art.js
+   Physics: 120 FPS 3D Revolver Cylinder with Velocity Sway & Centrifugal Inertia
+   Style: Creative Coding / Minimalist Fine Art Gallery
    ========================================================================== */
 
 (function () {
@@ -10,13 +9,12 @@
 
   // 1. DOM REFERENCES
   const html = document.documentElement;
-  const viewport = document.getElementById('spatialViewport');
-  const track = document.getElementById('filmstripTrack');
-  const cards = Array.from(document.querySelectorAll('.art-card'));
-  const currentFrameEl = document.getElementById('currentFrame');
-  const currentTitleEl = document.getElementById('currentTitle');
-  const leftPip = document.getElementById('leftTapePip');
-  const rightPip = document.getElementById('rightTapePip');
+  const stage = document.getElementById('revolverStage');
+  const drum = document.getElementById('revolverDrum');
+  const cards = Array.from(document.querySelectorAll('.revolver-card'));
+  const dots = Array.from(document.querySelectorAll('.gallery-dot'));
+  const captionTitle = document.getElementById('captionTitle');
+  const captionMedium = document.getElementById('captionMedium');
 
   // Theme elements
   const themeToggle = document.getElementById('themeToggle');
@@ -25,8 +23,6 @@
   // Modal elements
   const modal = document.getElementById('darkroomModal');
   const modalImg = document.getElementById('modalImage');
-  const modalIdx = document.getElementById('modalIdx');
-  const modalTag = document.getElementById('modalTag');
   const modalTitle = document.getElementById('modalTitle');
   const modalMedium = document.getElementById('modalMedium');
   const modalDesc = document.getElementById('modalDesc');
@@ -34,7 +30,7 @@
   const modalPrev = document.getElementById('modalPrev');
   const modalNext = document.getElementById('modalNext');
 
-  // 2. THEME SYNC
+  // 2. THEME PERSISTENCE
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
@@ -58,48 +54,40 @@
     });
   }
 
-  // 3. 120 FPS KINETIC HORIZON PHYSICS STATE
-  let currentX = 0;
-  let targetX = 0;
-  let minX = 0;
-  let maxX = 0;
+  // 3. REVOLVER CYLINDER GEOMETRY & PHYSICS
+  const N = cards.length; // 8 authentic artworks
+  const ANGLE_STEP = 360 / N; // 45 degrees per item
+  let radius = 680;
+
+  function updateRadius() {
+    radius = window.innerWidth < 768 ? 400 : 680;
+    // Position each card at fixed radial angle
+    for (let i = 0; i < N; i++) {
+      const cardAngle = i * ANGLE_STEP;
+      cards[i].style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px)`;
+    }
+    requestRender();
+  }
+
+  window.addEventListener('resize', updateRadius);
+
+  // Motion physics state
+  let currentAngle = 0;
+  let targetAngle = 0;
+  let swayZ = 0;
+  let swayX = 0;
   let isAnimating = false;
   let rafId = null;
-  let lastTimestamp = 0;
-  let activeCardIndex = 0;
+  let activeIndex = 0;
 
-  // Touch & Drag state
+  // Pointer drag state
   let isDragging = false;
-  let startPointerX = 0;
-  let startTargetX = 0;
+  let startX = 0;
+  let startTargetAngle = 0;
   let lastDragX = 0;
   let lastDragTime = 0;
   let dragVelocity = 0;
 
-  // Recalculate track boundary bounds
-  function updateBounds() {
-    if (!track || cards.length === 0) return;
-    const viewportWidth = window.innerWidth;
-    const trackWidth = track.scrollWidth;
-    
-    // First card centered when currentX = 0
-    // Last card centered when currentX = minX
-    const firstCard = cards[0];
-    const lastCard = cards[cards.length - 1];
-    const firstCardCenter = firstCard.offsetLeft + firstCard.offsetWidth / 2;
-    const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth / 2;
-
-    maxX = 0;
-    minX = -(lastCardCenter - firstCardCenter);
-
-    // Keep target within boundaries
-    targetX = Math.max(minX, Math.min(maxX, targetX));
-    requestRender();
-  }
-
-  window.addEventListener('resize', updateBounds);
-
-  // 4. THE 120 FPS LERP ANIMATION LOOP
   function requestRender() {
     if (!isAnimating) {
       isAnimating = true;
@@ -107,66 +95,72 @@
     }
   }
 
-  function render(timestamp) {
-    if (!lastTimestamp) lastTimestamp = timestamp;
-    lastTimestamp = timestamp;
+  // 4. 120 FPS LERP RENDERING LOOP
+  function render() {
+    const prevAngle = currentAngle;
+    currentAngle += (targetAngle - currentAngle) * 0.085;
+    const velocity = currentAngle - prevAngle; // degrees per frame
 
-    // Smooth Lerp step (0.10 dampening factor for silk deceleration)
-    const prevX = currentX;
-    currentX += (targetX - currentX) * 0.10;
-    const velocity = currentX - prevX;
+    // Dynamic centrifugal banking sway
+    const targetSwayZ = Math.max(-13, Math.min(13, velocity * 1.8));
+    const targetSwayX = Math.max(-7, Math.min(0, Math.abs(velocity) * -0.4));
+    swayZ += (targetSwayZ - swayZ) * 0.12;
+    swayX += (targetSwayX - swayX) * 0.12;
 
-    // Apply translation to main track
-    track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    // Apply 3D matrix to revolver drum
+    drum.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle.toFixed(3)}deg) rotateZ(${swayZ.toFixed(2)}deg) rotateX(${swayX.toFixed(2)}deg)`;
 
-    // Calculate individual card perspective tilt, scale & opacity
-    const viewportCenter = window.innerWidth / 2;
-    let closestDist = Infinity;
-    let closestIndex = 0;
+    // Calculate facing angles & opacity falloff
+    let closestAbs = Infinity;
+    let closestIdx = 0;
 
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i];
-      const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
-      const dist = cardCenter - viewportCenter;
-      const absDist = Math.abs(dist);
+    for (let i = 0; i < N; i++) {
+      let diff = (i * ANGLE_STEP + currentAngle) % 360;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      const absDiff = Math.abs(diff);
 
-      if (absDist < closestDist) {
-        closestDist = absDist;
-        closestIndex = i;
+      if (absDiff < closestAbs) {
+        closestAbs = absDiff;
+        closestIdx = i;
       }
 
-      // Kinetic 3D Yaw & Shear
-      const rotateY = Math.max(-12, Math.min(12, dist * -0.015 + velocity * 0.18));
-      const skewX = Math.max(-3, Math.min(3, velocity * -0.04));
-      const scale = Math.max(0.86, 1.05 - (absDist / 1200) * 0.2);
-      const opacity = Math.max(0.55, 1.0 - (absDist / 1600) * 0.5);
+      // Smooth opacity falloff as card arcs around radius
+      if (absDiff > 96) {
+        cards[i].style.opacity = '0';
+        cards[i].style.pointerEvents = 'none';
+      } else {
+        const op = Math.max(0.12, 1 - (absDiff / 96) * 0.82);
+        cards[i].style.opacity = op.toFixed(2);
+        cards[i].style.pointerEvents = absDiff < 32 ? 'auto' : 'none';
+      }
 
-      card.style.transform = `perspective(1000px) rotateY(${rotateY.toFixed(2)}deg) skewX(${skewX.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-      card.style.opacity = opacity.toFixed(2);
+      cards[i].classList.toggle('is-active', absDiff < 22);
     }
 
-    // Update HUD indicator & margin tape pips
-    if (closestIndex !== activeCardIndex) {
-      activeCardIndex = closestIndex;
-      const activeCard = cards[activeCardIndex];
-      const idxStr = String(activeCardIndex + 1).padStart(2, '0');
-      const titleStr = activeCard.dataset.title || 'UNTITLED';
-      if (currentFrameEl) currentFrameEl.textContent = idxStr;
-      if (currentTitleEl) currentTitleEl.textContent = titleStr.toUpperCase();
+    // Update active index, caption & dots
+    if (closestIdx !== activeIndex) {
+      activeIndex = closestIdx;
+      updateCaption(activeIndex);
     }
 
-    // Slide tape pips according to scroll progress
-    const totalDist = Math.abs(minX) || 1;
-    const progress = Math.min(1, Math.max(0, -currentX / totalDist));
-    const pipOffset = (progress * 80).toFixed(1); // 0% to 80% of track height
-    if (leftPip) leftPip.style.transform = `translateY(${progress * 280}px)`;
-    if (rightPip) rightPip.style.transform = `translateY(${progress * 280}px)`;
+    // Spring snap to nearest 45-degree angle when slowing down
+    if (!isDragging) {
+      const snapTarget = Math.round(targetAngle / ANGLE_STEP) * ANGLE_STEP;
+      if (Math.abs(velocity) < 0.15) {
+        targetAngle += (snapTarget - targetAngle) * 0.08;
+      }
+    }
 
-    // Check if motion has settled (0% CPU on idle!)
-    if (Math.abs(targetX - currentX) < 0.05 && Math.abs(velocity) < 0.02 && !isDragging) {
-      currentX = targetX;
-      track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    // Idle sleep check — 0% CPU overhead
+    if (
+      !isDragging &&
+      Math.abs(targetAngle - currentAngle) < 0.01 &&
+      Math.abs(velocity) < 0.01 &&
+      Math.abs(swayZ) < 0.05
+    ) {
+      currentAngle = targetAngle;
+      drum.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle.toFixed(3)}deg)`;
       isAnimating = false;
       rafId = null;
     } else {
@@ -174,88 +168,76 @@
     }
   }
 
-  // 5. INPUT LISTENERS (Wheel, Trackpad, Keyboard, Touch, Drag)
+  function updateCaption(idx) {
+    const activeCard = cards[idx];
+    if (!activeCard) return;
+
+    if (captionTitle) captionTitle.textContent = activeCard.dataset.title || '';
+    if (captionMedium) captionMedium.textContent = activeCard.dataset.medium || '';
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === idx);
+    });
+  }
+
+  // 5. INPUT LISTENERS
 
   // Wheel & Trackpad
   window.addEventListener('wheel', (e) => {
-    // If modal is open, ignore
     if (modal && modal.classList.contains('active')) return;
-
-    // Use deltaX if scrolling horizontally, or deltaY if scrolling vertically
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    targetX -= delta * 1.25;
-    targetX = Math.max(minX, Math.min(maxX, targetX));
+    targetAngle -= delta * 0.22;
     requestRender();
   }, { passive: true });
 
   // Touch Events (Mobile Ergonomics)
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isHorizontalGesture = false;
-
   window.addEventListener('touchstart', (e) => {
     if (modal && modal.classList.contains('active')) return;
     if (!e.touches[0]) return;
     isDragging = true;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    startTargetX = targetX;
-    lastDragX = touchStartX;
+    startX = e.touches[0].clientX;
+    startTargetAngle = targetAngle;
+    lastDragX = startX;
     lastDragTime = performance.now();
     dragVelocity = 0;
-    isHorizontalGesture = false;
   }, { passive: true });
 
   window.addEventListener('touchmove', (e) => {
     if (!isDragging || !e.touches[0]) return;
-    const currentTouchX = e.touches[0].clientX;
-    const currentTouchY = e.touches[0].clientY;
-    const dx = currentTouchX - touchStartX;
-    const dy = currentTouchY - touchStartY;
+    if (e.cancelable) e.preventDefault();
 
-    if (!isHorizontalGesture) {
-      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
-        isHorizontalGesture = Math.abs(dx) >= Math.abs(dy);
-      }
+    const currentX = e.touches[0].clientX;
+    const now = performance.now();
+    const dt = now - lastDragTime;
+    if (dt > 0) {
+      dragVelocity = (currentX - lastDragX) / dt;
     }
+    lastDragX = currentX;
+    lastDragTime = now;
 
-    if (isHorizontalGesture) {
-      if (e.cancelable) e.preventDefault();
-      const now = performance.now();
-      const dt = now - lastDragTime;
-      if (dt > 0) {
-        dragVelocity = (currentTouchX - lastDragX) / dt;
-      }
-      lastDragX = currentTouchX;
-      lastDragTime = now;
-
-      targetX = startTargetX + dx * 1.35;
-      targetX = Math.max(minX - 60, Math.min(maxX + 60, targetX)); // Rubberband overshoot
-      requestRender();
-    }
+    const dx = currentX - startX;
+    targetAngle = startTargetAngle + dx * 0.32;
+    requestRender();
   }, { passive: false });
 
   window.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
-    // Apply fling momentum
-    if (Math.abs(dragVelocity) > 0.25) {
-      targetX += dragVelocity * 280;
+    // Add momentum flick
+    if (Math.abs(dragVelocity) > 0.3) {
+      targetAngle += dragVelocity * 65;
     }
-    // Snap within bounds
-    targetX = Math.max(minX, Math.min(maxX, targetX));
     requestRender();
   }, { passive: true });
 
-  // Mouse Drag Scrubbing (Desktop)
-  if (viewport) {
-    viewport.addEventListener('mousedown', (e) => {
-      // Don't drag if clicking buttons or interactive links
+  // Mouse Drag (Desktop)
+  if (stage) {
+    stage.addEventListener('mousedown', (e) => {
       if (e.target.closest('button, a, .darkroom-modal')) return;
       isDragging = true;
-      startPointerX = e.clientX;
-      startTargetX = targetX;
-      lastDragX = startPointerX;
+      startX = e.clientX;
+      startTargetAngle = targetAngle;
+      lastDragX = startX;
       lastDragTime = performance.now();
       dragVelocity = 0;
     });
@@ -270,24 +252,22 @@
       lastDragX = e.clientX;
       lastDragTime = now;
 
-      const dx = e.clientX - startPointerX;
-      targetX = startTargetX + dx * 1.3;
-      targetX = Math.max(minX - 50, Math.min(maxX + 50, targetX));
+      const dx = e.clientX - startX;
+      targetAngle = startTargetAngle + dx * 0.28;
       requestRender();
     });
 
     window.addEventListener('mouseup', () => {
       if (!isDragging) return;
       isDragging = false;
-      if (Math.abs(dragVelocity) > 0.25) {
-        targetX += dragVelocity * 260;
+      if (Math.abs(dragVelocity) > 0.3) {
+        targetAngle += dragVelocity * 60;
       }
-      targetX = Math.max(minX, Math.min(maxX, targetX));
       requestRender();
     });
   }
 
-  // Keyboard Navigation (Arrow Keys)
+  // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
 
@@ -300,58 +280,56 @@
 
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
       e.preventDefault();
-      navigateToCard(activeCardIndex + 1);
+      rotateToIndex(activeIndex + 1);
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
       e.preventDefault();
-      navigateToCard(activeCardIndex - 1);
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      navigateToCard(0);
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      navigateToCard(cards.length - 1);
+      rotateToIndex(activeIndex - 1);
     } else if (e.key.toLowerCase() === 't') {
       const active = html.getAttribute('data-theme');
       applyTheme(active === 'dark' ? 'light' : 'dark');
     }
   });
 
-  function navigateToCard(index) {
-    const targetIdx = Math.max(0, Math.min(cards.length - 1, index));
-    const firstCard = cards[0];
-    const targetCard = cards[targetIdx];
-    const firstCenter = firstCard.offsetLeft + firstCard.offsetWidth / 2;
-    const targetCenter = targetCard.offsetLeft + targetCard.offsetWidth / 2;
-
-    targetX = -(targetCenter - firstCenter);
-    targetX = Math.max(minX, Math.min(maxX, targetX));
+  function rotateToIndex(idx) {
+    const normalized = (idx % N + N) % N;
+    targetAngle = -normalized * ANGLE_STEP;
     requestRender();
   }
+
+  // Card click: inspect if active, or spin to center if flanking
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      if (Math.abs(dragVelocity) > 0.15) return;
+      if (i === activeIndex) {
+        openModal(i);
+      } else {
+        rotateToIndex(i);
+      }
+    });
+  });
+
+  // Dots click
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      rotateToIndex(i);
+    });
+  });
 
   // 6. DARKROOM LIGHTBOX MODAL
   let currentModalIdx = 0;
 
-  function openModal(index) {
-    currentModalIdx = index;
-    const card = cards[index];
+  function openModal(idx) {
+    currentModalIdx = idx;
+    const card = cards[idx];
     if (!card) return;
 
     const fullSrc = card.dataset.full || card.querySelector('img').src;
-    const idx = card.dataset.idx || `0${index + 1}`;
-    const tag = card.dataset.tag || 'ARTIFACT';
-    const title = card.dataset.title || 'Untitled';
-    const medium = card.dataset.medium || '';
-    const desc = card.dataset.desc || '';
-
     modalImg.src = fullSrc;
-    modalIdx.textContent = `[ ${idx} // EXHIBITION ]`;
-    modalTag.textContent = tag;
-    modalTitle.textContent = title;
-    modalMedium.textContent = medium;
-    modalDesc.textContent = desc;
+    if (modalTitle) modalTitle.textContent = card.dataset.title || '';
+    if (modalMedium) modalMedium.textContent = card.dataset.medium || '';
+    if (modalDesc) modalDesc.textContent = card.dataset.desc || '';
 
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
   }
 
   function closeModal() {
@@ -361,22 +339,14 @@
   }
 
   function showPrevModal() {
-    const prev = (currentModalIdx - 1 + cards.length) % cards.length;
+    const prev = (currentModalIdx - 1 + N) % N;
     openModal(prev);
   }
 
   function showNextModal() {
-    const next = (currentModalIdx + 1) % cards.length;
+    const next = (currentModalIdx + 1) % N;
     openModal(next);
   }
-
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => {
-      // If we were dragging significantly, don't trigger modal click
-      if (Math.abs(dragVelocity) > 0.1) return;
-      openModal(i);
-    });
-  });
 
   if (modalClose) modalClose.addEventListener('click', closeModal);
   if (modalPrev) modalPrev.addEventListener('click', showPrevModal);
@@ -388,16 +358,8 @@
     });
   }
 
-  // 7. INITIALIZATION
-  window.addEventListener('DOMContentLoaded', () => {
-    updateBounds();
-    requestRender();
-  });
-
-  // Re-run bounds after images load
-  window.addEventListener('load', () => {
-    updateBounds();
-    requestRender();
-  });
-
+  // 7. BOOT
+  updateRadius();
+  updateCaption(0);
+  requestRender();
 })();
